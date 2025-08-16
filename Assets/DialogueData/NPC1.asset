@@ -15,4 +15,5 @@ MonoBehaviour:
   characterName: character
   characterImage: {fileID: 21300000, guid: c97b82da2f1a20d459b0bccc3db0478d, type: 3}
   dialogueLines:
-  - you are Stupit LMAO
+  - "\uBA4D\uCCAD\uD55C \uB140\uC11D \u314B"
+  - "\uB098\uB294 \uC644\uB450\uCF69\uC774\uB2E4"

@@ -7,11 +7,14 @@ using UnityEngine.UI;
 public class DialogueNPC : MonoBehaviour
 {
     public DialogueDataSO myDialogue;     // 이 NPC가 가지고 있는 대화 데이터 (ScriptableObject)
-    public Image interactionImage;        // 상호작용 안내 이미지 (ex: "F키 누르세요")
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
 
+    [Header("퀘스트용")] 
+    public DialogueDataSO beforeQuest;
+    public DialogueDataSO afterQuest;
+    
     private DialogueManager dialogueManager; // 씬에 존재하는 DialogueManager 참조
-
+    
     void Start()
     {
         // 씬에서 DialogueManager를 찾음
@@ -44,6 +47,14 @@ public class DialogueNPC : MonoBehaviour
         }
     }
 
+    public void GiveQuest()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            /*if()*/
+        }
+    }
+    
     // 대화 시작 조건 체크
     void isDialogue()
     {

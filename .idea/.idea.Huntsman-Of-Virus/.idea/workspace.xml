@@ -16,6 +16,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DialogueManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DialogueNPC.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/QuestManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/QuestNPC.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -107,6 +109,10 @@
       <workItem from="1755364946791" duration="116000" />
       <workItem from="1755370421142" duration="758000" />
       <workItem from="1755371226291" duration="3206000" />
+      <workItem from="1755475099516" duration="3000" />
+      <workItem from="1755475393199" duration="1857000" />
+      <workItem from="1755541209506" duration="1782000" />
+      <workItem from="1755612998205" duration="1209000" />
     </task>
     <servers />
   </component>

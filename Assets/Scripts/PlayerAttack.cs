@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public GameObject BulletPrefab;   // 총알 프리팹
-    public Transform FirePos;         // 발사 위치
+    public GameObject bulletPrefab;         // 총알 프리팹
+    public Transform firePos;               // 발사 위치
 
     void Update()
     {
+        // 마우스 왼쪽 버튼 클릭 시 발사
         if (Input.GetMouseButtonDown(0))
         {
             Shoot();
@@ -30,9 +31,9 @@ public class PlayerAttack : MonoBehaviour
             targetPoint = ray.GetPoint(1000);
         }
 
-        Vector3 dir = (targetPoint - FirePos.position).normalized;
+        Vector3 dir = (targetPoint - firePos.position).normalized;
 
-        GameObject bullet = Instantiate(BulletPrefab, FirePos.position, Quaternion.identity);
+        GameObject bullet = Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
 
         bullet.GetComponent<Bullet>().SetDirection(dir);
     }

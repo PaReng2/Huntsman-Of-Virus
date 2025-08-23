@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 20f;
-    public float DestroyDelay = 5f;
+    [Header("총알 날라가는 속도 조정")]
+    public float speed = 20f;                       //총알 속도
+    private float destroyDelay = 5f;                //총알이 자동으로 없어지는 시간
 
-    private Vector3 moveDir;
+    private Vector3 moveDir;                        //총알 방향
 
     void Start()
     {
-        Destroy(gameObject, DestroyDelay);
+       //일정시간이 지나면 파괴
+        Destroy(gameObject, destroyDelay);
     }
 
     void Update()
@@ -26,6 +28,7 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        //적과 충돌하면 파괴
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);

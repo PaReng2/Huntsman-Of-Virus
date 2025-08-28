@@ -14,7 +14,7 @@ public class DialogueNPC : MonoBehaviour
     public DialogueDataSO afterQuest;
     
     private DialogueManager dialogueManager; // 씬에 존재하는 DialogueManager 참조
-    
+    public bool isQuestClearNPC;
     void Start()
     {
         // 씬에서 DialogueManager를 찾음
@@ -56,10 +56,11 @@ public class DialogueNPC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             QuestManager questManager = FindObjectOfType<QuestManager>();
-            QuestNPC questNPC = FindObjectOfType<QuestNPC>();
+            QuestNPC questNPC = FindAnyObjectByType<QuestNPC>();
             if (dialogueManager == null) return;           // DialogueManager 없음 -> 리턴
             if (dialogueManager.IsDialogueActive()) return; // 이미 대화 중이면 리턴
             if (myDialogue == null) return;                // 대화 데이터 없음 -> 리턴
+            
             
             if (beforeQuest != null && !questManager.isCompletedQuest)
             {
@@ -72,7 +73,13 @@ public class DialogueNPC : MonoBehaviour
                 dialogueManager.StartDialogue(afterQuest);
             }
             else
+            {
                 dialogueManager.StartDialogue(myDialogue);
+                if (isQuestClearNPC)
+                {
+                    questManager.QuestCompleted();
+                }
+            }
         }
     }
 

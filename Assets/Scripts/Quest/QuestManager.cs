@@ -37,5 +37,6 @@ public class QuestManager : MonoBehaviour
         currentQuestData.isCompleted = true;
         isCompleted.color = Color.green;
         isCompleted.text = "완료";
+        
     }
 }

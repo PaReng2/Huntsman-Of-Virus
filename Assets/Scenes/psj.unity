@@ -736,6 +736,7 @@ MonoBehaviour:
   isInsteraction: {fileID: 1058573309}
   beforeQuest: {fileID: 11400000, guid: ceea895dde34c6d45bceb346d1fa44fc, type: 2}
   afterQuest: {fileID: 11400000, guid: 892225d73a06b1245bf6c872cf912d95, type: 2}
+  isQuestClearNPC: 0
 --- !u!114 &472256137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1975,6 +1976,7 @@ MonoBehaviour:
   isInsteraction: {fileID: 1710232688}
   beforeQuest: {fileID: 0}
   afterQuest: {fileID: 0}
+  isQuestClearNPC: 1
 --- !u!1 &1272447000
 GameObject:
   m_ObjectHideFlags: 0

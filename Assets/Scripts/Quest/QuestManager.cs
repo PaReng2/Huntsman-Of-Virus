@@ -11,9 +11,13 @@ public class QuestManager : MonoBehaviour
     public bool isCompletedQuest;       //퀘스트 완료 여부
     public TextMeshProUGUI isCompleted; //퀘스트 완료 표시용 글
     public QuestDataSO currentQuestData;
+    public GameObject notClear;
+    public GameObject playingQuest;
+
     void Start()
     {
         QuestPanel.SetActive(false);
+        playingQuest.SetActive(false);
     }
 
     public void QuestStart(QuestDataSO newQuest)
@@ -26,7 +30,8 @@ public class QuestManager : MonoBehaviour
             QuestDesc.text = currentQuestData.desc;
             isCompleted.color = Color.red;
             isCompleted.text = "미완료";
-            
+            notClear.SetActive(false);
+            playingQuest.SetActive(true);
             
         }
     }
@@ -37,6 +42,6 @@ public class QuestManager : MonoBehaviour
         currentQuestData.isCompleted = true;
         isCompleted.color = Color.green;
         isCompleted.text = "완료";
-        
+        playingQuest.SetActive(false);
     }
 }

@@ -39,6 +39,7 @@ public class DialogueNPC : MonoBehaviour
 
         // 플레이어 근처에 있으면 상호작용 UI 활성화, 아니면 비활성화
         isInsteraction.SetActive(hasPlayer);
+        
 
         
         // 플레이어가 근처에 있을 때만 대화 가능

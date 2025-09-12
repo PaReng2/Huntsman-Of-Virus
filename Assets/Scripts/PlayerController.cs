@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
     }
 
     void Update()
@@ -54,6 +55,15 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
+        if (other.gameObject.CompareTag("Item"))
+        {
+            inventoryManager.GetItem();
         }
     }
 }

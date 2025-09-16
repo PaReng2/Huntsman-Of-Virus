@@ -1,25 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    public GameObject inventoryPanel;
-    public GameObject itemSlot1;
-    public GameObject itemSlot2;
-    public ItemSO itemData1;
-    public ItemSO itemData2;
+    public List<int> inventory = new List<int>();
+    public Transform inventoryPanel;
+    public GameObject inventoryItemPrefab;
 
-    private void Update()
-    {
-        
-    }
+    private int maxinventorySize = 7;
 
-    public void GetItem()
+
+    public void AddItem(ItemSO itemData)
     {
-        if (itemSlot1 == null && itemData1 == null)
+        if (inventory.Count >= maxinventorySize)
         {
+            return;
+        }
+        else
+        {
+            GameObject newItemSlot = Instantiate(inventoryItemPrefab, inventoryPanel);
 
+            Image itemImage = newItemSlot.GetComponent<Image>();
+
+            if (itemImage != null && itemData.ItemIMG != null)
+            {
+                itemImage.sprite = itemData.ItemIMG;
+            }
+            inventory.Add(1);
         }
     }
+
 }

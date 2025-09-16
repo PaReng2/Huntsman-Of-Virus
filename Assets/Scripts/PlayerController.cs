@@ -58,12 +58,4 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        InventoryManager inventoryManager = FindObjectOfType<InventoryManager>();
-        if (other.gameObject.CompareTag("Item"))
-        {
-            inventoryManager.GetItem();
-        }
-    }
 }

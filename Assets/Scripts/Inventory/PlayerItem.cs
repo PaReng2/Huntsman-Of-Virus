@@ -18,6 +18,7 @@ public class PlayerItem : MonoBehaviour
     void Update()
     {
         GetItem();
+
     }
     void GetItem()
     {
@@ -32,13 +33,17 @@ public class PlayerItem : MonoBehaviour
 
         // 플레이어 근처에 있으면 상호작용 UI 활성화, 아니면 비활성화
         isInsteraction.SetActive(hasPlayer);
-
-        if (Input.GetKeyDown(KeyCode.F))
+        if (hasPlayer)
         {
-            Destroy(gameObject);
-            isInsteraction.SetActive(false);
-            manager.AddItem(itemData);
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Destroy(gameObject);
+                isInsteraction.SetActive(false);
+                manager.AddItem(itemData);
+
+            }
         }
+        
     }                                                                               
 
     void OnDrawGizmosSelected()

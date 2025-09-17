@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a3a2c78af97054b808aabefbe96972, type: 3}
+  m_Name: Player_01
+  m_EditorClassIdentifier: 
+  characterName: character
+  characterImage: {fileID: 0}
+  dialogueLines:
+  - "\uC73C\uC73C...\uC5EC\uAE34 \uC5B4\uB514\uC9C0..."
+  - "\uC5EC\uAE30\uAC00 \uCEF4...\uBA38\uC2DC\uAE30...\uADF8 \uACF3\uC778\uAC00...?"
+  - "\uCEF4...\uD4E8.....\uD130.....???"
+  - "\uADF8\uBCF4\uB2E4\uB3C4..."
+  - "\uC6B0\uC120 \uC8FC\uBCC0\uC5D0 \uBB50\uB77C\uB3C4 \uCC3E\uC544\uBCF4\uC790.."

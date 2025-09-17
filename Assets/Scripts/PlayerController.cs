@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
 

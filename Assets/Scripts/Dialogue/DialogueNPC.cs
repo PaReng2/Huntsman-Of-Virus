@@ -6,10 +6,16 @@ using UnityEngine.UI;
 
 public class DialogueNPC : MonoBehaviour
 {
-    public DialogueDataSO myDialogue;     // 이 NPC가 가지고 있는 대화 데이터 (ScriptableObject)
+    [Header("다이얼로그 순서")]
+    public DialogueDataSO stDialogue;     // 이 NPC가 가지고 있는 대화 데이터 (ScriptableObject)
+    public DialogueDataSO ndDialogue;
+    public DialogueDataSO rdDialogue;
+    public DialogueDataSO fourthDialogue;
+
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
     private DialogueManager dialogueManager; // 씬에 존재하는 DialogueManager 참조
-    void Start()
+    private int dialogueNum;
+    void Awake()
     {
         // 씬에서 DialogueManager를 찾음
         dialogueManager = FindObjectOfType<DialogueManager>();
@@ -18,6 +24,7 @@ public class DialogueNPC : MonoBehaviour
         {
             Debug.LogError("DialogueManager is Null"); // 없으면 에러 출력
         }
+        dialogueNum = 1;
     }
 
     private void Update()
@@ -49,7 +56,24 @@ public class DialogueNPC : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                dialogueManager.StartDialogue(myDialogue);
+                if (dialogueNum == 1)
+                {
+                    dialogueManager.StartDialogue(stDialogue);
+                    
+                }
+                else if (dialogueNum == 2)
+                {
+                    dialogueManager.StartDialogue(ndDialogue);
+                    
+                }
+                else if (dialogueNum == 3)
+                {
+                    dialogueManager.StartDialogue(rdDialogue);
+                    
+                }
+                dialogueNum++;
+                Debug.Log(dialogueNum);
+
             }
         }
         

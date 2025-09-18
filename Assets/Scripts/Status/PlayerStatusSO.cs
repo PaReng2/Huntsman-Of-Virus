@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerStatusSO : ScriptableObject
 {
     public float playerHP;
-    public float playerOffensivePower;
+    public float playerAttackPower;
     public float playerAttackDelay;
     public float playerMoveSpeed;
     public float playerAttackRange;

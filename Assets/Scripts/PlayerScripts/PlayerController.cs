@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
     }
 
-
+    
 
     private void OnCollisionEnter(Collision other)
     {

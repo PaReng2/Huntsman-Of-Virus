@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff03b2878d9f81b49bcce336d623cc54, type: 3}
-  m_Name: Warrior
+  m_Name: RangeDealer
   m_EditorClassIdentifier: 
-  playerHP: 0
-  playerOffensivePower: 0
-  playerAttackDelay: 0
-  playerMoveSpeed: 0
-  playerAttackRange: 0
+  playerHP: 100
+  playerAttackPower: 1
+  playerAttackDelay: 2
+  playerMoveSpeed: 5
+  playerAttackRange: 5

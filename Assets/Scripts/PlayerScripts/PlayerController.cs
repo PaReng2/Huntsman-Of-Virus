@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool isGrounded;
-    [Header("player move")]
+    [Header("Camere")]
     float hAxis;
     float vAxis;
     Vector3 moveVec;
@@ -64,6 +64,14 @@ public class PlayerController : MonoBehaviour
     void Turn()
     {
         transform.LookAt(transform.position + moveVec);
+
+        Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit rayHit;
+        if(Physics.Raycast(ray, out rayHit, 100))
+        {
+            Vector3 nextVec = rayHit.point - transform.position;
+            transform.LookAt(transform.position + nextVec);
+        }
     }
     
 

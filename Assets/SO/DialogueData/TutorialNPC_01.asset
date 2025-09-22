@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a3a2c78af97054b808aabefbe96972, type: 3}
+  m_Name: TutorialNPC_01
+  m_EditorClassIdentifier: 
+  characterName: character
+  characterImage: {fileID: 21300000, guid: 28655db8fb11d794c9eb92d2b425105e, type: 3}
+  dialogueLines:
+  - "\uC73C\uC73C..\uBA38\uB9AC\uC57C..."
+  - "\uC544\uB2DB...! \uB204\uAD6C\uB0D0 \uB10C..!?"
+  - "\uB0B4\uAC00 \uC624\uB79C\uC2DC\uAC04 \uC7A0\uB4E0 \uB3D9\uC548 \uBB34\uC2A8
+    \uC77C\uB4E4\uC774 \n\uC788\uC5C8\uB358\uAC70\uC9C0...???"
+  - "\uC7A0\uAE50...\uAC00\uB9CC\uBCF4\uB2C8...\uB108.."
+  - "\uBC31\uC2E0...\uD504\uB85C\uADF8\uB7A8...??"
+  - "\uB0B4\uAC00 \uC7A0\uB4E0\uB3D9\uC548 \uAC10\uC5FC \uB418\uC5C8\uB2E4\uACE0...???"
+  - "\uC544\uB2C8 \uADF8\uBCF4\uB2E4\uB3C4..."
+  - "\uCEF4\uD4E8\uD130 \uC8FC\uC778 \uC774 \uB140\uC11D\uC740 \uBB34\uC2A8 \uC0DD\uAC01\uC73C\uB85C
+    \uBCF4\uC548\uD504\uB85C\uADF8\uB7A8\uC778 \uB098\uB97C \uAEBC\uB193\uACE0 \uC0AC\uC6A9\uD588\uB358
+    \uAC70\uC57C!!??"
+  - "\uBB50...\uC544\uBB34\uD2BC..."
+  - "\uB108\uAC00 \uC5EC\uAE30 \uB4E4\uC5B4\uC628 \uC774\uC720\uB3C4 \n\uC774 \uCEF4\uD4E8\uD130\uB97C
+    \uD68C\uBCF5\uC2DC\uD0A4\uAE30 \uC704\uD568\uC774\uACA0\uC9C0..."
+  - "\uB0B4\uAC00 \uC5EC\uAE30 \uBCF4\uC548\uC744 \uB2F4\uB2F9\uD588\uC5C8\uC73C\uB2C8\n\uC774
+    \uACF3\uC5D0\uC11C \uC0B4\uC544\uB0A8\uB294 \uBC95(?)\uC744 \uC54C\uB824\uC8FC\uC9C0"
+  - "\uC6B0\uC120...\uBAB8\uBD80\uD130 \uC880 \uC6C0\uC9C1\uC5EC\uBCFC\uAE4C..?"

@@ -1,63 +1,45 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttackRangeDealer : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    public float bulletSpeed = 50f;
-    public Transform firePoint;
-    public LayerMask shootableMask;
-    private Camera mainCamera;
-    public PlayerStatusSO playerData;
+Â  Â  public GameObject bulletPrefab;
+Â  Â  public float bulletSpeed = 50f;
+Â  Â  public Transform firePoint;
+Â  Â  public PlayerStatusSO playerData;
+Â  Â  public bool isInteracting;
+    
 
+Â  Â  private void Start()
+Â  Â  {
+Â  Â  Â  Â  isInteracting = false;
+Â  Â  }
 
-    private void Start()
-    {
-        mainCamera = Camera.main;
-        
-    }
+Â  Â  private void Update()
+Â  Â  {
+Â  Â  Â  Â Â 
+Â  Â  Â  Â  if (Input.GetMouseButtonDown(0))
+Â  Â  Â  Â  {
+Â  Â  Â  Â  Â  Â  if (isInteracting)
+Â  Â  Â  Â  Â  Â  {
+Â  Â  Â  Â  Â  Â  Â  Â  return;
+Â  Â  Â  Â  Â  Â  }
+Â  Â  Â  Â  Â  Â  else if(!isInteracting)
+Â  Â  Â  Â  Â  Â  {
+Â  Â  Â  Â  Â  Â  Â  Â  Attack();
 
-    private void Update()
-    {
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-            
-        }
-    }
+Â  Â  Â  Â  Â  Â  }
+
+Â  Â  Â  Â  }
+Â  Â  }
 
     void Attack()
     {
-        //raycast¸¦ ÅëÇØ Å¸°Ù ÁöÁ¡À» Ã£±â
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        GameObject intantBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
+        bulletRigid.velocity = firePoint.forward * 50;
 
-        Vector3 targetPoint;
-
-        //Raycast°¡ Æ¯Á¤ ·¹ÀÌ¾î¿¡ Ãæµ¹Çß´ÂÁö È®ÀÎ
-        // Ãæµ¹Çß´Ù¸é, ±× ÁöÁ¡À» ÃÑ¾ËÀÇ ¸ñÇ¥·Î ¼³Á¤
-        if (Physics.Raycast(ray, out hit, float.MaxValue, shootableMask))
-        {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            //Ãæµ¹ÇÏÁö ¾Ê¾Ò´Ù¸é, Ä«¸Þ¶ó¿¡¼­ ÀÏÁ¤ °Å¸® ¶³¾îÁø °¡»óÀÇ ÁöÁ¡À» ¸ñÇ¥·Î ¼³Á¤
-            //¾î¶² ¿ÀºêÁ§Æ®¿Íµµ Ãæµ¹ÇÏÁö ¾Ê¾Æµµ ÃÑ¾ËÀÌ ¹ß»ç
-            targetPoint = ray.GetPoint(100f); // 100f´Â ¿øÇÏ´Â °Å¸®·Î Á¶Àý °¡´É
-        }
-
-        // 4. Raycast °á°ú(½ÇÁ¦ Ãæµ¹ ÁöÁ¡ ¶Ç´Â °¡»óÀÇ ÁöÁ¡)¸¦ ±â¹ÝÀ¸·Î ÃÑ¾ËÀ» ¹ß»çÇÕ´Ï´Ù.
-        Vector3 direction = (targetPoint - firePoint.position).normalized;
-
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(direction));
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = direction * bulletSpeed;
-        }
         
     }
 }

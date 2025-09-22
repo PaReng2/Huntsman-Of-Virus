@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool isGrounded;
-    
+    [Header("player move")]
+    float hAxis;
+    float vAxis;
+    Vector3 moveVec;
+    public Camera followCamera;
 
     private void Awake()
     {
@@ -33,21 +37,22 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         Jump();
+        Turn();
     }
 
     void Move()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float MoveY = Input.GetAxis("Vertical");
+        hAxis = Input.GetAxisRaw("Horizontal");
+        vAxis = Input.GetAxisRaw("Vertical");
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
             playerMoveSpeed *= 1.5f;
         }
-        
 
-        Vector3 moveDir = new Vector3(moveX, 0, MoveY);
-        transform.Translate(moveDir * playerMoveSpeed * Time.deltaTime);
+
+        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+        transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
     }
 
     void Jump()
@@ -56,6 +61,10 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
     }
 
+    void Turn()
+    {
+        transform.LookAt(transform.position + moveVec);
+    }
     
 
     private void OnCollisionEnter(Collision other)

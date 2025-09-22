@@ -14,7 +14,7 @@ public class DialogueNPC : MonoBehaviour
 
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
     private DialogueManager dialogueManager; // 씬에 존재하는 DialogueManager 참조
-    private int dialogueNum;
+    public int dialogueNum;
     void Awake()
     {
         // 씬에서 DialogueManager를 찾음
@@ -37,6 +37,7 @@ public class DialogueNPC : MonoBehaviour
     // 대화 시작 조건 체크
     void isDialogue()
     {
+        PlayerAttackRangeDealer rangeDealer = FindObjectOfType<PlayerAttackRangeDealer>();
         // "Player"라는 레이어를 감지할 마스크 가져오기
         int playerLayer = LayerMask.GetMask("Player");
 
@@ -56,15 +57,15 @@ public class DialogueNPC : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                
+
                 if (dialogueNum == 1)
                 {
                     dialogueManager.StartDialogue(stDialogue);
-                    
                 }
                 else if (dialogueNum == 2)
                 {
                     dialogueManager.StartDialogue(ndDialogue);
-                    
                 }
                 else if (dialogueNum == 3)
                 {
@@ -75,6 +76,7 @@ public class DialogueNPC : MonoBehaviour
                 Debug.Log(dialogueNum);
 
             }
+           
         }
         
         

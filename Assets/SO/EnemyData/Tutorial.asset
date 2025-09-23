@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff03b2878d9f81b49bcce336d623cc54, type: 3}
-  m_Name: RangeDealer
+  m_Script: {fileID: 11500000, guid: f42a9196db57164469aa9a3cedfcaf61, type: 3}
+  m_Name: Tutorial
   m_EditorClassIdentifier: 
-  playerHP: 100
-  playerAttackPower: 10
-  playerAttackDelay: 2
-  playerMoveSpeed: 5
-  playerAttackRange: 5
+  EnemyHP: 10
+  EnemyAttackPower: 0

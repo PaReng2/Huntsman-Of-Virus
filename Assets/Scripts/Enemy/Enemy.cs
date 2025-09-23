@@ -7,9 +7,18 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public Transform target;
+    public EnemySO enemyData;
+    
+    private PlayerController player;
+    private float curEnemyHP;
 
     NavMeshAgent agent;
 
+    private void Awake()
+    {
+        enemyData = FindObjectOfType<EnemySO>();
+        player = FindObjectOfType<PlayerController>();
+    }
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -17,14 +26,14 @@ public class Enemy : MonoBehaviour
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        curEnemyHP = enemyData.EnemyHP;
     }
     private void OnCollisionEnter(Collision collision)
     {
-        //ÃÑ¾Ë°ú Ãæµ¹ÇÏ¸é ÆÄ±«
+        
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            Destroy(gameObject);
-
+            curEnemyHP -= player.attackPower;
         }
     }
     void Update()

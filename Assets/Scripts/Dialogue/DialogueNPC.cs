@@ -72,6 +72,16 @@ public class DialogueNPC : MonoBehaviour
                     dialogueManager.StartDialogue(rdDialogue);
                     
                 }
+                else if (dialogueNum == 4)
+                {
+                    dialogueManager.StartDialogue(fourthDialogue);
+                    
+                }
+                else
+                {
+                    dialogueManager.StartDialogue(fourthDialogue);
+
+                }
                 dialogueNum++;
                 Debug.Log(dialogueNum);
 

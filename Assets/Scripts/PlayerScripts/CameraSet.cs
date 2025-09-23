@@ -1,24 +1,34 @@
+using Cinemachine;
 using UnityEngine;
 
 public class CameraSet : MonoBehaviour
 {
-    public Transform target; // 카메라가 따라다닐 대상 (플레이어)
-    public Vector3 offset;   // 플레이어로부터 떨어진 거리와 방향
+    // 시네머신 가상 카메라를 할당할 변수
+    public CinemachineVirtualCamera virtualCamera;
 
-    [Range(1, 10)]
-    public float smoothSpeed = 5f; // 카메라 움직임의 부드러움 정도 (1이 가장 느리고, 10이 가장 빠름)
+    // 카메라가 따라다닐 플레이어 게임 오브젝트
+    public Transform playerTarget;
 
-    // LateUpdate()를 사용하면 모든 오브젝트의 업데이트가 끝난 뒤에 카메라가 움직여서
-    // 카메라가 떨리거나 끊기는 현상을 방지
-    private void LateUpdate()
+    void Start()
     {
-        
-        Vector3 desiredPosition = target.position + offset;
+        // virtualCamera 변수가 할당되지 않았다면, 씬에서 CinemachineVirtualCamera 컴포넌트를 찾아서 할당
+        if (virtualCamera == null)
+        {
+            virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        }
 
-        
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+        // 카메라가 따라갈 대상을 할당
+        if (virtualCamera != null && playerTarget != null)
+        {
+            virtualCamera.Follow = playerTarget;
 
-        
-        transform.LookAt(target);
+            //추가적으로 바디(Body)와 조준(Aim) 설정도 스크립트로 제어가능
+            var transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+            if (transposer != null)
+            {
+                transposer.m_BindingMode = CinemachineTransposer.BindingMode.LockToTargetOnAssign;
+                transposer.m_FollowOffset = new Vector3(8f, 10f, -8.5f);
+            }
+        }
     }
 }

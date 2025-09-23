@@ -67,13 +67,17 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit rayHit;
-        if(Physics.Raycast(ray, out rayHit, 100))
+
+        if (Physics.Raycast(ray, out rayHit, 100))
         {
-            Vector3 nextVec = rayHit.point - transform.position;
-            transform.LookAt(transform.position + nextVec);
+            Vector3 nextVec = rayHit.point;
+
+            nextVec.y = transform.position.y;
+
+            transform.LookAt(nextVec);
         }
     }
-    
+
 
     private void OnCollisionEnter(Collision other)
     {

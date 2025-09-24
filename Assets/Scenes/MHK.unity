@@ -1245,6 +1245,7 @@ MonoBehaviour:
   attackRange: 0
   attackPower: 0
   playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
+  followCamera: {fileID: 1298425066}
 --- !u!23 &1890046968
 MeshRenderer:
   m_ObjectHideFlags: 0

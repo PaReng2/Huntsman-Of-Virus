@@ -2,19 +2,19 @@ using UnityEngine;
 
 // 플레이어와 상점 아이템 간의 상호작용
 
-[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(PlayerShopStats))]
 public class PlayerInteractor : MonoBehaviour
 {
     public KeyCode buyKey = KeyCode.F;
 
 
     private ShopItemSpawner nearbySpawner = null;
-    private PlayerStats playerStats;
+    private PlayerShopStats playerStats;
 
 
     private void Awake()
     {
-        playerStats = GetComponent<PlayerStats>();
+        playerStats = GetComponent<PlayerShopStats>();
     }
 
 

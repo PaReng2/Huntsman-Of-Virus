@@ -2,7 +2,7 @@ using UnityEngine;
 
 // 플레이어의 기본적인 스탯 (추가 및 수정 가능)
 
-public class PlayerStats : MonoBehaviour
+public class PlayerShopStats : MonoBehaviour
 {
     public int gold = 100;
     public int hp = 80;

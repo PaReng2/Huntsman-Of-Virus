@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool isGrounded;
-    [Header("Camere")]
+    [Header("Camera")]
     float hAxis;
     float vAxis;
     Vector3 moveVec;

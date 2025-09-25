@@ -45,11 +45,14 @@ public class PlayerController : MonoBehaviour
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             playerMoveSpeed *= 1.5f;
         }
-
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            playerMoveSpeed = 5;
+        }
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         transform.position += moveVec * playerMoveSpeed * Time.deltaTime;

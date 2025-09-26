@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerMoveSpeed = playerStatus.playerMoveSpeed;
-        attackDelay = playerStatus.playerAttackDelay;
+        attackDelay = playerStatus.playerAttackRate;
         attackRange = playerStatus.playerAttackRange;
         attackPower = playerStatus.playerAttackPower;
     }

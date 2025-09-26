@@ -9,30 +9,48 @@ public class PlayerAttackRangeDealer : MonoBehaviour
     public Transform firePoint;
     public PlayerStatusSO playerData;
     public bool isInteracting;
+    public float AttackRate;
+    public float curLeftAttackTime;
     
 
     private void Start()
     {
         isInteracting = false;
+        AttackRate = playerData.playerAttackRate;
     }
 
-    private void Update()
-    {
-        
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (isInteracting)
-            {
-                return;
-            }
-            else if(!isInteracting)
-            {
-                Attack();
+    private void Update()
+    {
+       
+        // curLeftAttackTime이 0보다 클 때만 감소시켜서 음수가 되는 것을 방지합니다.
+        if (curLeftAttackTime > 0)
+        {
+            curLeftAttackTime -= Time.deltaTime;
+        }
 
-            }
-
-        }
-    }
+        // 이 아래는 원래 코드와 동일합니다.
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (curLeftAttackTime <= 0)
+            {
+                if (isInteracting)
+                {
+                    return;
+                }
+                else if (!isInteracting)
+                {
+                    Attack();
+                    // 공격 후 쿨다운 시간을 AttackRate로 재설정합니다.
+                    curLeftAttackTime = AttackRate;
+                }
+            }
+            else
+            {
+                Debug.Log("재정비중");
+                return;
+            }
+        }
+    }
 
     void Attack()
     {
@@ -40,6 +58,7 @@ public class PlayerAttackRangeDealer : MonoBehaviour
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         bulletRigid.velocity = firePoint.forward * 50;
 
-        
+
     }
+
 }

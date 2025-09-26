@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHP: 100
   playerAttackPower: 10
-  playerAttackDelay: 2
+  playerAttackRate: 3
   playerMoveSpeed: 5
   playerAttackRange: 5

@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("player stat")]
     public float playerMoveSpeed;
-    public float playerJumpForce = 3;
+    public float playerJumpForce = 3f;
     public float attackDelay;
     public float attackRange;
     public float attackPower;
@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         Turn();
+       
     }
 
     void Move()
@@ -87,6 +88,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            
         }
         
     }

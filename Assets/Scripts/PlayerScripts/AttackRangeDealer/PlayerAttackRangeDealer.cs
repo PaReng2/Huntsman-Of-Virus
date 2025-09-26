@@ -57,8 +57,6 @@ public class PlayerAttackRangeDealer : MonoBehaviour
         GameObject intantBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody bulletRigid = intantBullet.GetComponent<Rigidbody>();
         bulletRigid.velocity = firePoint.forward * 50;
-
-
     }
 
 }

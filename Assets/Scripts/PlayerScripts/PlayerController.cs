@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("player stat")]
+    public int playerHP;
     public float playerMoveSpeed;
     public float playerJumpForce = 3f;
     public float attackDelay;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
         attackDelay = playerStatus.playerAttackRate;
         attackRange = playerStatus.playerAttackRange;
         attackPower = playerStatus.playerAttackPower;
+        playerHP = playerStatus.playerHP;
     }
 
     void Update()

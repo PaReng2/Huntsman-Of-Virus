@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu (fileName ="PlayerStat", menuName ="Player/PlayerStat")]
 public class PlayerStatusSO : ScriptableObject
 {
-    public float playerHP;
+    public int playerHP;
     public float playerAttackPower;
     public float playerAttackRate;
     public float playerMoveSpeed;

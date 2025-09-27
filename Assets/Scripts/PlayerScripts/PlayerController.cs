@@ -52,9 +52,10 @@ public class PlayerController : MonoBehaviour
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             playerMoveSpeed *= 1.5f;
+            Debug.Log("´Þ¸®±â");
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {

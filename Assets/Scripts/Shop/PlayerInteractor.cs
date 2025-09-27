@@ -9,12 +9,12 @@ public class PlayerInteractor : MonoBehaviour
 
 
     private ShopItemSpawner nearbySpawner = null;
-    private PlayerShopStats playerStats;
+    private PlayerStats playerStats;
 
 
     private void Awake()
     {
-        playerStats = GetComponent<PlayerShopStats>();
+        playerStats = GetComponent<PlayerStats>();
     }
 
 

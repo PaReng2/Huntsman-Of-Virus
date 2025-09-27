@@ -26,7 +26,7 @@ public class ShopItem : ScriptableObject
     public int attackBonus = 10;
 
 
-    public void ApplyEffect(PlayerShopStats player)
+    public void ApplyEffect(PlayerStats player)
     {
         if (player == null) return;
 

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 205e0c2acfe8d504c9743388728ea0b5, type: 3}
+  m_Name: white box
+  m_EditorClassIdentifier: 
+  ItemName: whte box
+  ItemIMG: {fileID: 21300000, guid: f1036e64823127c43a476f82467b964b, type: 3}
+  increaseHealth: 0
+  increaseSpeed: 0
+  increaseDamage: 0

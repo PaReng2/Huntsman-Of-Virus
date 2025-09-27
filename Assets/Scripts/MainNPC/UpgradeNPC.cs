@@ -7,21 +7,20 @@ public class UpgradeNPC : MonoBehaviour
 
     [Header("상호작용 텍스트")]
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
-
-    public GameObject UpgradePanel;
     private PlayerController player;
-    private PlayerAttackRangeDealer attackRangeDealer;
-    
+    public GameObject UpgradePanel;
+    private GameManager gameManager;
 
     void Start()
     {
         UpgradePanel.SetActive(false);
         player = FindObjectOfType<PlayerController>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
     {
-        
+        IsUpgrading();
     }
 
     void IsUpgrading()
@@ -44,17 +43,13 @@ public class UpgradeNPC : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))
             {
                 UpgradePanel.SetActive(true);
+                gameManager.isInteracting = true;
+                Debug.Log("업그레이드 창 표시");
             }
         }
     }
 
-    void HPUpgragde()
-    {
-        player.playerHP += 20;
-    }
+    
 
-    void AttackRateUpgrade()
-    {
-        attackRangeDealer.AttackRate -= 0.2f;
-    }
+    
 }

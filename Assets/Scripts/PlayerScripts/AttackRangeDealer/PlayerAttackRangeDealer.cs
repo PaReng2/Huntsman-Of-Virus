@@ -11,11 +11,17 @@ public class PlayerAttackRangeDealer : MonoBehaviour
     public bool isInteracting;
     public float AttackRate;
     public float curLeftAttackTime;
-    
 
-    private void Start()
+    private GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
+    private void Start()
     {
-        isInteracting = false;
+        isInteracting = gameManager.isInteracting;
         AttackRate = playerData.playerAttackRate;
     }
 
@@ -35,6 +41,7 @@ public class PlayerAttackRangeDealer : MonoBehaviour
             {
                 if (isInteracting)
                 {
+                    Debug.Log("상호작용중 공격불가");
                     return;
                 }
                 else if (!isInteracting)

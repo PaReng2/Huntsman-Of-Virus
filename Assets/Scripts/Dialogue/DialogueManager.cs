@@ -29,7 +29,12 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;        // 타이핑 효과를 돌리고 있는 코루틴 참조
     private bool isTalking = false;           // 대화중인지 확인
     private PlayerAttackRangeDealer player;
+    private GameManager gameManager;
 
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
     private void Start()
     {
         DialoguePanel.SetActive(false);       // 시작할 때 대화창은 꺼둠
@@ -99,6 +104,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         player = FindObjectOfType<PlayerAttackRangeDealer>();
+
         // 코루틴 정리
         if (typingCoroutine != null)
         {
@@ -111,7 +117,7 @@ public class DialogueManager : MonoBehaviour
         DialoguePanel.SetActive(false);   // 대화창 닫기
         isTalking = false;
         currentLineIndex = 0;             // 인덱스 초기화
-        player.isInteracting = false;
+        gameManager.isInteracting = false;
     }
 
     // 다음 대사로 넘기기

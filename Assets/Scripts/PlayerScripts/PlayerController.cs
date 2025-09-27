@@ -14,9 +14,11 @@ public class PlayerController : MonoBehaviour
     public float attackDelay;
     public float attackRange;
     public float attackPower;
+    
 
     [Header("player Data")]
     public PlayerStatusSO playerStatus;
+    public bool isinteracting;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         attackRange = playerStatus.playerAttackRange;
         attackPower = playerStatus.playerAttackPower;
         playerHP = playerStatus.playerHP;
+        isinteracting = false;
     }
 
     void Update()

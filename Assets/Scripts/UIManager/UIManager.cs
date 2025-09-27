@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Slider HPBar;
-
     private int curHP;
     private PlayerController player;
 

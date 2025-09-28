@@ -18,10 +18,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("player Data")]
     public PlayerStatusSO playerStatus;
-    public bool isinteracting;
 
     private Rigidbody rb;
     private bool isGrounded;
+
     [Header("Camera")]
     float hAxis;
     float vAxis;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         attackRange = playerStatus.playerAttackRange;
         attackPower = playerStatus.playerAttackPower;
         playerHP = playerStatus.playerHP;
-        isinteracting = false;
+        
     }
 
     void Update()

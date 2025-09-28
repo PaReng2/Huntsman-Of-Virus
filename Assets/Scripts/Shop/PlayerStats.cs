@@ -3,10 +3,10 @@ using TMPro;
 
 // �÷��̾��� �⺻���� ���� (�߰� �� ���� ����)
 
-public class PlayerShopStats : MonoBehaviour
-{
+//public class PlayerShopStats : MonoBehaviour
+//{
 
-}
+//}
 
 public class PlayerStats : MonoBehaviour
 {

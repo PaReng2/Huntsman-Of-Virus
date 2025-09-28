@@ -2,7 +2,7 @@ using UnityEngine;
 
 // 플레이어와 상점 아이템 간의 상호작용
 
-[RequireComponent(typeof(PlayerShopStats))]
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerInteractor : MonoBehaviour
 {
     public KeyCode buyKey = KeyCode.F;

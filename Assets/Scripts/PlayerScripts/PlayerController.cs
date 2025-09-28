@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float attackDelay;
     public float attackRange;
     public float attackPower;
+    private float runSpeed;
     
 
     [Header("player Data")]
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
         attackRange = playerStatus.playerAttackRange;
         attackPower = playerStatus.playerAttackPower;
         playerHP = playerStatus.playerHP;
-        
+        runSpeed = playerMoveSpeed * 1.5f;
     }
 
     void Update()
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         Turn();
-       
+        
     }
 
     void Move()
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            playerMoveSpeed *= 1.5f;
+            playerMoveSpeed = runSpeed;
             Debug.Log("´Þ¸®±â");
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))

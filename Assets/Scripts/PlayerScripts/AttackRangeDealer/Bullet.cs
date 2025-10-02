@@ -5,6 +5,14 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
+    
+    private PlayerController playerController;
+    private float lifeTime;
+
+    private void Start()
+    {
+        playerController = FindObjectOfType<PlayerController>();    
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -18,7 +26,7 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject, 3);
+            Destroy(gameObject, playerController.attackRange);
         }
         
     }

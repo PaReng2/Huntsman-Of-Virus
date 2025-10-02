@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Slider HPBar;
-    private int curHP;
+    public int curHP;
     private PlayerController player;
 
     private void Awake()

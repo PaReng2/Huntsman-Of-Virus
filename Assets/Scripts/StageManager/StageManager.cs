@@ -4,43 +4,48 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
-    public GameObject[] stagePrefabs;   // 스테이지 프리팹 배열
-    private int currentStageIndex = 0;  // 현재 스테이지 번호 (씬에 Stage_1 있다고 가정)
-    private GameObject currentStageObj; // 현재 스테이지 오브젝트
+    public static StageManager Instance;
 
-    void Start()
+    public GameObject portalPrefab;
+
+    private int totalEnemyCount = 0; // 실제 스폰된 적 수
+    private int deadEnemyCount = 0;
+
+    private void Awake()
     {
-        //  씬에 배치된 Stage_1 찾아서 등록
-        currentStageObj = GameObject.Find("Stage_1");
+        if (Instance == null) Instance = this;
     }
 
-    void Update()
+    public void SetTotalEnemyCount(int count)
     {
-        if (Input.GetMouseButtonDown(1))                    //우클릭 누를시 스테이지 변경
+        totalEnemyCount = count;
+        deadEnemyCount = 0;
+    }
+    // 적이 스폰될 때마다 호출
+    public void OnEnemySpawned()
+    {
+        totalEnemyCount++;
+    }
+
+    // 적이 죽을 때마다 호출
+    public void OnEnemyKilled()
+    {
+        deadEnemyCount++;
+
+        if (deadEnemyCount >= totalEnemyCount && totalEnemyCount > 0)
         {
-            NextStage();
+            OpenPortal();
         }
     }
 
-    void NextStage()
+    private void OpenPortal()
     {
-        //  현재 스테이지 제거
-        if (currentStageObj != null)
-        {
-            Destroy(currentStageObj);
-        }
+        Instantiate(portalPrefab, new Vector3(10, 1, 1), Quaternion.identity);    }
 
-        // 다음 스테이지 인덱스
-        currentStageIndex++;
-        if (currentStageIndex >= stagePrefabs.Length)
-        {
-            currentStageIndex = 0; // 끝까지 가면 다시 처음으로
-        }
-
-        //  새 스테이지 생성
-        currentStageObj = Instantiate(stagePrefabs[currentStageIndex], Vector3.zero, Quaternion.identity);
-
-        // 스테이지 이름 1부터 시작할수 있도록
-        currentStageObj.name = "Stage_" + (currentStageIndex + 1);
+    // 스테이지 초기화용
+    public void Reset()
+    {
+        totalEnemyCount = 0;
+        deadEnemyCount = 0;
     }
 }

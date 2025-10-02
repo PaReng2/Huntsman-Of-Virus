@@ -7,16 +7,16 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public Transform target;
-    public EnemySO enemyData;
+    //public EnemySO enemyData;
     
     private PlayerController player;
-    private float curEnemyHP;
+    //private float curEnemyHP;
 
     NavMeshAgent agent;
 
     private void Awake()
     {
-        enemyData = FindObjectOfType<EnemySO>();
+        //enemyData = FindObjectOfType<EnemySO>();
         player = FindObjectOfType<PlayerController>();
     }
     void Start()
@@ -26,14 +26,16 @@ public class Enemy : MonoBehaviour
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        curEnemyHP = enemyData.EnemyHP;
+        //curEnemyHP = enemyData.EnemyHP;
     }
-    private void OnCollisionEnter(Collision collision)
+   private void OnCollisionEnter(Collision collision)
     {
         
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            curEnemyHP -= player.attackPower;
+            StageManager.Instance.OnEnemyKilled(); // 매니저에게 알림
+            //curEnemyHP -= player.attackPower;
+            Destroy(gameObject);
         }
     }
     void Update()

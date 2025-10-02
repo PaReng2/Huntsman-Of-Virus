@@ -12,6 +12,10 @@ public class Spawner : MonoBehaviour
     private int currentSpawnCount = 0;      // 지금까지 소환된 개수
     private bool interacted = false;        // 이미 상호작용 했는지 체크
 
+    void Start()
+    {
+        StageManager.Instance.SetTotalEnemyCount(maxSpawnCount);
+    }
     void Update()
     {
         // 스페이스 키를 눌렀을 때 (한 번만 실행되도록 조건 추가)
@@ -32,12 +36,12 @@ public class Spawner : MonoBehaviour
     {
         if (currentSpawnCount < maxSpawnCount)
         {
-            Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+            GameObject newEnemy = Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+            StageManager.Instance.OnEnemySpawned(); // 실제 스폰 시점에 카운트 증가
             currentSpawnCount++;
         }
         else
         {
-            // 5마리 이상이면 소환 중지
             CancelInvoke(nameof(SpawnItem));
         }
     }

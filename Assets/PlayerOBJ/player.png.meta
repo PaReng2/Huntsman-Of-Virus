@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/PlayerOBJ/player.png.meta
 guid: 5d862a94c3062d74bb66d9943af97d46
+========
+guid: 319f96cc23b28784383dd1649845edf9
+>>>>>>>> origin/Jeong-hwan-seo:Assets/Voxel_Tutorial/untitled.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

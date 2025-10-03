@@ -102,7 +102,8 @@ public class DialogueManager : MonoBehaviour
 
     // 대화 종료 처리
     void EndDialogue()
-    {
+    {   
+        
         player = FindObjectOfType<PlayerAttackRangeDealer>();
 
         // 코루틴 정리
@@ -111,13 +112,13 @@ public class DialogueManager : MonoBehaviour
             StopCoroutine(typingCoroutine);
             typingCoroutine = null;
         }
-
+        gameManager.isInteracting = false;
         isDialogueActive = false;
         isTyping = false;
         DialoguePanel.SetActive(false);   // 대화창 닫기
         isTalking = false;
         currentLineIndex = 0;             // 인덱스 초기화
-        gameManager.isInteracting = false;
+        
     }
 
     // 다음 대사로 넘기기

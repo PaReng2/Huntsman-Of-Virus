@@ -10,6 +10,7 @@ public class UpgradeNPC : MonoBehaviour
     private PlayerController player;
     public GameObject UpgradePanel;
     private GameManager gameManager;
+    
 
     void Start()
     {
@@ -44,7 +45,15 @@ public class UpgradeNPC : MonoBehaviour
             {
                 UpgradePanel.SetActive(true);
                 gameManager.isInteracting = true;
+                
                 Debug.Log("업그레이드 창 표시");
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UpgradePanel.SetActive(false);
+                gameManager.isInteracting = false;
+
+                Debug.Log("업그레이드 창 꺼짐");
             }
         }
     }

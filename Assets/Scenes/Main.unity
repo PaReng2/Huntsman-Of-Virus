@@ -221,6 +221,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4981258}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4981263}
   m_SourcePrefab: {fileID: 100100000, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
 --- !u!1 &4981257 stripped
 GameObject:
@@ -300,6 +303,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
   m_PrefabInstance: {fileID: 4981256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4981263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4981257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8dff61f1f261d47a20968bd33b19b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6340600733905813537, guid: c94b842847d31a242a43cff7c1afafe5, type: 3}
+  bulletSpeed: 50
+  firePoint: {fileID: 145269989}
+  playerData: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
+  isInteracting: 0
+  AttackRate: 0
+  curLeftAttackTime: 0
 --- !u!1 &6340689
 GameObject:
   m_ObjectHideFlags: 0
@@ -2094,6 +2116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPBar: {fileID: 1201193000}
+  curHP: 0
 --- !u!1 &811743767
 GameObject:
   m_ObjectHideFlags: 0

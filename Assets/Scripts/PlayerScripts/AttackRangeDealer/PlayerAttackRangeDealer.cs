@@ -21,13 +21,13 @@ public class PlayerAttackRangeDealer : MonoBehaviour
 
     private void Start()
     {
-        isInteracting = gameManager.isInteracting;
         AttackRate = playerData.playerAttackRate;
     }
 
     private void Update()
     {
-       
+        isInteracting = gameManager.isInteracting;
+
         // curLeftAttackTime이 0보다 클 때만 감소시켜서 음수가 되는 것을 방지합니다.
         if (curLeftAttackTime > 0)
         {

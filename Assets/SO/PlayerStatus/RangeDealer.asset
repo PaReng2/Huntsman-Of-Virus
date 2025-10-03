@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RangeDealer
   m_EditorClassIdentifier: 
   playerHP: 100
-  playerAttackPower: 1
-  playerAttackDelay: 2
+  playerAttackPower: 10
+  playerAttackRate: 3
   playerMoveSpeed: 5
-  playerAttackRange: 5
+  playerAttackRange: 0.3

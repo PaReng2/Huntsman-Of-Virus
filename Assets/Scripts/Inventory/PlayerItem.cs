@@ -8,6 +8,7 @@ public class PlayerItem : MonoBehaviour
 
     public GameObject isInsteraction;
     public ItemSO itemData;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +45,8 @@ public class PlayerItem : MonoBehaviour
             }
         }
         
-    }                                                                               
+    }
+    
 
     void OnDrawGizmosSelected()
     {

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/PlayerOBJ/player.obj.meta
 guid: b1479e918320dbb4daa0533a8d8b1cc3
+========
+guid: ff2fe8a6715b1b740ba9e4cebc5392a0
+>>>>>>>> origin/Jeong-hwan-seo:Assets/Voxel_Tutorial/untitled.obj.meta
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []

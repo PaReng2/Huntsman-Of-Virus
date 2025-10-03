@@ -194,7 +194,7 @@ public class DialogueManager : MonoBehaviour
         // 첫 대사 출력
         ShowCurrentLine();
         
-
+        gameManager.isInteracting = true;
         player.isInteracting = true;
     }
 

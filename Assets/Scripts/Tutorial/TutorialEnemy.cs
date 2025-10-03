@@ -7,7 +7,7 @@ public class TutorialEnemy : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         DialogueNPC npcDialogue = FindObjectOfType<DialogueNPC>();
-        if (collision.gameObject.tag == "Bullet" && npcDialogue.dialogueNum == 4)
+        if (collision.gameObject.tag == "Bullet" && npcDialogue.dialogueNum > 3)
         {
             Destroy(gameObject);
         }

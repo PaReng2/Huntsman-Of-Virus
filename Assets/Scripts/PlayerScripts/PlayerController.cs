@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private bool isGrounded;
+    private Animator anime;
 
     [Header("Camera")]
     float hAxis;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        anime = GetComponent<Animator>();
         playerMoveSpeed = playerStatus.playerMoveSpeed;
         attackDelay = playerStatus.playerAttackRate;
         attackRange = playerStatus.playerAttackRange;
@@ -52,11 +54,14 @@ public class PlayerController : MonoBehaviour
     {
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
+        if(hAxis < 0 || vAxis < 0) 
+            anime.SetBool("walk",true);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
             playerMoveSpeed = runSpeed;
             Debug.Log("´Þ¸®±â");
+            anime.SetFloat("RunSpeed", runSpeed);
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
@@ -69,8 +74,11 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if(isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
             rb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
+            anime.SetTrigger("jump");
+        }
     }
 
     void Turn()

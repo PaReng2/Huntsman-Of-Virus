@@ -16,4 +16,4 @@ MonoBehaviour:
   ItemIMG: {fileID: 21300000, guid: f1036e64823127c43a476f82467b964b, type: 3}
   increaseHealth: 0
   increaseSpeed: 0
-  increaseDamage: 0
+  increaseDamage: 10

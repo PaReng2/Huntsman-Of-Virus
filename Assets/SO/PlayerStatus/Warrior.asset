@@ -15,5 +15,5 @@ MonoBehaviour:
   playerHP: 0
   playerAttackPower: 0
   playerAttackRate: 0
-  playerMoveSpeed: 0
+  playerMoveSpeed: 5
   playerAttackRange: 0

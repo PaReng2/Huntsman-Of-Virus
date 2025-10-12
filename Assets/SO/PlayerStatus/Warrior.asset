@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff03b2878d9f81b49bcce336d623cc54, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
-  playerHP: 0
-  playerAttackPower: 0
-  playerAttackRate: 0
+  playerHP: 150
+  playerAttackPower: 8
+  playerAttackRate: 4
   playerMoveSpeed: 5
-  playerAttackRange: 0
+  playerAttackRange: 0.3

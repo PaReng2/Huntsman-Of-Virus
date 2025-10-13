@@ -1856,6 +1856,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7981514964708312862, guid: 469b60f4ab30b7640a54c9676ca54f5a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 908483829}
+    - targetCorrespondingSourceObject: {fileID: -7981514964708312862, guid: 469b60f4ab30b7640a54c9676ca54f5a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 908483836}
   m_SourcePrefab: {fileID: 3150474306388093854, guid: 469b60f4ab30b7640a54c9676ca54f5a, type: 3}
 --- !u!1 &908483828 stripped
 GameObject:
@@ -1915,6 +1918,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -6601043233671942095, guid: 469b60f4ab30b7640a54c9676ca54f5a, type: 3}
   m_PrefabInstance: {fileID: 908483827}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &908483836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908483828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615cfee168260da4087cb48368ab686d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHP: 0
+  playerMoveSpeed: 5
+  playerJumpForce: 5
+  attackDelay: 0
+  attackRange: 0
+  attackPower: 0
+  playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
+  followCamera: {fileID: 963194227}
 --- !u!1 &916777455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2425,7 +2448,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1053376590}
   - component: {fileID: 1053376592}
-  - component: {fileID: 1053376591}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -2450,26 +2472,6 @@ Transform:
   - {fileID: 421551156}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1053376591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1053376589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615cfee168260da4087cb48368ab686d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHP: 0
-  playerMoveSpeed: 5
-  playerJumpForce: 5
-  attackDelay: 0
-  attackRange: 0
-  attackPower: 0
-  playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
-  followCamera: {fileID: 963194227}
 --- !u!114 &1053376592
 MonoBehaviour:
   m_ObjectHideFlags: 0

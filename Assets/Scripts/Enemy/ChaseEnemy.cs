@@ -1,24 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class ChaseEnemy : MonoBehaviour
 {
     public Transform target;
     public EnemySO enemyData;
 
     private PlayerController player;
     private float curEnemyHP;
+    private bool isDead = false;
 
-    NavMeshAgent agent;
-
-    private bool isDead = false; 
+    private NavMeshAgent agent;
 
     private void Awake()
     {
-        enemyData = Resources.Load<EnemySO>("Enemy"); 
+        enemyData = Resources.Load<EnemySO>("Enemy");
         player = FindObjectOfType<PlayerController>();
     }
 
@@ -30,20 +28,17 @@ public class Enemy : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        curEnemyHP = enemyData.EnemyHP; 
-        StageManager.Instance.OnEnemySpawned(); 
+        curEnemyHP = enemyData.EnemyHP;
+
+        // 스폰 시 StageManager에 등록
+        StageManager.Instance.OnEnemySpawned();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            if (StageManager.Instance != null)
-            {
-                StageManager.Instance.OnEnemyKilled();
-            }
-
-            Destroy(gameObject);
+            TakeDamage(1f); // 총알 한 발당 데미지 1
         }
     }
 
@@ -67,7 +62,6 @@ public class Enemy : MonoBehaviour
         if (isDead) return;
 
         curEnemyHP -= damage;
-        Debug.Log($"{gameObject.name}이(가) {damage}의 피해를 입음! 남은 체력: {curEnemyHP}");
 
         if (curEnemyHP <= 0)
         {
@@ -80,8 +74,7 @@ public class Enemy : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        Debug.Log($"{gameObject.name} 사망!");
-        StageManager.Instance.OnEnemyKilled(); 
+        StageManager.Instance.OnEnemyKilled();
         Destroy(gameObject);
     }
 }

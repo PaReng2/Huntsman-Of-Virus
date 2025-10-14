@@ -62,7 +62,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
 
         foreach (Collider enemy in hitEnemies)
         {
-            Enemy enemyComponent = enemy.GetComponent<Enemy>();
+            ChaseEnemy enemyComponent = enemy.GetComponent<ChaseEnemy>();
             if (enemyComponent != null)
             {
                 enemyComponent.TakeDamage(attackPower);

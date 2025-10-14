@@ -6,33 +6,42 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance;
 
-    public GameObject portalPrefab;
+    public GameObject portalPrefab;   // 포탈 프리팹
+    private int totalEnemyCount = 0;  // 총 스폰될 적 수
+    private int killedEnemyCount = 0; // 처치된 적 수
+    private bool portalSpawned = false;
 
-    private int totalEnemyCount = 0; // 실제 스폰된 적 수
-    private int deadEnemyCount = 0;
+    public int TotalEnemyCount;
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SetTotalEnemyCount(int count)
     {
         totalEnemyCount = count;
-        deadEnemyCount = 0;
+        killedEnemyCount = 0;
+        portalSpawned = false;
     }
-    // 적이 스폰될 때마다 호출
+
     public void OnEnemySpawned()
     {
-        totalEnemyCount++;
+
     }
 
-    // 적이 죽을 때마다 호출
     public void OnEnemyKilled()
     {
-        deadEnemyCount++;
+        killedEnemyCount++;
 
-        if (deadEnemyCount >= totalEnemyCount && totalEnemyCount > 0)
+        if (!portalSpawned && killedEnemyCount >= totalEnemyCount)
         {
             OpenPortal();
         }
@@ -40,12 +49,7 @@ public class StageManager : MonoBehaviour
 
     private void OpenPortal()
     {
-        Instantiate(portalPrefab, new Vector3(10, 1, 1), Quaternion.identity);    }
-
-    // 스테이지 초기화용
-    public void Reset()
-    {
-        totalEnemyCount = 0;
-        deadEnemyCount = 0;
+        portalSpawned = true;
+        Instantiate(portalPrefab, new Vector3(10, 1, 1), Quaternion.identity);
     }
 }

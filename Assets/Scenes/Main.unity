@@ -2493,9 +2493,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6340693}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -491, y: -90}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 503, y: -90}
   m_SizeDelta: {x: 909.51, y: 116.150024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &898098165
@@ -3405,7 +3405,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201192998}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.70710677, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3413,11 +3413,11 @@ RectTransform:
   - {fileID: 102257090}
   - {fileID: 48519300}
   m_Father: {fileID: 6340693}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 438.7, y: -94.6}
-  m_SizeDelta: {x: 150, y: 20}
+  m_AnchoredPosition: {x: 67, y: -467}
+  m_SizeDelta: {x: 75, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1201193000
 MonoBehaviour:
@@ -5347,9 +5347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3a712fe76f0787479cba1eaed3b892f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: []
-  inventoryPanel: {fileID: 898098164}
-  inventoryItemPrefab: {fileID: 2899725430716893229, guid: 967a2bdb3b344714dacfb0b8926862c7, type: 3}
 --- !u!1 &1949063117
 GameObject:
   m_ObjectHideFlags: 0

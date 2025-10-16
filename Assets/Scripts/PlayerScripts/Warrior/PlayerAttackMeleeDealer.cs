@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class PlayerAttackMeleeDealer : MonoBehaviour
 {
-    [Header("공격 쿨타임 관리")]
-    public float AttackRate = 1f;           
-    public float curLeftAttackTime = 0f;    
+    [Header("공격 관련")]
+    public float attackRange = 2f;         
+    public float attackPower = 10f;        
+    public float attackRate = 1f;          
+    private float curLeftAttackTime = 0f;  
 
     [Header("기타")]
-    public LayerMask enemyLayer;            
-    public Transform attackPoint;           
-    public PlayerStatusSO playerData;       
-    public bool isInteracting;              
+    public LayerMask enemyLayer;           
+    public Transform attackPoint;          
+    public PlayerStatusSO playerData;      
+    public bool isInteracting;
 
     private GameManager gameManager;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
+    }
+
+    private void Start()
+    {
+        attackRate = playerData.playerAttackRate;
+        attackRange = playerData.playerAttackRange;
+        attackPower = playerData.playerAttackPower;
     }
 
     private void Update()
@@ -28,7 +37,6 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         if (curLeftAttackTime > 0)
             curLeftAttackTime -= Time.deltaTime;
 
-        // 공격 입력
         if (Input.GetMouseButtonDown(0))
         {
             if (curLeftAttackTime <= 0)
@@ -40,7 +48,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
                 }
 
                 Attack();
-                curLeftAttackTime = AttackRate; // 공격 후 쿨타임 초기화
+                curLeftAttackTime = attackRate;
             }
             else
             {
@@ -53,12 +61,12 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     {
         Debug.Log("근거리 공격!");
 
-        // ScriptableObject에서 공격력, 공격 범위 가져오기
-        float attackPower = playerData.playerAttackPower;
-        float attackRange = playerData.playerAttackRange;
-
-        // 공격 범위 내 적 탐색
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
+
+        if (hitEnemies.Length == 0)
+        {
+            Debug.Log("적에게 맞지 않았습니다.");
+        }
 
         foreach (Collider enemy in hitEnemies)
         {
@@ -66,19 +74,17 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             if (enemyComponent != null)
             {
                 enemyComponent.TakeDamage(attackPower);
+                Debug.Log($"적 {enemy.name}에게 {attackPower} 피해를 줌!");
             }
         }
-
-        // 공격 애니메이션 트리거는 여기에
     }
 
-    // 공격 범위 시각화
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint == null || playerData == null)
+        if (attackPoint == null)
             return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, playerData.playerAttackRange);
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange * attackPoint.lossyScale.x);
     }
 }

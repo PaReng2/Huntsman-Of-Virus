@@ -278,6 +278,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 127158736}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 127158731}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
       insertIndex: -1
@@ -385,12 +388,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHP: 0
+  playerMaxHP: 0
   playerMoveSpeed: 5
   playerJumpForce: 5
   attackDelay: 0
   attackRange: 0
   attackPower: 0
   playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
+  playerGold: 100
+  goldText: {fileID: 1829160822}
   followCamera: {fileID: 1702496687}
 --- !u!114 &127158733
 MonoBehaviour:
@@ -422,6 +428,21 @@ MonoBehaviour:
   maxHp: 100
   attack: 10
   goldText: {fileID: 1829160822}
+--- !u!114 &127158736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127158726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b46406bedc46a4e97ea35a1b05eaca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectKey: 102
+  playerStats: {fileID: 0}
+  nearbyItem: {fileID: 0}
 --- !u!1 &152872735
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,6 +963,7 @@ GameObject:
   m_Component:
   - component: {fileID: 650120582}
   - component: {fileID: 650120583}
+  - component: {fileID: 650120584}
   m_Layer: 3
   m_Name: Point Light
   m_TagString: Untagged
@@ -1026,6 +1048,29 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &650120584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650120581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &729725941
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,6 +2226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1911493924}
   - component: {fileID: 1911493923}
+  - component: {fileID: 1911493925}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -2265,6 +2311,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1911493925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911493922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1960627942
 GameObject:
   m_ObjectHideFlags: 0

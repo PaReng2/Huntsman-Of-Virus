@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 6849263229029366018}
   - component: {fileID: 6849263229029366021}
   m_Layer: 0
-  m_Name: Elegant
+  m_Name: Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

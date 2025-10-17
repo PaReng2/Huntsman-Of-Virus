@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
     private Animator anime;
+    private bool isRunning;
 
     [Header("Camera")]
     float hAxis;
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        anime = GetComponent<Animator>();
+        anime = GetComponentInChildren<Animator>();
         playerMoveSpeed = playerStatus.playerMoveSpeed;
         attackDelay = playerStatus.playerAttackRate;
         attackRange = playerStatus.playerAttackRange;
@@ -54,22 +55,28 @@ public class PlayerController : MonoBehaviour
     {
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
-        if(hAxis < 0 || vAxis < 0) 
-            anime.SetBool("walk",true);
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            playerMoveSpeed = runSpeed;
-            Debug.Log("달리기");
-            anime.SetFloat("RunSpeed", runSpeed);
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            playerMoveSpeed = 5;
-        }
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
         transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
+
+        anime.SetBool("walk", moveVec != Vector3.zero);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isRunning = true;
+            playerMoveSpeed = runSpeed;
+            Debug.Log("달리기");
+            anime.SetBool("walk", false);
+            anime.SetBool("run", true);
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isRunning = false;
+            anime.SetBool("run", false);
+            playerMoveSpeed = 5;
+        }
+
+        
     }
 
     void Jump()
@@ -87,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit rayHit;
-
+        
         if (Physics.Raycast(ray, out rayHit, 100))
         {
             Vector3 nextVec = rayHit.point;

@@ -31,7 +31,7 @@ public class UpgradeNPC : MonoBehaviour
         int playerLayer = LayerMask.GetMask("Player");
 
         // 플레이어가 NPC 주변 2f 반경 안에 있는지 확인 (구체 범위로 충돌체 탐지)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 2f, playerLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3f, playerLayer);
 
         // 탐지된 플레이어가 하나라도 있으면 true
         bool hasPlayer = colliders.Length > 0;

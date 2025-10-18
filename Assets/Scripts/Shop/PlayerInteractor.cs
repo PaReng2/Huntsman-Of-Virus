@@ -1,22 +1,17 @@
 using UnityEngine;
 
-// 플레이어와 상점 아이템 간의 상호작용
-
-[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(PlayerController))]
 public class PlayerInteractor : MonoBehaviour
 {
     public KeyCode buyKey = KeyCode.F;
 
-
     private ShopItemSpawner nearbySpawner = null;
-    private PlayerStats playerStats;
-
+    private PlayerController playerController;
 
     private void Awake()
     {
-        playerStats = GetComponent<PlayerStats>();
+        playerController = GetComponent<PlayerController>();
     }
-
 
     private void Update()
     {
@@ -29,38 +24,30 @@ public class PlayerInteractor : MonoBehaviour
         }
     }
 
-
     private void TryBuy(ShopItemSpawner spawner)
     {
         ShopItem item = spawner.assignedItem;
         if (item == null) return;
 
-
-        if (playerStats.SpendGold(item.itemPrice))
+        if (playerController.SpendGold(item.itemPrice))
         {
             // 구매 성공
-            item.ApplyEffect(playerStats);
+            item.ApplyEffect(playerController);
 
-
-            // UI에 아이템 추가 (health potion은 UI에 추가 안함)
+            // UI 추가 (포션 제외)
             if (item.type != ShopItemType.HealthPotion)
                 ShopUIManager.Instance.AddItemToLeftTop(item);
 
-
-            // 모델 비활성화 및 재구매 불가 처리
+            // 모델 비활성화 및 재구매 방지
             spawner.DeactivateModel();
-
-
-            // 더이상 인터랙트 텍스트를 보이지 않게 함
             ShopUIManager.Instance.HideInteract();
         }
         else
         {
-            // 골드 부족 메시지 1초
-            ShopUIManager.Instance.ShowTempMessage("Not enough gold", 1f);
+            // 골드 부족 메시지
+            ShopUIManager.Instance.ShowTempMessage("골드가 부족합니다.", 1f);
         }
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -68,10 +55,9 @@ public class PlayerInteractor : MonoBehaviour
         if (sp != null && sp.assignedItem != null && !sp.isPurchased)
         {
             nearbySpawner = sp;
-            ShopUIManager.Instance.ShowInteract($"F - Buy {sp.assignedItem.itemName} ({sp.assignedItem.itemPrice}g)");
+            ShopUIManager.Instance.ShowInteract($"F - 구매 {sp.assignedItem.itemName} ({sp.assignedItem.itemPrice}g)");
         }
     }
-
 
     private void OnTriggerExit(Collider other)
     {

@@ -18,7 +18,8 @@ public class PlayerAttackRangeDealer : MonoBehaviour
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        animator = gameManager.GetComponentInChildren<Animator>();
+        if (animator == null )
+            animator = gameManager.GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -49,9 +50,9 @@ public class PlayerAttackRangeDealer : MonoBehaviour
                 else if (!isInteracting)
                 {
                     Attack();
-                    animator.SetTrigger("Attack");
                     // 공격 후 쿨다운 시간을 AttackRate로 재설정합니다.
                     curLeftAttackTime = AttackRate;
+                    
                 }
             }
             else

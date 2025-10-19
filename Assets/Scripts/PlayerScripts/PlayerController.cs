@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         {
             isRunning = true;
             playerMoveSpeed = runSpeed;
-            Debug.Log("�޸���");
+            Debug.Log("달리기");
             anime.SetBool("walk", false);
             anime.SetBool("run", true);
         }

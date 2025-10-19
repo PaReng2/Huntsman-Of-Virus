@@ -37,18 +37,23 @@ public class UpgradeNPC : MonoBehaviour
         bool hasPlayer = colliders.Length > 0;
 
         // 플레이어 근처에 있으면 상호작용 UI 활성화, 아니면 비활성화
-        isInsteraction.SetActive(hasPlayer);
+        if(!gameManager.isInteracting)
+        {
+            isInsteraction.SetActive(hasPlayer);
+
+        }
 
         if (hasPlayer)
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                isInsteraction.SetActive(false);
                 UpgradePanel.SetActive(true);
                 gameManager.isInteracting = true;
-                
-                Debug.Log("업그레이드 창 표시");
+                Debug.Log($"업그레이드 창 표시 {gameManager.isInteracting}");
+
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            if (gameManager.isInteracting && Input.GetKeyDown(KeyCode.Escape))
             {
                 UpgradePanel.SetActive(false);
                 gameManager.isInteracting = false;

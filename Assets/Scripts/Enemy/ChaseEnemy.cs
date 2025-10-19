@@ -14,6 +14,7 @@ public class ChaseEnemy : MonoBehaviour
 
     private NavMeshAgent agent;
 
+
     private void Awake()
     {
         enemyData = Resources.Load<EnemySO>("Enemy");
@@ -28,7 +29,7 @@ public class ChaseEnemy : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        curEnemyHP = enemyData.EnemyHP;
+        //curEnemyHP = enemyData.EnemyHP;
 
         // 스폰 시 StageManager에 등록
         StageManager.Instance.OnEnemySpawned();

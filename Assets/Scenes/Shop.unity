@@ -278,6 +278,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 127158736}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 127158731}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
       insertIndex: -1
@@ -385,12 +388,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHP: 0
+  playerMaxHP: 0
   playerMoveSpeed: 5
   playerJumpForce: 5
   attackDelay: 0
   attackRange: 0
   attackPower: 0
   playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
+  playerGold: 100
+  goldText: {fileID: 1829160822}
   followCamera: {fileID: 1702496687}
 --- !u!114 &127158733
 MonoBehaviour:
@@ -422,6 +428,21 @@ MonoBehaviour:
   maxHp: 100
   attack: 10
   goldText: {fileID: 1829160822}
+--- !u!114 &127158736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127158726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b46406bedc46a4e97ea35a1b05eaca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectKey: 102
+  playerStats: {fileID: 0}
+  nearbyItem: {fileID: 0}
 --- !u!1 &152872735
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,9 @@ public class StaticEnemy : MonoBehaviour
     public float attackCooldown = 1.5f;     //공격 쿨타임
     public GameObject projectilePrefab;     //투사체 프리팹
     public Transform firepoint;             //발사 위치
+    public EnemySO enemyData;
+    private float curEnemyHP;
+    private bool isDead = false;
 
     private Transform player;
     private float lastAttackTime;
@@ -20,6 +23,9 @@ public class StaticEnemy : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         lastAttackTime = -attackCooldown;
+
+        if (enemyData != null)
+            curEnemyHP = enemyData.EnemyHP;
 
     }
     void Update()
@@ -81,5 +87,25 @@ public class StaticEnemy : MonoBehaviour
             }
         }
     }
+    public void TakeDamage(float damage)
+    {
+        if (isDead) return;
 
+        curEnemyHP -= damage;
+        if (curEnemyHP <= 0)
+        {
+            curEnemyHP = 0;
+            Die();
+        }
+    }
+    private void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (StageManager.Instance != null)
+            StageManager.Instance.OnEnemyKilled();
+
+        Destroy(gameObject);
+    }
 }

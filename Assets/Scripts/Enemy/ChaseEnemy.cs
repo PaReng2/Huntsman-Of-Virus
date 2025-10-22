@@ -29,11 +29,11 @@ public class ChaseEnemy : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        //curEnemyHP = enemyData.EnemyHP;
-
-        // 스폰 시 StageManager에 등록
+        curEnemyHP = enemyData.EnemyHP;
         StageManager.Instance.OnEnemySpawned();
     }
+
+
 
     private void OnCollisionEnter(Collision collision)
     {

@@ -5,29 +5,30 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
-    
-    private PlayerController playerController;
-    private float lifeTime;
 
     private void Start()
     {
-        playerController = FindObjectOfType<PlayerController>();    
+        Destroy(gameObject, 3f); // 생존시간 기본 3초
+    }
+
+    private void Update()
+    {
+        transform.Translate(Vector3.forward * 20f * Time.deltaTime); // 총알 이동
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Wall")
+        // 적 충돌 처리
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
+            ChaseEnemy chaseEnemy = collision.gameObject.GetComponent<ChaseEnemy>();
+            if (chaseEnemy != null) chaseEnemy.TakeDamage(damage);
+
+            StaticEnemy staticEnemy = collision.gameObject.GetComponent<StaticEnemy>();
+            if (staticEnemy != null) staticEnemy.TakeDamage(damage);
         }
-        if (collision.gameObject.tag == "Ground")
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject, playerController.attackRange);
-        }
-        
+
+
+        Destroy(gameObject);
     }
 }

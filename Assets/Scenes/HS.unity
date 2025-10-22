@@ -1118,7 +1118,7 @@ GameObject:
   - component: {fileID: 2108108567}
   m_Layer: 0
   m_Name: StaticEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1140,6 +1140,7 @@ MonoBehaviour:
   attackCooldown: 1.5
   projectilePrefab: {fileID: 4552234930871630983, guid: b3cf9e726693f8f43846786cc2d0e096, type: 3}
   firepoint: {fileID: 767777108}
+  enemyData: {fileID: 11400000, guid: ee953390b994a424eadf5a033b3597b6, type: 2}
 --- !u!136 &2108108568
 CapsuleCollider:
   m_ObjectHideFlags: 0

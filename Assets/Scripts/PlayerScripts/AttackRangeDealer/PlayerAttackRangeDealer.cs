@@ -49,7 +49,7 @@ public class PlayerAttackRangeDealer : MonoBehaviour
                 }
                 else if (!isInteracting)
                 {
-                    Attack();
+                    Attack();   
                     // 공격 후 쿨다운 시간을 AttackRate로 재설정합니다.
                     curLeftAttackTime = AttackRate;
                     

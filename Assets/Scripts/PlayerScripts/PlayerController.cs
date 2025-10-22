@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -178,4 +179,20 @@ public class PlayerController : MonoBehaviour
     {
         attackPower += amount;
     }
+    public void TakeDamage(int damage)
+    {
+        playerHP -= damage;
+        if (playerHP <= 0)
+        {
+            playerHP = 0;
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        SceneManager.LoadScene("Main");
+        Debug.Log("플레이어 사망");
+    }
+
 }

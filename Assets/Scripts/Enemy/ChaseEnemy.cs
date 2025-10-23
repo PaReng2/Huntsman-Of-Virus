@@ -1,73 +1,75 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class ChaseEnemy : MonoBehaviour
 {
-    public Transform target;
     public EnemySO enemyData;
-
+    public Transform target;
     private PlayerController player;
+    private NavMeshAgent agent;
+
     private float curEnemyHP;
     private bool isDead = false;
 
-    private NavMeshAgent agent;
-
+    public int damage = 20;
+    public float attackCooldown = 1f;
+    private float lastAttackTime = 0f;
 
     private void Awake()
     {
-        enemyData = Resources.Load<EnemySO>("Enemy");
+        if (enemyData == null)
+            enemyData = Resources.Load<EnemySO>("Enemy");
+
         player = FindObjectOfType<PlayerController>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    void Start()
+    private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        target = GameObject.Find("Player").transform;
-
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
-
+        target = GameObject.FindWithTag("Player").transform;
         curEnemyHP = enemyData.EnemyHP;
         StageManager.Instance.OnEnemySpawned();
     }
 
-
-
-    private void OnCollisionEnter(Collision collision)
+    private void Update()
     {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            TakeDamage(1f); // 총알 한 발당 데미지 1
-        }
+        if (isDead || target == null) return;
+
+        agent.SetDestination(target.position);
+        Vector3 dir = (target.position - transform.position).normalized;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
     }
 
-    void Update()
-    {
-        if (target != null)
-        {
-            agent.SetDestination(target.position);
 
-            Vector3 direction = (target.position - transform.position).normalized;
-            if (direction != Vector3.zero)
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet"))
+        {
+            Bullet bullet = other.GetComponent<Bullet>();
+            if (bullet != null)
             {
-                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+                TakeDamage(bullet.damage);
+                Destroy(other.gameObject);
             }
         }
+        if (other.CompareTag("Player"))
+        {
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if (pc != null) pc.TakeDamage(damage);
+
+
+        }
     }
+
 
     public void TakeDamage(float damage)
     {
         if (isDead) return;
-
         curEnemyHP -= damage;
 
         if (curEnemyHP <= 0)
-        {
             Die();
-        }
     }
 
     private void Die()
@@ -76,6 +78,6 @@ public class ChaseEnemy : MonoBehaviour
         isDead = true;
 
         StageManager.Instance.OnEnemyKilled();
-        Destroy(gameObject);
+        Destroy(gameObject, 1.5f);
     }
 }

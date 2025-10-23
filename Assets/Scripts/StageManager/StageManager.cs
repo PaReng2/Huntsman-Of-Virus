@@ -50,6 +50,6 @@ public class StageManager : MonoBehaviour
     private void OpenPortal()
     {
         portalSpawned = true;
-        Instantiate(portalPrefab, new Vector3(10, 1, 1), Quaternion.identity);
+        Instantiate(portalPrefab, new Vector3(16, 6, 1), Quaternion.identity);
     }
 }

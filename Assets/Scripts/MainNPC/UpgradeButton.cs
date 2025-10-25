@@ -17,9 +17,10 @@ public class UpgradeButton : MonoBehaviour
 
     public void HPUpgragde()
     {
-        player.playerHP += 20;
+        player.playerMaxHP += 20;
         uiManager.HPBar.maxValue += 20;
-        uiManager.curHP = player.playerHP;
+        
+        
     }
     public void AttackRateUpgrade()
     {

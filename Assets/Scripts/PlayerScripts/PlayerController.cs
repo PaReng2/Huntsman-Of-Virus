@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [Header("player stat")]
-    public int playerHP;
+    public int curPlayerHp;
     public int playerMaxHP;
     public float playerMoveSpeed;
     public float playerJumpForce = 3f;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         attackDelay = playerStatus.playerAttackRate;
         attackRange = playerStatus.playerAttackRange;
         attackPower = playerStatus.playerAttackPower;
-        playerHP = playerStatus.playerHP;
+        curPlayerHp = playerStatus.playerHP;
         playerMaxHP = playerStatus.playerHP;
         runSpeed = playerMoveSpeed * 1.5f;
     }
@@ -170,9 +170,9 @@ public class PlayerController : MonoBehaviour
 
     public void Heal(int amount)
     {
-        playerHP += amount;
-        if (playerHP > playerMaxHP)
-            playerHP = playerMaxHP;
+        curPlayerHp += amount;
+        if (curPlayerHp > playerMaxHP)
+            curPlayerHp = playerMaxHP;
     }
 
     public void AddAttack(int amount)
@@ -181,10 +181,10 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
-        playerHP -= damage;
-        if (playerHP <= 0)
+        curPlayerHp -= damage;
+        if (curPlayerHp <= 0)
         {
-            playerHP = 0;
+            curPlayerHp = 0;
             Die();
         }
     }

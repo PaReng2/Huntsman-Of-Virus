@@ -18,8 +18,8 @@ public class PlayerAttackRangeDealer : MonoBehaviour
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        if (animator == null )
-            animator = gameManager.GetComponentInChildren<Animator>();
+        //if (animator == null )
+        //    animator = gameManager.GetComponentInChildren<Animator>();
     }
 
     private void Start()

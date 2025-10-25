@@ -15,6 +15,8 @@ public class DialogueNPC : MonoBehaviour
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
     private DialogueManager dialogueManager; // 씬에 존재하는 DialogueManager 참조
     public int dialogueNum;
+
+    private GameManager gameManager;
     void Awake()
     {
         // 씬에서 DialogueManager를 찾음
@@ -25,6 +27,7 @@ public class DialogueNPC : MonoBehaviour
             Debug.LogError("DialogueManager is Null"); // 없으면 에러 출력
         }
         dialogueNum = 1;
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
@@ -49,7 +52,10 @@ public class DialogueNPC : MonoBehaviour
 
         // 플레이어 근처에 있으면 상호작용 UI 활성화, 아니면 비활성화
         isInsteraction.SetActive(hasPlayer);
-
+        if (gameManager.isInteracting)
+        {
+            isInsteraction.SetActive(false);
+        }
 
 
         // 플레이어가 근처에 있을 때만 대화 가능
@@ -57,7 +63,7 @@ public class DialogueNPC : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                
+                gameManager.isInteracting = true;
 
                 if (dialogueNum == 1)
                 {

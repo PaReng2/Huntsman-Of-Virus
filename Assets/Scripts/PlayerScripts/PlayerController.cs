@@ -43,12 +43,8 @@ public class PlayerController : MonoBehaviour
         anime = GetComponent<Animator>();
 
         anime = GetComponentInChildren<Animator>();
-        playerMoveSpeed = playerStatus.playerMoveSpeed;
-        attackDelay = playerStatus.playerAttackRate;
-        attackRange = playerStatus.playerAttackRange;
-        attackPower = playerStatus.playerAttackPower;
-        curPlayerHp = playerStatus.playerHP;
-        playerMaxHP = playerStatus.playerHP;
+        ApplyStatusFromSO();      // 스탯 적용 함수 호출
+        curPlayerHp = playerMaxHP;
         runSpeed = playerMoveSpeed * 1.5f;
     }
 
@@ -193,6 +189,17 @@ public class PlayerController : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
         Debug.Log("플레이어 사망");
+    }
+    public void ApplyStatusFromSO()
+    {
+        playerMoveSpeed = playerStatus.playerMoveSpeed;
+        attackDelay = playerStatus.playerAttackRate;
+        attackRange = playerStatus.playerAttackRange;
+        attackPower = playerStatus.playerAttackPower;
+        playerMaxHP = playerStatus.playerHP;
+
+        if (curPlayerHp > playerMaxHP)
+            curPlayerHp = playerMaxHP;
     }
 
 }

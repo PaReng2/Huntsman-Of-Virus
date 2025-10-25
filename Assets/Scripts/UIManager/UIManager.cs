@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Slider HPBar;
-    public int curHP;
+    
     private PlayerController player;
 
     private void Awake()
@@ -15,16 +15,16 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        HPBar.maxValue = player.playerHP;
+        HPBar.maxValue = player.curPlayerHp;
         HPBar.minValue = 0f;
-        curHP = player.playerHP;
+       
         HPBar.value = HPBar.maxValue;
         
     }
 
     private void Update()
     {
-        HPBar.value = curHP; 
+        HPBar.value = player.curPlayerHp; 
     }
 
 

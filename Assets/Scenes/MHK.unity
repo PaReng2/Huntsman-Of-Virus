@@ -375,13 +375,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615cfee168260da4087cb48368ab686d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHP: 0
+  curPlayerHp: 0
+  playerMaxHP: 0
   playerMoveSpeed: 0
   playerJumpForce: 3
   attackDelay: 0
   attackRange: 0
   attackPower: 0
   playerStatus: {fileID: 11400000, guid: 476e78b81ee2fb848ab62c46cd1b9b6f, type: 2}
+  playerGold: 0
+  goldText: {fileID: 0}
   followCamera: {fileID: 1598329885}
 --- !u!95 &182967643
 Animator:
@@ -434,6 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInteracting: 0
+  hpText: {fileID: 0}
 --- !u!4 &546118202
 Transform:
   m_ObjectHideFlags: 0
@@ -939,6 +943,52 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 555085bcbebe5994c97262d6e417f25a, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &1278194599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1278194601}
+  - component: {fileID: 1278194600}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1278194600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278194599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3075cf69c4dd7ba4a91639cf090a1576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalPrefab: {fileID: 1056062096016144277, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
+  TotalEnemyCount: 0
+--- !u!4 &1278194601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278194599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1598329883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,6 +1245,7 @@ MonoBehaviour:
   isInteracting: 0
   AttackRate: 0
   curLeftAttackTime: 0
+  animator: {fileID: 0}
 --- !u!114 &2062608303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,13 +1258,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615cfee168260da4087cb48368ab686d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHP: 0
+  curPlayerHp: 0
+  playerMaxHP: 0
   playerMoveSpeed: 5
   playerJumpForce: 5
   attackDelay: 0
   attackRange: 0
   attackPower: 0
   playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
+  playerGold: 0
+  goldText: {fileID: 0}
   followCamera: {fileID: 0}
 --- !u!95 &2062608304
 Animator:
@@ -1265,3 +1319,4 @@ SceneRoots:
   - {fileID: 182967639}
   - {fileID: 823963139}
   - {fileID: 546118202}
+  - {fileID: 1278194601}

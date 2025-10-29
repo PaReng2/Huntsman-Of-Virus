@@ -17,6 +17,8 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        portalPrefab.SetActive(false);
+
         if (Instance == null)
         {
             Instance = this;
@@ -25,7 +27,6 @@ public class StageManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        portalPrefab.SetActive(false);
     }
 
     public void SetTotalEnemyCount(int count)

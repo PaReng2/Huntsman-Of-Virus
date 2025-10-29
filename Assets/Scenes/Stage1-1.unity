@@ -1906,17 +1906,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal
       objectReference: {fileID: 0}
+    - target: {fileID: 1056062096016144277, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1067113833030469961, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 19.23
       objectReference: {fileID: 0}
     - target: {fileID: 1067113833030469961, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 7.38
       objectReference: {fileID: 0}
     - target: {fileID: 1067113833030469961, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: -4.26
       objectReference: {fileID: 0}
     - target: {fileID: 1067113833030469961, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2163,6 +2167,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1658387787 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1056062096016144277, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
+  m_PrefabInstance: {fileID: 1442943686}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1721869472
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2654,7 +2663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3075cf69c4dd7ba4a91639cf090a1576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalPrefab: {fileID: 1056062096016144277, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
+  portalPrefab: {fileID: 1658387787}
   TotalEnemyCount: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

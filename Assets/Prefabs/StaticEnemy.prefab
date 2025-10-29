@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 9065341337761721089}
   - component: {fileID: 4913021848186122404}
   - component: {fileID: 4316023814381078292}
-  - component: {fileID: 732946809167440396}
-  - component: {fileID: 4619158278086837195}
   m_Layer: 6
   m_Name: enemy
   m_TagString: Untagged
@@ -85,47 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &732946809167440396
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5697866046108717700}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4619158278086837195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5697866046108717700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e41928330d9a904448dd38657db40137, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
-  attackRange: 6
-  attackCooldown: 1.5
-  projectilePrefab: {fileID: 4552234930871630983, guid: b3cf9e726693f8f43846786cc2d0e096, type: 3}
-  firepoint: {fileID: 7153840523712314933}
-  enemyData: {fileID: 11400000, guid: 44c3c837c5031574f8b9323f091a64f2, type: 2}
 --- !u!1 &6038317993293153351
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +123,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7790445552371879733}
+  - component: {fileID: 740511496427778682}
+  - component: {fileID: 4847739235908848382}
   m_Layer: 6
   m_Name: StaticEnemy
   m_TagString: Enemy
@@ -190,3 +149,44 @@ Transform:
   - {fileID: 7153840523712314933}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740511496427778682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552004981364622609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e41928330d9a904448dd38657db40137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  attackRange: 6
+  attackCooldown: 1.5
+  projectilePrefab: {fileID: 4552234930871630983, guid: b3cf9e726693f8f43846786cc2d0e096, type: 3}
+  firepoint: {fileID: 7153840523712314933}
+  enemyData: {fileID: 11400000, guid: 44c3c837c5031574f8b9323f091a64f2, type: 2}
+--- !u!136 &4847739235908848382
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552004981364622609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.14
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.87, z: 0}

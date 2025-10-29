@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6841320662953423320}
   - component: {fileID: 3188004248958273404}
-  - component: {fileID: 1529695287855467660}
   - component: {fileID: 7974185814782849689}
   - component: {fileID: 3527558090361647350}
   - component: {fileID: 1547819762021535251}
+  - component: {fileID: 2174631247931137501}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615cfee168260da4087cb48368ab686d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHP: 0
+  curPlayerHp: 0
   playerMaxHP: 0
   playerMoveSpeed: 5
   playerJumpForce: 5
@@ -60,26 +60,6 @@ MonoBehaviour:
   playerGold: 0
   goldText: {fileID: 0}
   followCamera: {fileID: 0}
---- !u!114 &1529695287855467660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5440421910938976731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df8dff61f1f261d47a20968bd33b19b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6340600733905813537, guid: c94b842847d31a242a43cff7c1afafe5, type: 3}
-  bulletSpeed: 50
-  firePoint: {fileID: 7752032376707101736}
-  playerData: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
-  isInteracting: 0
-  AttackRate: 0
-  curLeftAttackTime: 0
-  animator: {fileID: 6411434432436429559}
 --- !u!65 &7974185814782849689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -145,6 +125,27 @@ MonoBehaviour:
   interactLayer:
     serializedVersion: 2
     m_Bits: 1
+--- !u!114 &2174631247931137501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440421910938976731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3b919319218fa458c97535406bb2a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 30
+  attackPower: 10
+  attackRate: 1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  attackPoint: {fileID: 7752032376707101736}
+  playerData: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
+  isInteracting: 0
 --- !u!1 &6936396937780399293
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 6936396937780399293}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 31.83, z: 11.1}
+  m_LocalPosition: {x: 0, y: 35.94, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -415,10 +416,5 @@ PrefabInstance:
 --- !u!4 &515731736645771685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6601043233671942095, guid: 469b60f4ab30b7640a54c9676ca54f5a, type: 3}
-  m_PrefabInstance: {fileID: 2543510621682815380}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &6411434432436429559 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8914207829204841315, guid: 469b60f4ab30b7640a54c9676ca54f5a, type: 3}
   m_PrefabInstance: {fileID: 2543510621682815380}
   m_PrefabAsset: {fileID: 0}

@@ -390,6 +390,10 @@ PrefabInstance:
       propertyPath: followCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: playerStatus
+      value: 
+      objectReference: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
     - target: {fileID: 5440421910938976731, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -434,7 +438,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1529695287855467660, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1165,7 +1170,7 @@ MonoBehaviour:
     rate: 1
   timeBetweenWaves: 5
   activationRange: 5
-  spawnRange: 5
+  spawnRange: 11.64
 --- !u!4 &851826017
 Transform:
   m_ObjectHideFlags: 0
@@ -1175,7 +1180,7 @@ Transform:
   m_GameObject: {fileID: 851826015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 14.62}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4316023814381078292}
   - component: {fileID: 732946809167440396}
   - component: {fileID: 4619158278086837195}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7153840523712314933}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,9 +166,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7790445552371879733}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StaticEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -386,6 +386,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopShelf (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3735633782472163315, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8bdf323fdedd33b44877969934376f83, type: 2}
     - target: {fileID: 6523950312084581577, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.563
@@ -475,11 +479,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb2759145f6018d47a72e16aab2d7455, type: 2}
   - {fileID: 11400000, guid: 837f8d3708bb66748a5f287f32ece652, type: 2}
   - {fileID: 11400000, guid: 01bb3e0042625734da841c4695e29d2d, type: 2}
+  - {fileID: 11400000, guid: 01bb3e0042625734da841c4695e29d2d, type: 2}
   spawners:
   - {fileID: 1068507756}
   - {fileID: 97751602}
   - {fileID: 1978688600}
-  - {fileID: 1068507756}
+  - {fileID: 1829361203}
 --- !u!4 &152872737
 Transform:
   m_ObjectHideFlags: 0
@@ -505,6 +510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 332754938}
   - component: {fileID: 332754937}
+  - component: {fileID: 332754939}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -546,6 +552,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &332754939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332754936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c651eb45958034ea633c7f5b3d4c2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HPBar: {fileID: 1119746819}
 --- !u!1 &342644631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,18 +1776,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1529695287855467660, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: goldText
       value: 
       objectReference: {fileID: 1110625116}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: playerGold
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: followCamera
       value: 
@@ -1820,33 +1831,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5440421910938976731, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 986441222}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
---- !u!1 &986441221 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5440421910938976731, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-  m_PrefabInstance: {fileID: 986441220}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &986441222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 986441221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e930c42ddfc34214b927de93e7271782, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactKey: 102
-  interactRange: 1.5
-  interactLayer:
-    serializedVersion: 2
-    m_Bits: 1
 --- !u!4 &986441226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6841320662953423320, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
@@ -3216,6 +3202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopShelf (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3735633782472163315, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ada02a598bce1f14c86c7f56d98c3c78, type: 2}
     - target: {fileID: 6523950312084581577, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.563
@@ -3261,6 +3251,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
+--- !u!114 &1829361203 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 797182531219902055, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
+  m_PrefabInstance: {fileID: 1829361202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232404267cad0fd4c95e86b4438a8933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1951649753
 GameObject:
   m_ObjectHideFlags: 0
@@ -3604,6 +3605,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopShelf (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3735633782472163315, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7490f4093b17136429fde1ef84d39ee3, type: 2}
     - target: {fileID: 6523950312084581577, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.563
@@ -3845,6 +3850,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopShelf
       objectReference: {fileID: 0}
+    - target: {fileID: 3735633782472163315, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6178c8cd87974e54db1a399633b37c0b, type: 2}
     - target: {fileID: 6523950312084581577, guid: 3c0652806c71cb847b10d00934ffc536, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.563

@@ -1163,14 +1163,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - enemyPrefab: {fileID: 1854164141541980002, guid: f641e5d83edc1be45bc2fdd7523b275a, type: 3}
-    count: 1
-    rate: 0
-  - enemyPrefab: {fileID: 8552004981364622609, guid: ca0e9c7784bbde041bae6c3623b1e2c3, type: 3}
-    count: 1
+    count: 10
     rate: 1
-  timeBetweenWaves: 5
-  activationRange: 5
-  spawnRange: 11.64
+  - enemyPrefab: {fileID: 8552004981364622609, guid: ca0e9c7784bbde041bae6c3623b1e2c3, type: 3}
+    count: 3
+    rate: 1
+  - enemyPrefab: {fileID: 1854164141541980002, guid: f641e5d83edc1be45bc2fdd7523b275a, type: 3}
+    count: 8
+    rate: 1
+  timeBetweenWaves: 10
+  activationRange: 17.79
+  spawnRange: 17
 --- !u!4 &851826017
 Transform:
   m_ObjectHideFlags: 0

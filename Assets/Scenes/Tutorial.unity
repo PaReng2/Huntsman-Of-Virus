@@ -2167,6 +2167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71770cda6af65964d9c08f203896c301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 8247f4b83faa5ae43861298a0a8da5ae, type: 2}
+  curEnemyHP: 0
 --- !u!1 &1140434368
 GameObject:
   m_ObjectHideFlags: 0

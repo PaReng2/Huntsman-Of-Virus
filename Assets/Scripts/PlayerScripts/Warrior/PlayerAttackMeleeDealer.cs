@@ -1,16 +1,20 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttackMeleeDealer : MonoBehaviour
 {
-    [Header("���� ����")]
+    [Header("공격 관련")]
     public float attackRange = 2f;         
     public float attackPower = 10f;        
     public float attackRate = 1f;          
-    private float curLeftAttackTime = 0f;  
+    private float curLeftAttackTime = 0f;
 
-    [Header("��Ÿ")]
+    [Header("Effect")]
+    public GameObject Slash;
+    public float effectForwardOffset = 0.5f;
+
+    [Header("기타")]
     public LayerMask enemyLayer;           
     public Transform attackPoint;          
     public PlayerStatusSO playerData;      
@@ -43,7 +47,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             {
                 if (isInteracting)
                 {
-                    Debug.Log("��ȣ�ۿ� �߿��� ������ �� �����ϴ�.");
+                    Debug.Log("상호작용 중에는 공격할 수 없습니다.");
                     return;
                 }
 
@@ -52,39 +56,77 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             }
             else
             {
-                Debug.Log("���� ������ ��...");
+                Debug.Log("공격 재정비 중...");
             }
         }
     }
 
     void Attack()
     {
-        Debug.Log("�ٰŸ� ����!");
+        Debug.Log("근거리 공격!");
 
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
 
         if (hitEnemies.Length == 0)
         {
-            Debug.Log("������ ���� �ʾҽ��ϴ�.");
+            Debug.Log("적에게 맞지 않았습니다.");
         }
 
         foreach (Collider enemy in hitEnemies)
         {
             ChaseEnemy enemyComponent = enemy.GetComponent<ChaseEnemy>();
             StaticEnemy enemyComponent2 = enemy.GetComponent<StaticEnemy>();
+            TutorialEnemy tutorial  = enemy.GetComponent<TutorialEnemy>();
 
             if (enemyComponent != null)
             {
                 enemyComponent.TakeDamage(attackPower);
-                Debug.Log($"�� {enemy.name}���� {attackPower} ���ظ� ��!");
+                Debug.Log($"적 {enemy.name}에게 {attackPower} 피해를 줌!");
+            }
+            else if(enemyComponent2 != null) 
+            {
+                enemyComponent2.TakeDamage(attackPower);
+                Debug.Log($"적 {enemy.name}에게 {attackPower} 피해를 줌!");
             }
             else
             {
-                enemyComponent2.TakeDamage(attackPower);
-                Debug.Log($"�� {enemy.name}���� {attackPower} ���ظ� ��!");
+                tutorial.TakeDamage(attackPower);
+                Debug.Log($"적 {enemy.name}에게 {attackPower} 피해를 줌!");
             }
         }
+        if (Slash != null)
+        {
+            // 1. 최종 위치 계산
+            // attackPoint 위치를 기본으로 사용
+            Vector3 spawnPosition = attackPoint.position;
+
+            // 캐릭터의 정면 방향(transform.forward)으로 'effectForwardOffset'만큼 이동
+            spawnPosition += transform.forward * effectForwardOffset;
+
+
+            // 2. 최종 회전 계산
+            // 캐릭터의 현재 회전 값
+            Quaternion playerRotation = transform.rotation;
+
+            // Y축 90도 추가 회전
+            Quaternion yAxis90Rotation = Quaternion.Euler(0f, -90f, 0f);
+
+            // 캐릭터 회전에 Y축 90도 회전을 더함 (순서 중요: 플레이어 회전 * 오프셋 회전)
+            Quaternion finalRotation = playerRotation * yAxis90Rotation;
+
+
+            // 3. 계산된 위치와 회전으로 인스턴스화
+            GameObject effectInstance = Instantiate(
+                Slash,
+                spawnPosition,  
+                finalRotation  
+            );
+
+            // 0.5초 후에 생성된 인스턴스를 파괴
+            Destroy(effectInstance, 0.5f);
+        }
     }
+
 
     private void OnDrawGizmosSelected()
     {

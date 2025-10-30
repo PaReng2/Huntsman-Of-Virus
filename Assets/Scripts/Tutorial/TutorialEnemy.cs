@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class TutorialEnemy : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+    public EnemySO enemyData;
+    public float curEnemyHP;
+    private bool isDead;
+    private void Awake()
     {
-        DialogueNPC npcDialogue = FindObjectOfType<DialogueNPC>();
-        if (collision.gameObject.tag == "Bullet" && npcDialogue.dialogueNum > 3)
-        {
-            Destroy(gameObject);
-        }
+        curEnemyHP = enemyData.EnemyHP;
+    }
+    public void TakeDamage(float damage)
+    {
+        if (isDead) return;
+        curEnemyHP -= damage;
+
+        if (curEnemyHP <= 0)
+            Die();
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        Destroy(gameObject);
     }
 }

@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public float attackPower;
     private float runSpeed;
 
+    
+
     [Header("player Data (ScriptableObject)")]
     public PlayerStatusSO playerStatus;
 
@@ -111,6 +113,7 @@ public class PlayerController : MonoBehaviour
             anime.SetTrigger("jump");
         }
     }
+
 
     void Turn()
     {

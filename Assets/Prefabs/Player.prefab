@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3527558090361647350}
   - component: {fileID: 1547819762021535251}
   - component: {fileID: 2174631247931137501}
+  - component: {fileID: 7740941499330780842}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -56,8 +57,9 @@ MonoBehaviour:
   attackDelay: 0
   attackRange: 0
   attackPower: 0
-  playerStatus: {fileID: 11400000, guid: b196588e72385024ca736658a91e23b2, type: 2}
-  playerGold: 0
+  Slash: {fileID: 0}
+  playerStatus: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
+  playerGold: 100
   goldText: {fileID: 0}
   followCamera: {fileID: 0}
 --- !u!65 &7974185814782849689
@@ -140,12 +142,30 @@ MonoBehaviour:
   attackRange: 30
   attackPower: 10
   attackRate: 1
+  Slash: {fileID: 8020102787954338787, guid: c92e17ae3a7bbff4abd3bb0aa8a0ff91, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
   attackPoint: {fileID: 7752032376707101736}
   playerData: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
   isInteracting: 0
+--- !u!114 &7740941499330780842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440421910938976731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e930c42ddfc34214b927de93e7271782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactKey: 102
+  interactRange: 1.5
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &6936396937780399293
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;            // 현재 글자를 하나씩 찍는 중인지 여부
     private Coroutine typingCoroutine;        // 타이핑 효과를 돌리고 있는 코루틴 참조
     private bool isTalking = false;           // 대화중인지 확인
-    private PlayerAttackRangeDealer player;
+    private PlayerAttackMeleeDealer player;
     private GameManager gameManager;
 
     private void Awake()
@@ -104,7 +104,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {   
         
-        player = FindObjectOfType<PlayerAttackRangeDealer>();
+        player = FindObjectOfType<PlayerAttackMeleeDealer>();
 
         // 코루틴 정리
         if (typingCoroutine != null)
@@ -165,7 +165,7 @@ public class DialogueManager : MonoBehaviour
     // 새로운 대화 시작
     public void StartDialogue(DialogueDataSO dialogue)
     {
-        player = FindObjectOfType<PlayerAttackRangeDealer>();
+        player = FindObjectOfType<PlayerAttackMeleeDealer>();
         
         // 대화 데이터가 없거나 라인이 없으면 무시
         if (dialogue == null || dialogue.dialogueLines.Count == 0) return;

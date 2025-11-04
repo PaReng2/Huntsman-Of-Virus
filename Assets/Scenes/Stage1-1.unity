@@ -1162,15 +1162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - enemyPrefab: {fileID: 1854164141541980002, guid: f641e5d83edc1be45bc2fdd7523b275a, type: 3}
-    count: 10
-    rate: 1
-  - enemyPrefab: {fileID: 8552004981364622609, guid: ca0e9c7784bbde041bae6c3623b1e2c3, type: 3}
-    count: 3
-    rate: 1
-  - enemyPrefab: {fileID: 1854164141541980002, guid: f641e5d83edc1be45bc2fdd7523b275a, type: 3}
-    count: 8
-    rate: 1
+  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
+  - {fileID: 11400000, guid: 9e2b61f4a327bc042a4bf9fff2d087f1, type: 2}
+  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
   timeBetweenWaves: 10
   activationRange: 17.79
   spawnRange: 17

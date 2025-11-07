@@ -28,9 +28,16 @@ public class EnemyProjectile : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
-            if (pc != null) pc.TakeDamage(damage);
+            if (pc != null)
+            {
+                pc.TakeDamage(damage);
+
+                Vector3 knockbackDir = (pc.transform.position - transform.position).normalized;
+                pc.ApplyKnockback(knockbackDir, 4f);
+            }
 
             Destroy(gameObject);
         }
+
     }
- }
+}

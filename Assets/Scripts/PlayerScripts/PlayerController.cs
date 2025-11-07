@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Jump();
         Turn();
+        anime.SetBool("isGrounded", isGrounded);
     }
 
     void Move()
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
             anime.SetTrigger("jump");
+            isGrounded = false;
         }
     }
 
@@ -134,7 +136,11 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Ground"))
+        {
             isGrounded = true;
+            anime.ResetTrigger("jump");
+            anime.SetBool("isGrounded", true);
+        }
     }
 
     private void OnCollisionExit(Collision other)
@@ -203,6 +209,15 @@ public class PlayerController : MonoBehaviour
 
         if (curPlayerHp > playerMaxHP)
             curPlayerHp = playerMaxHP;
+    }
+    public void ApplyKnockback(Vector3 hitDirection, float force)
+    {
+        if (rb != null)
+        {
+            hitDirection.y = 2f;
+            rb.velocity = Vector3.zero;
+            rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
+        }
     }
 
 }

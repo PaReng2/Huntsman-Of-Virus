@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class ChaseEnemy : MonoBehaviour
 {
@@ -56,9 +57,18 @@ public class ChaseEnemy : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
-            if (pc != null) pc.TakeDamage(damage);
+            if (pc != null)
+            {
+                if (Time.time - lastAttackTime >= attackCooldown)
+                {
+                    lastAttackTime = Time.time;
 
+                    pc.TakeDamage(damage);
 
+                    Vector3 knockbackDir = (pc.transform.position - transform.position).normalized;
+                    pc.ApplyKnockback(knockbackDir, 5f);
+                }
+            }
         }
     }
 
@@ -68,9 +78,13 @@ public class ChaseEnemy : MonoBehaviour
         if (isDead) return;
         curEnemyHP -= damage;
 
+        Vector3 hitDir = (transform.position - player.transform.position).normalized;
+        ApplyKnockback(hitDir, 5f);
+
         if (curEnemyHP <= 0)
             Die();
     }
+
 
     private void Die()
     {
@@ -80,4 +94,29 @@ public class ChaseEnemy : MonoBehaviour
         StageManager.Instance.OnEnemyKilled();
         Destroy(gameObject, 1.5f);
     }
+    public void ApplyKnockback(Vector3 hitDirection, float force)
+    {
+        NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        if (agent != null)
+            agent.isStopped = true;
+
+        if (rb != null)
+        {
+            hitDirection.y = 2f;
+            rb.velocity = Vector3.zero;
+            rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
+        }
+
+        StartCoroutine(ResumeAfterKnockback(agent, 0.3f));
+    }
+
+    private IEnumerator ResumeAfterKnockback(UnityEngine.AI.NavMeshAgent agent, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (agent != null)
+            agent.isStopped = false;
+    }
+
 }

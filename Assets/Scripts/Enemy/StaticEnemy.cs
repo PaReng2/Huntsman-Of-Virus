@@ -91,12 +91,17 @@ public class StaticEnemy : MonoBehaviour
         if (isDead) return;
 
         curEnemyHP -= damage;
+
+        Vector3 hitDir = (transform.position - player.position).normalized;
+        ApplyKnockback(hitDir, 4f);
+
         if (curEnemyHP <= 0)
         {
             curEnemyHP = 0;
             Die();
         }
     }
+
     private void Die()
     {
         if (isDead) return;
@@ -107,4 +112,15 @@ public class StaticEnemy : MonoBehaviour
 
         Destroy(gameObject);
     }
+    public void ApplyKnockback(Vector3 hitDirection, float force)
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            hitDirection.y = 2f;
+            rb.velocity = Vector3.zero;
+            rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
+        }
+    }
+
 }

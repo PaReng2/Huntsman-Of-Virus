@@ -97,7 +97,6 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         if (Slash != null)
         {
             // 1. 최종 위치 계산
-            // attackPoint 위치를 기본으로 사용
             Vector3 spawnPosition = attackPoint.position;
 
             // 캐릭터의 정면 방향(transform.forward)으로 'effectForwardOffset'만큼 이동
@@ -109,17 +108,17 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             Quaternion playerRotation = transform.rotation;
 
             // Y축 90도 추가 회전
-            Quaternion yAxis90Rotation = Quaternion.Euler(0f, -90f, 0f);
+            Quaternion offsetRotation = Quaternion.Euler(0, 0, 0);
 
             // 캐릭터 회전에 Y축 90도 회전을 더함 (순서 중요: 플레이어 회전 * 오프셋 회전)
-            Quaternion finalRotation = playerRotation * yAxis90Rotation;
+            Quaternion finalRotation = playerRotation * offsetRotation; // ⬅️ 추가/수정된 부분
 
 
             // 3. 계산된 위치와 회전으로 인스턴스화
             GameObject effectInstance = Instantiate(
                 Slash,
-                spawnPosition,  
-                finalRotation  
+                spawnPosition,
+                finalRotation // ⬅️ 수정: 계산된 최종 회전 사용
             );
 
             // 0.5초 후에 생성된 인스턴스를 파괴

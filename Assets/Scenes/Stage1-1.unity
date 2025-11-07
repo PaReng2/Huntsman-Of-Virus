@@ -386,6 +386,14 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2174631247931137501, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: Slash
+      value: 
+      objectReference: {fileID: 1699945200453384, guid: cac944ab423eebc48961b60b1f231a62, type: 3}
+    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: attackDelay
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: followCamera
       value: 

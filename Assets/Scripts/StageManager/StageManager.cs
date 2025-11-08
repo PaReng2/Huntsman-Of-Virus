@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
     public static StageManager Instance;
 
-    public GameObject portalPrefab;
+    
     private int totalEnemyCount = 0;
     private int killedEnemyCount = 0;
     private bool portalSpawned = false;
+    private Spawner spawner;
+    public TextMeshProUGUI curWaveText;
+    public int curWaveNum;
 
     //기존 Spawner 스크립트의 Start()에서 이 변수를 사용하므로 남겨둠
     // WaveSpawner에서는 사용X
@@ -17,7 +21,6 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
-        portalPrefab.SetActive(false);
 
         if (Instance == null)
         {
@@ -27,6 +30,14 @@ public class StageManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        spawner = FindAnyObjectByType<Spawner>();
+        
+    }
+
+    private void Update()
+    {
+        curWaveText.text = $"Wave {curWaveNum}";
     }
 
     public void SetTotalEnemyCount(int count)
@@ -50,7 +61,7 @@ public class StageManager : MonoBehaviour
         // 모든 웨이브의 모든 적을 다 처치했는지 확인
         if (!portalSpawned && killedEnemyCount >= totalEnemyCount)
         {
-            OpenPortal();
+            
         }
     }
 
@@ -60,10 +71,5 @@ public class StageManager : MonoBehaviour
         return killedEnemyCount;
     }
 
-    private void OpenPortal()
-    {
-        portalSpawned = true;
-        portalPrefab.SetActive(true);
-        Debug.Log("포탈이 열렸습니다!");
-    }
+    
 }

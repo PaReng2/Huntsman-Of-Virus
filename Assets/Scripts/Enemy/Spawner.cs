@@ -7,19 +7,21 @@ public class Spawner : MonoBehaviour
     // 인스펙터에서 설정할 웨이브 목록
     public Wave[] waves;
 
-    public float timeBetweenWaves = 5f; // 웨이브 사이의 대기 시간
-    public float activationRange = 15f; // 스포너 활성화 범위
-    public float spawnRange = 5f;       // 스폰 범위
+    public float timeBetweenWaves; // 웨이브 사이의 대기 시간
+    public float activationRange ; // 스포너 활성화 범위
+    public float spawnRange;       // 스폰 범위
 
     private Transform player;
     private int currentWaveIndex = 0;         // 현재 진행 중인 웨이브 인덱스
     private int totalEnemiesSpawnedSoFar = 0; // 지금까지 스폰된 모든 적의 총 수
     private bool isSpawningWave = false;      // 현재 웨이브가 스폰 중인지 여부
     private bool wavesStarted = false;        // 웨이브 시퀀스가 시작되었는지 여부
+    private StageManager stageManager;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+        stageManager = FindAnyObjectByType<StageManager>();
 
         // StageManager에 모든 웨이브의 총 적 수를 계산하여 등록
         int totalEnemiesInStage = 0;
@@ -32,6 +34,7 @@ public class Spawner : MonoBehaviour
         {
             StageManager.Instance.SetTotalEnemyCount(totalEnemiesInStage);
         }
+        stageManager.curWaveNum = currentWaveIndex;
     }
 
     void Update()
@@ -96,10 +99,11 @@ public class Spawner : MonoBehaviour
             totalEnemiesSpawnedSoFar++;
 
             // 다음 적 스폰까지 대기
-            yield return new WaitForSeconds(wave.rate);
+            //yield return new WaitForSeconds(wave.rate);
         }
 
         currentWaveIndex++; // 다음 웨이브 인덱스로
+        stageManager.curWaveNum = currentWaveIndex;
         isSpawningWave = false;
         Debug.Log("웨이브 스폰 완료. 적 처치 대기 중...");
     }

@@ -118,4 +118,10 @@ public class Spawner : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, activationRange);
     }
+
+    //Áõ°­ ¿ÀÇÂ
+    private void OpenAugment()
+    {
+
+    }
 }

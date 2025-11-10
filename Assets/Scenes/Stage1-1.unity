@@ -524,6 +524,10 @@ PrefabInstance:
       propertyPath: Slash
       value: 
       objectReference: {fileID: 1699945200453384, guid: cac944ab423eebc48961b60b1f231a62, type: 3}
+    - target: {fileID: 2174631247931137501, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: attackRange
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: attackDelay
       value: 1
@@ -579,6 +583,10 @@ PrefabInstance:
     - target: {fileID: 6841320662953423320, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7740941499330780842, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: interactKey
+      value: 102
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1529695287855467660, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}

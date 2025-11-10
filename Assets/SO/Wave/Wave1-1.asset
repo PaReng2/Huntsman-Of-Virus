@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wave1-1
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1854164141541980002, guid: f641e5d83edc1be45bc2fdd7523b275a, type: 3}
-  count: 3
-  rate: 0
+  count: 30
+  rate: 1

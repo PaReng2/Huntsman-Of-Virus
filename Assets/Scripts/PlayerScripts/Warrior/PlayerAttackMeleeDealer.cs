@@ -133,6 +133,6 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange * attackPoint.lossyScale.x);
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

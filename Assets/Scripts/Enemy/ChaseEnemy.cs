@@ -15,6 +15,8 @@ public class ChaseEnemy : MonoBehaviour
     public int damage = 20;
     public float attackCooldown = 1f;
     private float lastAttackTime = 0f;
+    private Rigidbody rb;
+
 
     private void Awake()
     {
@@ -30,16 +32,22 @@ public class ChaseEnemy : MonoBehaviour
         target = GameObject.FindWithTag("Player").transform;
         curEnemyHP = enemyData.EnemyHP;
         StageManager.Instance.OnEnemySpawned();
+        rb = GetComponent<Rigidbody>();
+
     }
 
     private void Update()
     {
-        if (isDead || target == null) return;
+        if (isDead || target == null || !agent.isOnNavMesh) return;
 
-        agent.SetDestination(target.position);
-        Vector3 dir = (target.position - transform.position).normalized;
-        if (dir != Vector3.zero)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
+        if (agent != null && agent.enabled)
+        {
+            agent.SetDestination(target.position);
+
+            Vector3 dir = (target.position - transform.position).normalized;
+            if (dir != Vector3.zero)
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
+        }
     }
 
 
@@ -94,29 +102,38 @@ public class ChaseEnemy : MonoBehaviour
         StageManager.Instance.OnEnemyKilled();
         Destroy(gameObject, 1.5f);
     }
-    public void ApplyKnockback(Vector3 hitDirection, float force)
+    public void ApplyKnockback(Vector3 knockbackDir, float force)
     {
-        NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        Rigidbody rb = GetComponent<Rigidbody>();
-
         if (agent != null)
-            agent.isStopped = true;
+            agent.isStopped = true; 
 
-        if (rb != null)
-        {
-            hitDirection.y = 2f;
-            rb.velocity = Vector3.zero;
-            rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
-        }
+        rb.isKinematic = false;
 
-        StartCoroutine(ResumeAfterKnockback(agent, 0.3f));
+        knockbackDir.y = 0.3f; 
+        rb.AddForce(knockbackDir.normalized * force, ForceMode.Impulse);
+
+        StartCoroutine(ResumeAfterKnockback(0.4f)); 
     }
 
-    private IEnumerator ResumeAfterKnockback(UnityEngine.AI.NavMeshAgent agent, float delay)
+    IEnumerator ResumeAfterKnockback(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (agent != null)
-            agent.isStopped = false;
+
+    
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+      
+        if (!agent.isOnNavMesh)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 3f, NavMesh.AllAreas))
+            {
+                agent.Warp(hit.position); 
+            }
+        }
+
+        agent.isStopped = false; 
     }
 
 }

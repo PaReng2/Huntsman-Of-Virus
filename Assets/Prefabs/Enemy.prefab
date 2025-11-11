@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: ee953390b994a424eadf5a033b3597b6, type: 2}
   target: {fileID: 0}
+  hitEffectEnemy: {fileID: 1277476900267786, guid: 8ab1e2905165feb4694605122efe1a88, type: 3}
   damage: 20
   attackCooldown: 1
 --- !u!195 &49853062763122074

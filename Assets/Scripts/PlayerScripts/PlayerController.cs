@@ -18,8 +18,9 @@ public class PlayerController : MonoBehaviour
     public float attackRange;
     public float attackPower;
     private float runSpeed;
-
-    
+    public GameObject hitEffectPlayer;
+    private bool isInvincible = false;
+    public float invincibleDuration = 1f;   // 무적 시간 (1초)
 
     [Header("player Data (ScriptableObject)")]
     public PlayerStatusSO playerStatus;
@@ -186,7 +187,18 @@ public class PlayerController : MonoBehaviour
     }
     public void TakeDamage(int damage)
     {
+        if (isInvincible) return;
+
         curPlayerHp -= damage;
+
+        if (hitEffectPlayer != null)
+        {
+            Instantiate(hitEffectPlayer, transform.position, Quaternion.identity);
+        }
+
+
+        StartCoroutine(InvincibleCoroutine());
+
         if (curPlayerHp <= 0)
         {
             curPlayerHp = 0;
@@ -214,10 +226,62 @@ public class PlayerController : MonoBehaviour
     {
         if (rb != null)
         {
-            hitDirection.y = 2f;
+            hitDirection.y = 0.4f;
             rb.velocity = Vector3.zero;
             rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
         }
     }
+    private IEnumerator InvincibleCoroutine()
+    {
+        isInvincible = true;
 
+        // 모든 렌더러 가져오기 (자식 포함)
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        float blinkInterval = 0.1f;
+        float elapsed = 0f;
+
+        // 원래 색상 저장용
+        List<Color[]> originalColors = new List<Color[]>();
+        foreach (Renderer rend in renderers)
+        {
+            Color[] colors = new Color[rend.materials.Length];
+            for (int i = 0; i < rend.materials.Length; i++)
+                colors[i] = rend.materials[i].color;
+            originalColors.Add(colors);
+        }
+
+        // 깜빡임 루프
+        while (elapsed < invincibleDuration)
+        {
+            // 빨갛게
+            foreach (Renderer rend in renderers)
+            {
+                foreach (Material mat in rend.materials)
+                    mat.color = Color.red;
+            }
+
+            yield return new WaitForSeconds(blinkInterval);
+
+            // 원래 색상 복원
+            for (int r = 0; r < renderers.Length; r++)
+            {
+                Renderer rend = renderers[r];
+                for (int i = 0; i < rend.materials.Length; i++)
+                    rend.materials[i].color = originalColors[r][i];
+            }
+
+            yield return new WaitForSeconds(blinkInterval);
+            elapsed += blinkInterval * 2;
+        }
+
+        // 무적 끝  최종적으로 원래 색상 복원
+        for (int r = 0; r < renderers.Length; r++)
+        {
+            Renderer rend = renderers[r];
+            for (int i = 0; i < rend.materials.Length; i++)
+                rend.materials[i].color = originalColors[r][i];
+        }
+
+        isInvincible = false;
+    }
 }

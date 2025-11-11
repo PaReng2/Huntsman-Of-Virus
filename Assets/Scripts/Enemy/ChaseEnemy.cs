@@ -8,6 +8,7 @@ public class ChaseEnemy : MonoBehaviour
     public Transform target;
     private PlayerController player;
     private NavMeshAgent agent;
+    public GameObject hitEffectEnemy;
 
     private float curEnemyHP;
     private bool isDead = false;
@@ -86,8 +87,13 @@ public class ChaseEnemy : MonoBehaviour
         if (isDead) return;
         curEnemyHP -= damage;
 
+        if (hitEffectEnemy != null)
+        {
+            Instantiate(hitEffectEnemy, transform.position, Quaternion.identity);
+        }
+
         Vector3 hitDir = (transform.position - player.transform.position).normalized;
-        ApplyKnockback(hitDir, 5f);
+        ApplyKnockback(hitDir, 8f);
 
         if (curEnemyHP <= 0)
             Die();
@@ -100,7 +106,7 @@ public class ChaseEnemy : MonoBehaviour
         isDead = true;
 
         StageManager.Instance.OnEnemyKilled();
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject);
     }
     public void ApplyKnockback(Vector3 knockbackDir, float force)
     {
@@ -109,7 +115,7 @@ public class ChaseEnemy : MonoBehaviour
 
         rb.isKinematic = false;
 
-        knockbackDir.y = 0.3f; 
+        knockbackDir.y = 0f; 
         rb.AddForce(knockbackDir.normalized * force, ForceMode.Impulse);
 
         StartCoroutine(ResumeAfterKnockback(0.4f)); 

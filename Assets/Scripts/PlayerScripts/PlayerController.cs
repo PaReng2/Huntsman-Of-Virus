@@ -193,7 +193,8 @@ public class PlayerController : MonoBehaviour
 
         if (hitEffectPlayer != null)
         {
-            Instantiate(hitEffectPlayer, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(hitEffectPlayer, transform.position, Quaternion.identity);
+            Destroy(effect, 1f);
         }
 
 

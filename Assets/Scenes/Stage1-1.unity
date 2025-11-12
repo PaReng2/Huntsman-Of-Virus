@@ -516,46 +516,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1529695287855467660, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2174631247931137501, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: Slash
-      value: 
-      objectReference: {fileID: 1699945200453384, guid: cac944ab423eebc48961b60b1f231a62, type: 3}
-    - target: {fileID: 2174631247931137501, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: attackRange
-      value: 1.93
-      objectReference: {fileID: 0}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: attackDelay
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: followCamera
       value: 
       objectReference: {fileID: 963194227}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: playerStatus
-      value: 
-      objectReference: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: hitEffectPlayer
-      value: 
-      objectReference: {fileID: 1439474312745800, guid: 5dafa30c254464d49912eab505abb615, type: 3}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: invincibleDuration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3527558090361647350, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: m_Constraints
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 3527558090361647350, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5440421910938976731, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -600,12 +564,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7740941499330780842, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: interactKey
-      value: 102
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1529695287855467660, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

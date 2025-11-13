@@ -7,19 +7,24 @@ using TMPro;
 public class AugmentSystem : MonoBehaviour
 {
     [Header("Panel & UI")]
-    [SerializeField] private GameObject panelRoot;        
-    [SerializeField] private Button[] optionButtons;      
-    [SerializeField] private TMP_Text[] optionLabels;     
+    [SerializeField] private GameObject panelRoot;
+    [SerializeField] private Button[] optionButtons;
+    [SerializeField] private TMP_Text[] optionLabels;
     [SerializeField] private CanvasGroup panelCanvasGroup;
 
     [Header("Config")]
-    [SerializeField] private int maxLevelPerAugment = 5;  
+    [SerializeField] private int maxLevelPerAugment = 5;
+
+    [Header("Pause Control")]
+    [SerializeField] private bool pauseGameWhilePanelOpen = true; 
+    private bool isPausedByThisPanel = false;
+    private float previousTimeScale = 1f;
 
     [Serializable]
     public class Augment
     {
         public string displayName;
-        [NonSerialized] public int level; 
+        [NonSerialized] public int level;
     }
 
     [SerializeField] private List<Augment> augments = new List<Augment>();
@@ -93,6 +98,9 @@ public class AugmentSystem : MonoBehaviour
             panelCanvasGroup.alpha = 1f;
         }
 
+        if (pauseGameWhilePanelOpen)
+            PauseGame(true);
+
         return true;
     }
 
@@ -133,6 +141,9 @@ public class AugmentSystem : MonoBehaviour
         if (panelRoot != null)
             panelRoot.SetActive(false);
         currentOptions.Clear();
+
+        if (pauseGameWhilePanelOpen)
+            PauseGame(false);
     }
 
     private void OnClickOptionButton(int optionSlot)
@@ -147,9 +158,9 @@ public class AugmentSystem : MonoBehaviour
             a.level = Mathf.Min(a.level + 1, maxLevelPerAugment);
         }
 
-        HidePanelImmediate();
-
         // 여기서 실제 능력 적용 로직 연결
+
+        HidePanelImmediate();
     }
 
     private void BuildOptionsWeightedNoRepeat(int targetCount)
@@ -203,5 +214,26 @@ public class AugmentSystem : MonoBehaviour
             sb.AppendLine($"{augments[i].displayName}: Lv.{augments[i].level}/{maxLevelPerAugment}");
         }
         return sb.ToString();
+    }
+
+    private void PauseGame(bool pause)
+    {
+        if (pause)
+        {
+            if (!isPausedByThisPanel)
+            {
+                previousTimeScale = (Time.timeScale <= 0f) ? 1f : Time.timeScale;
+                Time.timeScale = 0f;
+                isPausedByThisPanel = true;
+            }
+        }
+        else
+        {
+            if (isPausedByThisPanel)
+            {
+                Time.timeScale = previousTimeScale;
+                isPausedByThisPanel = false;
+            }
+        }
     }
 }

@@ -29,6 +29,16 @@ public class PlayerController : MonoBehaviour
     public int playerGold = 0;
     public TMP_Text goldText;
 
+    [Header("Level / EXP")]
+    public int currentLevel = 1;           
+    public int currentExp = 0;             
+    public int expToNextLevel = 50;        
+    [SerializeField] private int baseExpRequirement = 50;     
+    [SerializeField] private int expIncreasePerLevel = 20;    
+
+    [Header("Augment System")]
+    [SerializeField] private AugmentSystem augmentSystem;     
+
     private Rigidbody rb;
     private bool isGrounded;
     private Animator anime;
@@ -49,6 +59,52 @@ public class PlayerController : MonoBehaviour
         ApplyStatusFromSO();      // 스탯 적용 함수 호출
         curPlayerHp = playerMaxHP;
         runSpeed = playerMoveSpeed * 1.5f;
+
+        // AugmentSystem 자동 연결 (없으면 Find)
+        if (augmentSystem == null)
+            augmentSystem = FindObjectOfType<AugmentSystem>();
+
+        // 레벨/경험치 초기값 설정
+        currentLevel = 1;
+        currentExp = 0;
+        expToNextLevel = GetRequiredExpForLevel(currentLevel);
+    }
+
+    private void OnEnable()
+    {
+        // 씬이 바뀔 때마다 레벨/경험치 초기화
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 플레이어가 씬을 넘어갈 때마다 레벨과 경험치 초기화
+        ResetLevelAndExp();
+
+        // 스테이지 단위로 증강 레벨도 초기화
+        if (augmentSystem != null)
+            augmentSystem.ResetAllLevelsForNewStage();
+    }
+
+    private void ResetLevelAndExp()
+    {
+        currentLevel = 1;
+        currentExp = 0;
+        expToNextLevel = GetRequiredExpForLevel(currentLevel);
+        Debug.Log($"[Player] Scene changed. Level/EXP reset → Level {currentLevel}, EXP {currentExp}/{expToNextLevel}");
+    }
+
+    private int GetRequiredExpForLevel(int level)
+    {
+        // 레벨 1 → 2 : 50
+        // 레벨 2 → 3 : 70
+        // 레벨 3 → 4 : 90 ...
+        return baseExpRequirement + (level - 1) * expIncreasePerLevel;
     }
 
     private void Start()
@@ -58,6 +114,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            anime.SetBool("walk", false);
+            anime.SetBool("run", false);
+            return;
+        }
+
         Move();
         Jump();
         Turn();
@@ -103,8 +166,6 @@ public class PlayerController : MonoBehaviour
             anime.SetBool("run", false);
             playerMoveSpeed = 5;
         }
-
-        
     }
 
     void Jump()
@@ -117,7 +178,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void Turn()
     {
         if (moveVec != Vector3.zero)
@@ -125,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit rayHit;
-        
+
         if (Physics.Raycast(ray, out rayHit, 100))
         {
             Vector3 nextVec = rayHit.point;
@@ -149,7 +209,6 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
             isGrounded = false;
     }
-
 
     public void AddGold(int amount)
     {
@@ -185,6 +244,7 @@ public class PlayerController : MonoBehaviour
     {
         attackPower += amount;
     }
+
     public void TakeDamage(int damage)
     {
         if (isInvincible) return;
@@ -196,7 +256,6 @@ public class PlayerController : MonoBehaviour
             GameObject effect = Instantiate(hitEffectPlayer, transform.position, Quaternion.identity);
             Destroy(effect, 1f);
         }
-
 
         StartCoroutine(InvincibleCoroutine());
 
@@ -212,6 +271,7 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene("Main");
         Debug.Log("플레이어 사망");
     }
+
     public void ApplyStatusFromSO()
     {
         playerMoveSpeed = playerStatus.playerMoveSpeed;
@@ -223,6 +283,7 @@ public class PlayerController : MonoBehaviour
         if (curPlayerHp > playerMaxHP)
             curPlayerHp = playerMaxHP;
     }
+
     public void ApplyKnockback(Vector3 hitDirection, float force)
     {
         if (rb != null)
@@ -232,6 +293,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(hitDirection.normalized * force, ForceMode.Impulse);
         }
     }
+
     private IEnumerator InvincibleCoroutine()
     {
         isInvincible = true;
@@ -284,5 +346,36 @@ public class PlayerController : MonoBehaviour
         }
 
         isInvincible = false;
+    }
+
+    public void AddExperience(int amount)
+    {
+        currentExp += amount;
+        Debug.Log($"[Player] Get EXP {amount}. ({currentExp}/{expToNextLevel})");
+
+        // 여러 레벨이 한 번에 오를 수도 있으니 while 사용
+        while (currentExp >= expToNextLevel)
+        {
+            currentExp -= expToNextLevel;
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        currentLevel++;
+        expToNextLevel = GetRequiredExpForLevel(currentLevel);
+
+        Debug.Log($"[Player] Level Up! → Level {currentLevel}, Next EXP : {expToNextLevel}, Current EXP : {currentExp}");
+
+        // 레벨업 시 증강 패널 오픈
+        if (augmentSystem != null)
+        {
+            bool opened = augmentSystem.TryOpenPanel();
+            if (!opened)
+            {
+                Debug.Log("[Player] 레벨업 했지만 더 이상 강화 가능한 증강이 없음.");
+            }
+        }
     }
 }

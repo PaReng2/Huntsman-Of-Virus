@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     public float attackPower;
     private float runSpeed;
     public GameObject hitEffectPlayer;
+    public GameObject deathEffect;
+    public GameObject gameOverPanel;
     private bool isInvincible = false;
     public float invincibleDuration = 1f;   // 무적 시간 (1초)
 
@@ -269,8 +271,18 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
-        SceneManager.LoadScene("Main");
         Debug.Log("플레이어 사망");
+        if (deathEffect != null)
+        {
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Destroy(effect,1f);
+
+        }
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+        Destroy(gameObject);
     }
 
     public void ApplyStatusFromSO()

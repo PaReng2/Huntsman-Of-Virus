@@ -16,4 +16,4 @@ MonoBehaviour:
   playerAttackPower: 20
   playerAttackRate: 0
   playerMoveSpeed: 5
-  playerAttackRange: 5
+  playerAttackRange: 3

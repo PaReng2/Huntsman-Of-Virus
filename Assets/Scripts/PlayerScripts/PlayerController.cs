@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
     private Animator anime;
-    private bool isRunning;
 
     [Header("Camera")]
     float hAxis;
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
         anime = GetComponent<Animator>();
 
         anime = GetComponentInChildren<Animator>();
-        ApplyStatusFromSO();      // 스탯 적용 함수 호출
+        //ApplyStatusFromSO();      // 스탯 적용 함수 호출
         curPlayerHp = playerMaxHP;
         runSpeed = playerMoveSpeed * 1.5f;
 
@@ -158,7 +157,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            isRunning = true;
             playerMoveSpeed = runSpeed;
             Debug.Log("달리기");
             anime.SetBool("walk", false);
@@ -166,7 +164,6 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            isRunning = false;
             anime.SetBool("run", false);
             playerMoveSpeed = 5;
         }
@@ -274,8 +271,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("플레이어 사망");
         if (deathEffect != null)
         {
-            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
-            Destroy(effect,1f);
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.AngleAxis(180f,Vector3.up));
+            Destroy(effect,5f);
 
         }
         if (gameOverPanel != null)
@@ -376,7 +373,8 @@ public class PlayerController : MonoBehaviour
 
     private void LevelUp()
     {
-        Instantiate(levelUpEffect, effectTransform);
+        GameObject levelUp = Instantiate(levelUpEffect, effectTransform);
+        levelUp.transform.localScale = new Vector3(3, 3, 3);
 
         currentLevel++;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);

@@ -62,7 +62,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5.297, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4203631857981162553}
@@ -86,15 +86,18 @@ MonoBehaviour:
   playerMaxHP: 0
   playerMoveSpeed: 5
   playerDashForce: 3
-  attackDelay: 1
+  attackDelay: 5
   attackRange: 0
   attackPower: 0
   hitEffectPlayer: {fileID: 1439474312745800, guid: 5dafa30c254464d49912eab505abb615, type: 3}
+  deathEffect: {fileID: 1852423962746920, guid: b191509d258622e43a00730317b1e1e4, type: 3}
+  gameOverPanel: {fileID: 0}
   invincibleDuration: 1
   playerStatus: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
   playerGold: 100
   goldText: {fileID: 0}
   levelUpEffect: {fileID: 1025116977295212, guid: ff85ccd22e9ad3c4fb621e7691823b74, type: 3}
+  effectTransform: {fileID: 7599775753707495149}
   currentLevel: 1
   currentExp: 0
   expToNextLevel: 50
@@ -121,8 +124,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2203474, y: 2.4170918, z: 0.5989172}
-  m_Center: {x: -0.016751528, y: 0.66193795, z: -0.2005414}
+  m_Size: {x: 1.2203474, y: 2.4170918, z: 1.0519403}
+  m_Center: {x: -0.016751528, y: 0.66193795, z: -0.059087828}
 --- !u!54 &3527558090361647350
 Rigidbody:
   m_ObjectHideFlags: 0

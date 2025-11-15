@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public int curPlayerHp;
     public int playerMaxHP;
     public float playerMoveSpeed;
-    public float playerJumpForce = 3f;
+    public float playerDashForce = 3f;
     public float attackDelay;
     public float attackRange;
     public float attackPower;
@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public TMP_Text goldText;
 
     [Header("Level / EXP")]
+    public GameObject levelUpEffect;
+    public Transform effectTransform;
     public int currentLevel = 1;           
     public int currentExp = 0;             
     public int expToNextLevel = 50;        
@@ -122,7 +124,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Move();
-        Jump();
+        Dash();
         Turn();
         anime.SetBool("isGrounded", isGrounded);
     }
@@ -168,13 +170,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Jump()
+    void Dash()
     {
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector3.up * playerJumpForce, ForceMode.Impulse);
+            rb.AddForce(moveVec * playerDashForce, ForceMode.Impulse);
             anime.SetTrigger("jump");
-            isGrounded = false;
         }
     }
 
@@ -363,6 +364,8 @@ public class PlayerController : MonoBehaviour
 
     private void LevelUp()
     {
+        Instantiate(levelUpEffect, effectTransform);
+
         currentLevel++;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
 
@@ -377,5 +380,6 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("[Player] 레벨업 했지만 더 이상 강화 가능한 증강이 없음.");
             }
         }
+
     }
 }

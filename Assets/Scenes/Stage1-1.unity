@@ -386,6 +386,10 @@ PrefabInstance:
       propertyPath: followCamera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: effectTransform
+      value: 
+      objectReference: {fileID: 1239128135}
     - target: {fileID: 5440421910938976731, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -2674,6 +2678,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!4 &1239128135 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7599775753707495149, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+  m_PrefabInstance: {fileID: 243522079}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1256610658
 GameObject:
   m_ObjectHideFlags: 3

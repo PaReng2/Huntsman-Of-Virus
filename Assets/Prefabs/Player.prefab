@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5163584641213007672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7599775753707495149}
+  m_Layer: 3
+  m_Name: levelUpEffectPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7599775753707495149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163584641213007672}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.505, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6841320662953423320}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5440421910938976731
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,6 +67,7 @@ Transform:
   m_Children:
   - {fileID: 4203631857981162553}
   - {fileID: 6924268672981364920}
+  - {fileID: 7599775753707495149}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3188004248958273404
@@ -53,7 +85,7 @@ MonoBehaviour:
   curPlayerHp: 0
   playerMaxHP: 0
   playerMoveSpeed: 5
-  playerJumpForce: 5
+  playerDashForce: 3
   attackDelay: 1
   attackRange: 0
   attackPower: 0
@@ -62,6 +94,13 @@ MonoBehaviour:
   playerStatus: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
   playerGold: 100
   goldText: {fileID: 0}
+  levelUpEffect: {fileID: 1025116977295212, guid: ff85ccd22e9ad3c4fb621e7691823b74, type: 3}
+  currentLevel: 1
+  currentExp: 0
+  expToNextLevel: 50
+  baseExpRequirement: 50
+  expIncreasePerLevel: 20
+  augmentSystem: {fileID: 0}
   followCamera: {fileID: 0}
 --- !u!65 &7974185814782849689
 BoxCollider:

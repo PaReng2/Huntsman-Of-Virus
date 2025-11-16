@@ -90,7 +90,7 @@ public class ChaseEnemy : MonoBehaviour
         if (hitEffectEnemy != null)
         {
             GameObject effect = Instantiate(hitEffectEnemy, transform.position, Quaternion.identity);
-            Destroy(effect, 1f);
+            Destroy(effect, 2f);
         }
 
         Vector3 hitDir = (transform.position - player.transform.position).normalized;

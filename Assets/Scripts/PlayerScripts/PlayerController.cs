@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private Animator anime;
 
+    
+
     [Header("Camera")]
     float hAxis;
     float vAxis;
@@ -55,8 +57,10 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        ApplyStatusFromSO();
+
         rb = GetComponent<Rigidbody>();
-        anime = GetComponent<Animator>();
+        anime = GetComponentInChildren<Animator>();
 
         anime = GetComponentInChildren<Animator>();
         //ApplyStatusFromSO();      // 스탯 적용 함수 호출
@@ -112,6 +116,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+
         UpdateGoldUI();
     }
 

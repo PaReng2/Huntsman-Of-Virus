@@ -7,13 +7,16 @@ public class TitleSceneButton : MonoBehaviour
 {
     public GameObject optionPanel;
 
+    [SerializeField]
+    private SceneController _sceneController;
+
     private void Awake()
     {
         optionPanel.SetActive(false);
     }
     public void StartButton()
     {
-        SceneManager.LoadScene(1);
+        _sceneController.LoadScene(1);
     }
 
     public void OptionTab()

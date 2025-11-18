@@ -8,6 +8,9 @@ public class NextChapter : MonoBehaviour
     [Header("넘어갈 챕터 작성 // 1 - 튜토리얼, 2 - 챕터1, 3 - 상점")]
     public int chapterNum;
 
+    [SerializeField]
+    private SceneController _sceneController;
+
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
     
 
@@ -33,7 +36,7 @@ public class NextChapter : MonoBehaviour
         isInsteraction.SetActive(hasPlayer);
 
         if(hasPlayer && Input.GetKeyDown(KeyCode.F))
-            SceneManager.LoadScene(chapterNum);
+            _sceneController.LoadScene(chapterNum);
 
     }
 

@@ -2119,8 +2119,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
   - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
   timeBetweenWaves: 10
-  activationRange: 17.79
-  spawnRange: 17
+  activationRange: 34.8
+  spawnRange: 35.3
 --- !u!4 &851826017
 Transform:
   m_ObjectHideFlags: 0

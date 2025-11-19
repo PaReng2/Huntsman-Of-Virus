@@ -16,9 +16,13 @@ public class PlayerSkills : MonoBehaviour
     [Header("tornado")]
     public GameObject tornadoEffect;
 
+    [Header("fire")]
+    public GameObject fireEffect;
+
     private void Update()
     {
         tornado();
+        fire();
     }
     public void tornado()
     {
@@ -28,6 +32,7 @@ public class PlayerSkills : MonoBehaviour
 
     public void fire()
     {
-
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            Instantiate(fireEffect, effectSpawn);
     }
 }

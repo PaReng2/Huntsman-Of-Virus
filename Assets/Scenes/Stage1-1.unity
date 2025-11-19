@@ -634,9 +634,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: fireEffect
+      value: 
+      objectReference: {fileID: 1068831043734682, guid: 1333e421fea114d41b258004ee6a5215, type: 3}
+    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: effectSpawn
       value: 
       objectReference: {fileID: 243522081}
+    - target: {fileID: 1879997490680185194, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.012
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879997490680185194, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.72
+      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: expText
       value: 

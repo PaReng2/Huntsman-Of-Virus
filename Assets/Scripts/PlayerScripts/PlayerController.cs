@@ -38,7 +38,9 @@ public class PlayerController : MonoBehaviour
     public int currentExp = 0;             
     public int expToNextLevel = 50;        
     [SerializeField] private int baseExpRequirement = 50;     
-    [SerializeField] private int expIncreasePerLevel = 20;    
+    [SerializeField] private int expIncreasePerLevel = 20;
+    public Slider expSlider;
+    public TMP_Text expText;
 
     [Header("Augment System")]
     [SerializeField] private AugmentSystem augmentSystem;     
@@ -116,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-
+        UpdateExpUI();
         UpdateGoldUI();
     }
 
@@ -132,7 +134,6 @@ public class PlayerController : MonoBehaviour
         Move();
         Dash();
         Turn();
-        anime.SetBool("isGrounded", isGrounded);
     }
 
     void Move()
@@ -205,7 +206,6 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
             anime.ResetTrigger("jump");
-            anime.SetBool("isGrounded", true);
         }
     }
 
@@ -374,6 +374,7 @@ public class PlayerController : MonoBehaviour
             currentExp -= expToNextLevel;
             LevelUp();
         }
+        UpdateExpUI();
     }
 
     private void LevelUp()
@@ -395,6 +396,20 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("[Player] 레벨업 했지만 더 이상 강화 가능한 증강이 없음.");
             }
         }
+        UpdateExpUI();
 
+    }
+    public void UpdateExpUI()
+    {
+        if (expSlider != null)
+        {
+            expSlider.maxValue = expToNextLevel;
+            expSlider.value = currentExp;
+        }
+
+        if (expText != null)
+        {
+            expText.text = $"EXP : {currentExp} / {expToNextLevel}";
+        }
     }
 }

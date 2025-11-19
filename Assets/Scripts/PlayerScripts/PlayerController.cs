@@ -39,11 +39,6 @@ public class PlayerController : MonoBehaviour
     public int expToNextLevel = 50;
     [SerializeField] private int baseExpRequirement = 50;
     [SerializeField] private int expIncreasePerLevel = 20;
-    public int currentLevel = 1;           
-    public int currentExp = 0;             
-    public int expToNextLevel = 50;        
-    [SerializeField] private int baseExpRequirement = 50;     
-    [SerializeField] private int expIncreasePerLevel = 20;
     public Slider expSlider;
     public TMP_Text expText;
 

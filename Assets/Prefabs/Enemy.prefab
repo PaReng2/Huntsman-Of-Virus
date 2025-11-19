@@ -140,6 +140,8 @@ MonoBehaviour:
   hitEffectEnemy: {fileID: 1277476900267786, guid: 8ab1e2905165feb4694605122efe1a88, type: 3}
   damage: 20
   attackCooldown: 1
+  goldPrefab: {fileID: 4899727772914283648, guid: 6888e7e7f346c704d8540c342d25ee9d, type: 3}
+  goldAmount: 10
 --- !u!195 &49853062763122074
 NavMeshAgent:
   m_ObjectHideFlags: 0

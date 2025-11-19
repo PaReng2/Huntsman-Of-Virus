@@ -17,6 +17,8 @@ public class ChaseEnemy : MonoBehaviour
     public float attackCooldown = 1f;
     private float lastAttackTime = 0f;
     private Rigidbody rb;
+    public GameObject goldPrefab;
+    public int goldAmount = 10;
 
 
     private void Awake()
@@ -106,6 +108,8 @@ public class ChaseEnemy : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        DropGold();
+
         StageManager.Instance.OnEnemyKilled();
         Destroy(gameObject);
     }
@@ -143,4 +147,18 @@ public class ChaseEnemy : MonoBehaviour
         agent.isStopped = false; 
     }
 
+    private void DropGold()
+    {
+        if (goldPrefab != null)
+        {
+            Vector3 dropPos = transform.position + Vector3.up * 0.5f;
+            GameObject gold = Instantiate(goldPrefab, dropPos, Quaternion.identity);
+
+            GoldPickup goldPickup = gold.GetComponent<GoldPickup>();
+            if (goldPickup != null)
+            {
+                goldPickup.amount = goldAmount;
+            }
+        }
+    }
 }

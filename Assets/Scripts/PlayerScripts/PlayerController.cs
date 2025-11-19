@@ -34,20 +34,25 @@ public class PlayerController : MonoBehaviour
     [Header("Level / EXP")]
     public GameObject levelUpEffect;
     public Transform effectTransform;
-    public int currentLevel = 1;           
-    public int currentExp = 0;             
-    public int expToNextLevel = 50;        
-    [SerializeField] private int baseExpRequirement = 50;     
-    [SerializeField] private int expIncreasePerLevel = 20;    
+    public int currentLevel = 1;
+    public int currentExp = 0;
+    public int expToNextLevel = 50;
+    [SerializeField] private int baseExpRequirement = 50;
+    [SerializeField] private int expIncreasePerLevel = 20;
 
     [Header("Augment System")]
-    [SerializeField] private AugmentSystem augmentSystem;     
+    [SerializeField] private AugmentSystem augmentSystem;
+
+    [Header("Augment Base Stats")]
+    [SerializeField] private float baseMaxHP;
+    [SerializeField] private float baseAttackPower;
+    [SerializeField] private float baseMoveSpeed;
+    [SerializeField] private float baseAttackDelay;
+    [SerializeField] private float baseAttackRange;
 
     private Rigidbody rb;
     private bool isGrounded;
     private Animator anime;
-
-    
 
     [Header("Camera")]
     float hAxis;
@@ -57,21 +62,17 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        ApplyStatusFromSO();
-
         rb = GetComponent<Rigidbody>();
         anime = GetComponentInChildren<Animator>();
 
-        anime = GetComponentInChildren<Animator>();
-        //ApplyStatusFromSO();      // 스탯 적용 함수 호출
+        ApplyStatusFromSO();
+
         curPlayerHp = playerMaxHP;
         runSpeed = playerMoveSpeed * 1.5f;
 
-        // AugmentSystem 자동 연결 (없으면 Find)
         if (augmentSystem == null)
             augmentSystem = FindObjectOfType<AugmentSystem>();
 
-        // 레벨/경험치 초기값 설정
         currentLevel = 1;
         currentExp = 0;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
@@ -79,7 +80,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        // 씬이 바뀔 때마다 레벨/경험치 초기화
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -90,12 +90,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 플레이어가 씬을 넘어갈 때마다 레벨과 경험치 초기화
         ResetLevelAndExp();
 
-        // 스테이지 단위로 증강 레벨도 초기화
         if (augmentSystem != null)
             augmentSystem.ResetAllLevelsForNewStage();
+
+        ApplyStatusFromSO();
     }
 
     private void ResetLevelAndExp()
@@ -108,15 +108,11 @@ public class PlayerController : MonoBehaviour
 
     private int GetRequiredExpForLevel(int level)
     {
-        // 레벨 1 → 2 : 50
-        // 레벨 2 → 3 : 70
-        // 레벨 3 → 4 : 90 ...
         return baseExpRequirement + (level - 1) * expIncreasePerLevel;
     }
 
     private void Start()
     {
-
         UpdateGoldUI();
     }
 
@@ -127,6 +123,11 @@ public class PlayerController : MonoBehaviour
             anime.SetBool("walk", false);
             anime.SetBool("run", false);
             return;
+        }
+
+        if (augmentSystem != null)
+        {
+            ApplyAugments();
         }
 
         Move();
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            playerMoveSpeed = playerStatus.playerMoveSpeed;
+            playerMoveSpeed = playerStatus.playerMoveSpeed; 
         }
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
@@ -170,7 +171,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             anime.SetBool("run", false);
-            playerMoveSpeed = 5;
+            playerMoveSpeed = playerStatus.playerMoveSpeed; 
         }
     }
 
@@ -276,9 +277,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("플레이어 사망");
         if (deathEffect != null)
         {
-            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.AngleAxis(180f,Vector3.up));
-            Destroy(effect,5f);
-
+            GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.AngleAxis(180f, Vector3.up));
+            Destroy(effect, 5f);
         }
         if (gameOverPanel != null)
         {
@@ -289,14 +289,64 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyStatusFromSO()
     {
-        playerMoveSpeed = playerStatus.playerMoveSpeed;
-        attackDelay = playerStatus.playerAttackRate;
-        attackRange = playerStatus.playerAttackRange;
-        attackPower = playerStatus.playerAttackPower;
-        playerMaxHP = playerStatus.playerHP;
+        baseMoveSpeed = playerStatus.playerMoveSpeed;
+        baseAttackDelay = playerStatus.playerAttackRate;
+        baseAttackRange = playerStatus.playerAttackRange;
+        baseAttackPower = playerStatus.playerAttackPower;
+        baseMaxHP = playerStatus.playerHP;
 
+        playerMoveSpeed = baseMoveSpeed;
+        attackDelay = baseAttackDelay;
+        attackRange = baseAttackRange;
+        attackPower = baseAttackPower;
+        playerMaxHP = Mathf.RoundToInt(baseMaxHP);
+
+        if (curPlayerHp > playerMaxHP || curPlayerHp <= 0)
+            curPlayerHp = playerMaxHP;
+
+        runSpeed = playerMoveSpeed * 1.5f;
+    }
+
+    private void ApplyAugments()
+    {
+        int maxHpLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.MAXHP);
+        int atkLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.ATK);
+        int spdLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.SPD);
+        int atkSpdLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.ATKSPD);
+        int rangeLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.RANGE);
+         
+        float maxHpMult = 1f + 0.10f * maxHpLevel;
+
+        int prevMaxHp = playerMaxHP > 0 ? playerMaxHP : Mathf.RoundToInt(baseMaxHP);
+
+        int newMaxHp = Mathf.RoundToInt(baseMaxHP * maxHpMult);
+        if (newMaxHp < 1) newMaxHp = 1;
+
+        int diff = newMaxHp - prevMaxHp;
+        if (diff > 0)
+        {
+            curPlayerHp += diff;
+        }
+
+        playerMaxHP = newMaxHp;
         if (curPlayerHp > playerMaxHP)
             curPlayerHp = playerMaxHP;
+        if (curPlayerHp < 1)
+            curPlayerHp = 1;
+
+        float atkMult = 1f + 0.10f * atkLevel;
+        attackPower = baseAttackPower * atkMult;
+
+        float spdMult = 1f + 0.10f * spdLevel;
+        playerMoveSpeed = baseMoveSpeed * spdMult;
+        runSpeed = playerMoveSpeed * 1.5f;
+
+        float rangeMult = 1f + 0.05f * rangeLevel;
+        attackRange = baseAttackRange * rangeMult;
+
+        float delayMult = 1f - 0.05f * atkSpdLevel;
+        delayMult = Mathf.Clamp(delayMult, 0.1f, 10f);
+        attackDelay = baseAttackDelay * delayMult;
     }
 
     public void ApplyKnockback(Vector3 hitDirection, float force)
@@ -313,12 +363,10 @@ public class PlayerController : MonoBehaviour
     {
         isInvincible = true;
 
-        // 모든 렌더러 가져오기 (자식 포함)
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         float blinkInterval = 0.1f;
         float elapsed = 0f;
 
-        // 원래 색상 저장용
         List<Color[]> originalColors = new List<Color[]>();
         foreach (Renderer rend in renderers)
         {
@@ -328,10 +376,8 @@ public class PlayerController : MonoBehaviour
             originalColors.Add(colors);
         }
 
-        // 깜빡임 루프
         while (elapsed < invincibleDuration)
         {
-            // 빨갛게
             foreach (Renderer rend in renderers)
             {
                 foreach (Material mat in rend.materials)
@@ -340,7 +386,6 @@ public class PlayerController : MonoBehaviour
 
             yield return new WaitForSeconds(blinkInterval);
 
-            // 원래 색상 복원
             for (int r = 0; r < renderers.Length; r++)
             {
                 Renderer rend = renderers[r];
@@ -352,7 +397,6 @@ public class PlayerController : MonoBehaviour
             elapsed += blinkInterval * 2;
         }
 
-        // 무적 끝  최종적으로 원래 색상 복원
         for (int r = 0; r < renderers.Length; r++)
         {
             Renderer rend = renderers[r];
@@ -368,7 +412,6 @@ public class PlayerController : MonoBehaviour
         currentExp += amount;
         Debug.Log($"[Player] Get EXP {amount}. ({currentExp}/{expToNextLevel})");
 
-        // 여러 레벨이 한 번에 오를 수도 있으니 while 사용
         while (currentExp >= expToNextLevel)
         {
             currentExp -= expToNextLevel;
@@ -386,7 +429,6 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log($"[Player] Level Up! → Level {currentLevel}, Next EXP : {expToNextLevel}, Current EXP : {currentExp}");
 
-        // 레벨업 시 증강 패널 오픈
         if (augmentSystem != null)
         {
             bool opened = augmentSystem.TryOpenPanel();
@@ -395,6 +437,5 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("[Player] 레벨업 했지만 더 이상 강화 가능한 증강이 없음.");
             }
         }
-
     }
 }

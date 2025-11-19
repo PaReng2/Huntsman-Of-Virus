@@ -1,11 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
 public class AugmentSystem : MonoBehaviour
 {
+    public enum AugmentType
+    {
+        MAXHP,
+        ATK,
+        SPD,
+        ATKSPD,
+        RANGE
+    }
+
+    [Serializable]
+    public class Augment
+    {
+        public string displayName;
+        public AugmentType type;
+        [NonSerialized] public int level;
+    }
+
     [Header("Panel & UI")]
     [SerializeField] private GameObject panelRoot;
     [SerializeField] private Button[] optionButtons;
@@ -16,16 +34,9 @@ public class AugmentSystem : MonoBehaviour
     [SerializeField] private int maxLevelPerAugment = 5;
 
     [Header("Pause Control")]
-    [SerializeField] private bool pauseGameWhilePanelOpen = true; 
+    [SerializeField] private bool pauseGameWhilePanelOpen = true;
     private bool isPausedByThisPanel = false;
     private float previousTimeScale = 1f;
-
-    [Serializable]
-    public class Augment
-    {
-        public string displayName;
-        [NonSerialized] public int level;
-    }
 
     [SerializeField] private List<Augment> augments = new List<Augment>();
 
@@ -46,11 +57,20 @@ public class AugmentSystem : MonoBehaviour
     private void EnsureDefaultAugments()
     {
         if (augments == null) augments = new List<Augment>();
-        if (augments.Count != 8)
+
+        if (augments.Count != 5)
         {
             augments.Clear();
-            for (int i = 1; i <= 8; i++)
-                augments.Add(new Augment { displayName = $"증강 {i}", level = 0 });
+            augments.Add(new Augment { displayName = "MAXHP", type = AugmentType.MAXHP, level = 0 });
+            augments.Add(new Augment { displayName = "ATK", type = AugmentType.ATK, level = 0 });
+            augments.Add(new Augment { displayName = "SPD", type = AugmentType.SPD, level = 0 });
+            augments.Add(new Augment { displayName = "ATKSPD", type = AugmentType.ATKSPD, level = 0 });
+            augments.Add(new Augment { displayName = "RANGE", type = AugmentType.RANGE, level = 0 });
+        }
+        else
+        {
+            foreach (var a in augments)
+                a.level = 0;
         }
     }
 
@@ -81,8 +101,9 @@ public class AugmentSystem : MonoBehaviour
             {
                 int idx = currentOptions[i];
                 optionButtons[i].gameObject.SetActive(true);
-                optionButtons[i].interactable = true;
                 optionLabels[i].text = BuildLabel(augments[idx]);
+
+                optionButtons[i].interactable = false;
             }
             else
             {
@@ -91,6 +112,7 @@ public class AugmentSystem : MonoBehaviour
         }
 
         panelRoot.SetActive(true);
+
         if (panelCanvasGroup != null)
         {
             panelCanvasGroup.interactable = true;
@@ -98,10 +120,23 @@ public class AugmentSystem : MonoBehaviour
             panelCanvasGroup.alpha = 1f;
         }
 
+        StartCoroutine(UnlockButtonsAfterDelay());
+
         if (pauseGameWhilePanelOpen)
             PauseGame(true);
 
         return true;
+    }
+
+    private IEnumerator UnlockButtonsAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        foreach (var btn in optionButtons)
+        {
+            if (btn.gameObject.activeSelf)
+                btn.interactable = true;
+        }
     }
 
     private void OnEnable()
@@ -158,8 +193,6 @@ public class AugmentSystem : MonoBehaviour
             a.level = Mathf.Min(a.level + 1, maxLevelPerAugment);
         }
 
-        // 여기서 실제 능력 적용 로직 연결
-
         HidePanelImmediate();
     }
 
@@ -214,6 +247,16 @@ public class AugmentSystem : MonoBehaviour
             sb.AppendLine($"{augments[i].displayName}: Lv.{augments[i].level}/{maxLevelPerAugment}");
         }
         return sb.ToString();
+    }
+
+    public int GetAugmentLevel(AugmentType type)
+    {
+        for (int i = 0; i < augments.Count; i++)
+        {
+            if (augments[i].type == type)
+                return augments[i].level;
+        }
+        return 0;
     }
 
     private void PauseGame(bool pause)

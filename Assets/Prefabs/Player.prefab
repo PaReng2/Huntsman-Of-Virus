@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1633022143413342298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1879997490680185194}
+  m_Layer: 3
+  m_Name: EffectSpawnPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1879997490680185194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633022143413342298}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.29, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6841320662953423320}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5163584641213007672
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,6 +76,7 @@ GameObject:
   - component: {fileID: 3527558090361647350}
   - component: {fileID: 1547819762021535251}
   - component: {fileID: 2174631247931137501}
+  - component: {fileID: 1376172364364180589}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -68,6 +100,7 @@ Transform:
   - {fileID: 4203631857981162553}
   - {fileID: 6924268672981364920}
   - {fileID: 7599775753707495149}
+  - {fileID: 1879997490680185194}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3188004248958273404
@@ -94,7 +127,7 @@ MonoBehaviour:
   gameOverPanel: {fileID: 0}
   invincibleDuration: 1
   playerStatus: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
-  playerGold: 100
+  playerGold: 0
   goldText: {fileID: 0}
   levelUpEffect: {fileID: 1025116977295212, guid: ff85ccd22e9ad3c4fb621e7691823b74, type: 3}
   effectTransform: {fileID: 7599775753707495149}
@@ -103,7 +136,14 @@ MonoBehaviour:
   expToNextLevel: 50
   baseExpRequirement: 50
   expIncreasePerLevel: 20
+  expSlider: {fileID: 0}
+  expText: {fileID: 0}
   augmentSystem: {fileID: 0}
+  baseMaxHP: 0
+  baseAttackPower: 0
+  baseMoveSpeed: 0
+  baseAttackDelay: 0
+  baseAttackRange: 0
   followCamera: {fileID: 0}
 --- !u!65 &7974185814782849689
 BoxCollider:
@@ -182,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3b919319218fa458c97535406bb2a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1.93
+  attackRange: 0.86
   attackPower: 10
   attackRate: 1
   Slash: {fileID: 1699945200453384, guid: cac944ab423eebc48961b60b1f231a62, type: 3}
@@ -193,6 +233,20 @@ MonoBehaviour:
   attackPoint: {fileID: 6924268672981364920}
   playerData: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
   isInteracting: 0
+--- !u!114 &1376172364364180589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440421910938976731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c596644a2592e458d5426cdfbc1298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectSpawn: {fileID: 0}
+  tornadoEffect: {fileID: 1215538090931656, guid: 93216d197cc19f64bb18491762577ca1, type: 3}
 --- !u!1 &6060327050025472288
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +272,7 @@ Transform:
   m_GameObject: {fileID: 6060327050025472288}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.675, z: 0.247}
+  m_LocalPosition: {x: 0, y: 0.88, z: 1.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

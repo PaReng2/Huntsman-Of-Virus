@@ -15,11 +15,15 @@ public class PlayerSkills : MonoBehaviour
 
     [Header("tornado")]
     public GameObject tornadoEffect;
-    Vector3 force;
 
+    private void Update()
+    {
+        tornado();
+    }
     public void tornado()
     {
-        Instantiate(tornadoEffect,effectSpawn);
+        if(Input.GetKeyDown(KeyCode.Alpha1)) 
+            Instantiate(tornadoEffect, effectSpawn);
     }
 
     public void fire()

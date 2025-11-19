@@ -452,7 +452,7 @@ public class PlayerController : MonoBehaviour
 
         if (expText != null)
         {
-            expText.text = $"EXP : {currentExp} / {expToNextLevel}";
+            expText.text = $"{currentExp} / {expToNextLevel}";
         }
     }
 }

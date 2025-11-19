@@ -8,6 +8,8 @@ TagManager:
   - Bullet
   - Ground
   - chapterGate
+  - Gold
+  - playerSkill
   layers:
   - Default
   - TransparentFX

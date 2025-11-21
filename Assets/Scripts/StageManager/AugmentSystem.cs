@@ -42,6 +42,8 @@ public class AugmentSystem : MonoBehaviour
 
     private readonly List<int> currentOptions = new List<int>(3);
 
+    [SerializeField] private GameManager gameManager;
+
     private void Reset()
     {
         EnsureDefaultAugments();
@@ -52,6 +54,7 @@ public class AugmentSystem : MonoBehaviour
         EnsureDefaultAugments();
         WireButtons();
         HidePanelImmediate();
+        gameManager = FindAnyObjectByType<GameManager>();
     }
 
     private void EnsureDefaultAugments()
@@ -167,6 +170,7 @@ public class AugmentSystem : MonoBehaviour
 
     private void HidePanelImmediate()
     {
+        gameManager.isInteracting = false;
         if (panelCanvasGroup != null)
         {
             panelCanvasGroup.interactable = false;

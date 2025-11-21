@@ -65,7 +65,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     {
         Debug.Log("근거리 공격!");
 
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayer);
+        Collider[] hitEnemies = Physics.OverlapCapsule(attackPoint.position, attackPoint.position, attackRange, enemyLayer);
 
         if (hitEnemies.Length == 0)
         {

@@ -459,16 +459,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void AutoTakeGold()
-    {
-        PlayerAttackRangeDealer rangeDealer = FindObjectOfType<PlayerAttackRangeDealer>();
-        // "Player"라는 레이어를 감지할 마스크 가져오기
-        //int gold = GameObject.FindGameObjectWithTag("gold");
-
-        // 플레이어가 NPC 주변 2f 반경 안에 있는지 확인 (구체 범위로 충돌체 탐지)
-        //Collider[] colliders = Physics.OverlapSphere(transform.position, 2f, playerLayer);
-
-        // 탐지된 플레이어가 하나라도 있으면 true
-        //bool hasPlayer = colliders.Length > 0;
-    }
+   
 }

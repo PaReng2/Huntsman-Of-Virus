@@ -22,7 +22,6 @@ public class ChaseEnemy : MonoBehaviour
     private Coroutine knockbackRoutine;
 
     public GameObject goldPrefab;
-    public int goldAmount = 10;
 
     private void Awake()
     {
@@ -170,11 +169,7 @@ public class ChaseEnemy : MonoBehaviour
             Vector3 dropPos = transform.position + Vector3.up * 0.5f;
             GameObject gold = Instantiate(goldPrefab, dropPos, Quaternion.identity);
 
-            GoldPickup goldPickup = gold.GetComponent<GoldPickup>();
-            if (goldPickup != null)
-            {
-                goldPickup.amount = goldAmount;
-            }
+            
         }
     }
 }

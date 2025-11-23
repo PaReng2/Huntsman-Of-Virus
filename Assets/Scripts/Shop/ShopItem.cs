@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum ShopItemType { Generic, HealthPotion }
 
@@ -32,6 +33,15 @@ public class ShopItem : ScriptableObject
             case ShopItemType.Generic:
                 player.AddAttack(attackBonus);
                 break;
+        }
+
+        if (type != ShopItemType.HealthPotion)
+        {
+            if (PlayerProgress.purchasedItems == null)
+                PlayerProgress.purchasedItems = new List<ShopItem>();
+
+            if (!PlayerProgress.purchasedItems.Contains(this))
+                PlayerProgress.purchasedItems.Add(this);
         }
     }
 }

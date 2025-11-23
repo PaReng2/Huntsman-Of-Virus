@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;  // ← 추가
+using TMPro;
 
 // 상점에서의 UI 관리
 public class ShopUIManager : MonoBehaviour
@@ -10,10 +10,10 @@ public class ShopUIManager : MonoBehaviour
 
     [Header("Interact UI")]
     public CanvasGroup interactCanvasGroup;
-    public TextMeshProUGUI interactText;    // ← TMP로 변경
+    public TextMeshProUGUI interactText;
 
     [Header("Temporary Message")]
-    public TextMeshProUGUI tempMessageText; // ← TMP로 변경
+    public TextMeshProUGUI tempMessageText;
 
     [Header("Inventory UI (left-top)")]
     public RectTransform leftTopContainer;
@@ -31,11 +31,28 @@ public class ShopUIManager : MonoBehaviour
 
     private void Start()
     {
+        // 상호작용/임시 메시지 초기화
         if (interactCanvasGroup != null) interactCanvasGroup.alpha = 0f;
         if (tempMessageText != null) tempMessageText.gameObject.SetActive(false);
 
-        HorizontalLayoutGroup hl = leftTopContainer.GetComponent<HorizontalLayoutGroup>();
-        if (hl != null) hl.spacing = spacing;
+        // 인벤토리 바 레이아웃 설정
+        if (leftTopContainer != null)
+        {
+            HorizontalLayoutGroup hl = leftTopContainer.GetComponent<HorizontalLayoutGroup>();
+            if (hl != null)
+            {
+                hl.spacing = spacing;
+            }
+        }
+
+        if (leftTopContainer != null && uiItemPrefab != null)
+        {
+            LoadInventoryFromProgress();
+        }
+        else
+        {
+            Debug.LogWarning("ShopUIManager: Inventory UI references are not set.");
+        }
     }
 
     public void ShowInteract(string message)
@@ -68,10 +85,31 @@ public class ShopUIManager : MonoBehaviour
         tempMessageText.gameObject.SetActive(false);
     }
 
+    private void LoadInventoryFromProgress()
+    {
+        ClearInventoryUI();
+
+        if (PlayerProgress.purchasedItems == null) return;
+
+        foreach (var item in PlayerProgress.purchasedItems)
+        {
+            if (item != null)
+            {
+                AddItemToLeftTop(item);
+            }
+        }
+    }
+
     public void AddItemToLeftTop(ShopItem item)
     {
         if (item == null) return;
         if (item.type == ShopItemType.HealthPotion || item.uiSprite == null) return;
+
+        if (leftTopContainer == null || uiItemPrefab == null)
+        {
+            Debug.LogWarning("ShopUIManager: Inventory UI not fully assigned. Cannot add item icon.");
+            return;
+        }
 
         GameObject go = Instantiate(uiItemPrefab, leftTopContainer);
         Image img = go.GetComponent<Image>();
@@ -89,5 +127,15 @@ public class ShopUIManager : MonoBehaviour
         }
 
         uiItems.Add(go);
+    }
+
+    public void ClearInventoryUI()
+    {
+        foreach (var go in uiItems)
+        {
+            if (go != null)
+                Destroy(go);
+        }
+        uiItems.Clear();
     }
 }

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
     public static StageManager Instance;
 
-    
+
     private int totalEnemyCount = 0;
     private int killedEnemyCount = 0;
     private bool portalSpawned = false;
@@ -32,7 +33,7 @@ public class StageManager : MonoBehaviour
         }
 
         spawner = FindAnyObjectByType<Spawner>();
-        
+
     }
 
     private void Update()
@@ -61,7 +62,7 @@ public class StageManager : MonoBehaviour
         // 모든 웨이브의 모든 적을 다 처치했는지 확인
         if (!portalSpawned && killedEnemyCount >= totalEnemyCount)
         {
-            
+            // (현재는 사용X, 필요하면 스테이지 전체 클리어 용도로 사용)
         }
     }
 
@@ -71,5 +72,35 @@ public class StageManager : MonoBehaviour
         return killedEnemyCount;
     }
 
-    
+    public void OnWaveCleared(int clearedWaveIndex, bool isLastWave)
+    {
+        if (isLastWave)
+        {
+            // 모든 웨이브 클리어 - 웨이브 진행도 & 골드 초기화
+            WaveProgress.Reset();
+            PlayerProgress.ResetAllProgress();
+
+            Debug.Log($"모든 웨이브 클리어! (마지막: Wave {clearedWaveIndex + 1})");
+        }
+        else
+        {
+            // 마지막으로 클리어한 웨이브 저장
+            WaveProgress.lastClearedWaveIndex = clearedWaveIndex;
+            Debug.Log($"Wave {clearedWaveIndex + 1} 클리어! " +
+                      $"다음 입장 시 Wave {clearedWaveIndex + 2}부터 시작");
+        }
+
+        // 웨이브 하나가 끝날 때마다 Shop 씬으로 이동
+        SceneManager.LoadScene("Shop");   
+    }
+
+    public void OnPlayerDied()
+    {
+        // 플레이어 사망 → 웨이브 정보 초기화
+        WaveProgress.Reset();
+        Debug.Log("플레이어 사망! 웨이브 정보를 초기화합니다.");
+
+        // 이 아래에서 GameOver 씬 이동 등은 원하는 대로 구현
+        // 예: SceneManager.LoadScene("GameOver");
+    }
 }

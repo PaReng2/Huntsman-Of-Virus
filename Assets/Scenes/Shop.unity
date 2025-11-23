@@ -461,7 +461,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &152872736
 MonoBehaviour:
@@ -478,7 +478,6 @@ MonoBehaviour:
   allItems:
   - {fileID: 11400000, guid: cb2759145f6018d47a72e16aab2d7455, type: 2}
   - {fileID: 11400000, guid: 837f8d3708bb66748a5f287f32ece652, type: 2}
-  - {fileID: 11400000, guid: 01bb3e0042625734da841c4695e29d2d, type: 2}
   - {fileID: 11400000, guid: 01bb3e0042625734da841c4695e29d2d, type: 2}
   spawners:
   - {fileID: 1068507756}

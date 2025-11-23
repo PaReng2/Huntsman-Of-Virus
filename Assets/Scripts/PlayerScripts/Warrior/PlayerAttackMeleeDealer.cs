@@ -9,6 +9,8 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     public float attackPower = 10f;        
     public float attackRate = 1f;          
     private float curLeftAttackTime = 0f;
+    private float lastClickedTime = 0f;
+    public static int noOfClicks = 0;
 
     [Header("Effect")]
     public GameObject Slash;
@@ -61,9 +63,13 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         }
     }
 
+
+    
     void Attack()
     {
         Debug.Log("근거리 공격!");
+
+
 
         Collider[] hitEnemies = Physics.OverlapCapsule(attackPoint.position, attackPoint.position, attackRange, enemyLayer);
 
@@ -125,6 +131,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             Destroy(effectInstance, 0.5f);
         }
     }
+
 
 
     private void OnDrawGizmosSelected()

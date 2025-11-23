@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour
     public Wave[] waves;
 
     public float timeBetweenWaves; // 웨이브 사이의 대기 시간
-    public float activationRange ; // 스포너 활성화 범위
+    public float activationRange; // 스포너 활성화 범위
     public float spawnRange;       // 스폰 범위
 
     private Transform player;
@@ -23,46 +23,73 @@ public class Spawner : MonoBehaviour
         player = GameObject.FindWithTag("Player").transform;
         stageManager = FindAnyObjectByType<StageManager>();
 
-        // StageManager에 모든 웨이브의 총 적 수를 계산하여 등록
-        int totalEnemiesInStage = 0;
-        foreach (Wave wave in waves)
+        // StageManager에 모든 처치한 적 수를 전달하여 등록
+        // int totalEnemiesInStage = 0;
+        // foreach (Wave wave in waves)
+        // {
+        //     totalEnemiesInStage += wave.count;
+        // }
+        // if (StageManager.Instance != null)
+        // {
+        //     StageManager.Instance.SetTotalEnemyCount(totalEnemiesInStage);
+        // }
+
+        // WaveProgress에 저장된 진행도에 따라 시작 웨이브 결정
+        if (WaveProgress.lastClearedWaveIndex < 0)
         {
-            totalEnemiesInStage += wave.count;
+            // 아무 웨이브도 클리어한 적 없음 → 1웨이브부터
+            currentWaveIndex = 0;
+        }
+        else
+        {
+            // 마지막으로 클리어한 웨이브의 다음 웨이브부터 시작
+            currentWaveIndex = WaveProgress.lastClearedWaveIndex + 1;
         }
 
-        if (StageManager.Instance != null)
+        // 혹시 인덱스가 웨이브 수를 넘어가면 0으로 보정 (안전장치)
+        if (currentWaveIndex >= waves.Length)
         {
-            StageManager.Instance.SetTotalEnemyCount(totalEnemiesInStage);
+            currentWaveIndex = 0;
         }
-        stageManager.curWaveNum = currentWaveIndex;
+
+        // UI에 현재 웨이브 번호 표시 (1부터 보이게)
+        if (stageManager != null)
+        {
+            stageManager.curWaveNum = currentWaveIndex + 1;
+        }
     }
 
     void Update()
     {
         if (player == null) return;
-        if (wavesStarted && !isSpawningWave) // 웨이브가 시작되었고, 현재 스폰 중이 아닐 때
+
+        if (wavesStarted && !isSpawningWave)
         {
-            // 현재까지 스폰된 모든 적이 처치되었는지 확인
             int currentKills = StageManager.Instance.GetKilledEnemyCount();
 
-            if (currentKills == totalEnemiesSpawnedSoFar)
+            // 지금까지 스폰된 전체 적 = totalEnemiesSpawnedSoFar
+            if (currentKills == totalEnemiesSpawnedSoFar && totalEnemiesSpawnedSoFar > 0)
             {
-                // 아직 다음 웨이브가 남아있다면
-                if (currentWaveIndex < waves.Length)
+                int clearedWaveIndex = currentWaveIndex - 1;           // 방금 끝난 웨이브 인덱스
+                bool isLastWave = (clearedWaveIndex >= waves.Length - 1);
+
+                Debug.Log("웨이브 하나 종료! 상점으로 이동 준비");
+
+                wavesStarted = false; // 이 Spawner의 웨이브 루프 일시 종료
+
+                if (StageManager.Instance != null)
                 {
-                    // 다음 웨이브 시작
-                    StartCoroutine(SpawnNextWave());
+                    StageManager.Instance.OnWaveCleared(clearedWaveIndex, isLastWave);
                 }
-                // (모든 웨이브가 끝났다면 Spawner는 할 일을 마칩니다)
             }
         }
-        else if (!wavesStarted) // 웨이브가 아직 시작되지 않았다면
+        else if (!wavesStarted)
         {
             // 플레이어가 활성화 범위 안에 들어왔는지 확인
             float distance = Vector3.Distance(player.position, transform.position);
             if (distance <= activationRange)
             {
-                // 첫 번째 웨이브 시작
+                // 첫 번째(또는 이어서 진행할) 웨이브 시작
                 wavesStarted = true;
                 StartCoroutine(SpawnNextWave());
             }
@@ -73,6 +100,11 @@ public class Spawner : MonoBehaviour
     {
         isSpawningWave = true;
         Wave wave = waves[currentWaveIndex];
+
+        if (stageManager != null)
+        {
+            stageManager.curWaveNum = currentWaveIndex + 1;
+        }
 
         Debug.Log((currentWaveIndex + 1) + "번째 웨이브 시작!");
 
@@ -99,15 +131,15 @@ public class Spawner : MonoBehaviour
             totalEnemiesSpawnedSoFar++;
 
             // 다음 적 스폰까지 대기
-            //yield return new WaitForSeconds(wave.rate);
+            // yield return new WaitForSeconds(wave.rate);
         }
 
+        // 방금 웨이브 스폰이 끝났으므로, 다음에 스폰할 웨이브로 인덱스 증가
         currentWaveIndex++; // 다음 웨이브 인덱스로
-        stageManager.curWaveNum = currentWaveIndex;
+
         isSpawningWave = false;
         Debug.Log("웨이브 스폰 완료. 적 처치 대기 중...");
     }
-
 
     // (기존 OnDrawGizmosSelected 코드는 디버깅에 유용하므로 그대로 둡니다)
     private void OnDrawGizmosSelected()

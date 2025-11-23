@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    
+
     [Header("player stat")]
     public int curPlayerHp;
     public int playerMaxHP;

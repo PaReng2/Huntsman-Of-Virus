@@ -16,10 +16,13 @@ public class ChaseEnemy : MonoBehaviour
     public int damage = 20;
     public float attackCooldown = 1f;
     private float lastAttackTime = 0f;
-    private Rigidbody rb;
+
+    public float knockbackDistance = 2f;    
+    public float knockbackDuration = 0.2f;  
+    private Coroutine knockbackRoutine;
+
     public GameObject goldPrefab;
     public int goldAmount = 10;
-
 
     private void Awake()
     {
@@ -32,27 +35,26 @@ public class ChaseEnemy : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.FindWithTag("Player").transform;
+        var playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+            target = playerObj.transform;
+
         curEnemyHP = enemyData.EnemyHP;
         StageManager.Instance.OnEnemySpawned();
-        rb = GetComponent<Rigidbody>();
-
     }
 
     private void Update()
     {
-        if (isDead || target == null || !agent.isOnNavMesh) return;
+        if (isDead || target == null || agent == null || !agent.isOnNavMesh) return;
 
-        if (agent != null && agent.enabled)
-        {
-            agent.SetDestination(target.position);
+        if (!agent.enabled) return;
 
-            Vector3 dir = (target.position - transform.position).normalized;
-            if (dir != Vector3.zero)
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
-        }
+        agent.SetDestination(target.position);
+
+        Vector3 dir = (target.position - transform.position).normalized;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -65,6 +67,7 @@ public class ChaseEnemy : MonoBehaviour
                 Destroy(other.gameObject);
             }
         }
+
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
@@ -83,7 +86,6 @@ public class ChaseEnemy : MonoBehaviour
         }
     }
 
-
     public void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -95,13 +97,15 @@ public class ChaseEnemy : MonoBehaviour
             Destroy(effect, 2f);
         }
 
-        Vector3 hitDir = (transform.position - player.transform.position).normalized;
-        ApplyKnockback(hitDir, 8f);
+        if (player != null)
+        {
+            Vector3 hitDir = (transform.position - player.transform.position).normalized;
+            ApplyKnockback(hitDir);
+        }
 
         if (curEnemyHP <= 0)
             Die();
     }
-
 
     private void Die()
     {
@@ -113,38 +117,50 @@ public class ChaseEnemy : MonoBehaviour
         StageManager.Instance.OnEnemyKilled();
         Destroy(gameObject);
     }
-    public void ApplyKnockback(Vector3 knockbackDir, float force)
+
+    public void ApplyKnockback(Vector3 knockbackDir)
     {
-        if (agent != null)
-            agent.isStopped = true; 
+        knockbackDir.y = 0f;
+        knockbackDir.Normalize();
 
-        rb.isKinematic = false;
+        if (knockbackRoutine != null)
+            StopCoroutine(knockbackRoutine);
 
-        knockbackDir.y = 0f; 
-        rb.AddForce(knockbackDir.normalized * force, ForceMode.Impulse);
-
-        StartCoroutine(ResumeAfterKnockback(0.4f)); 
+        knockbackRoutine = StartCoroutine(KnockbackCoroutine(knockbackDir));
     }
 
-    IEnumerator ResumeAfterKnockback(float delay)
+    private IEnumerator KnockbackCoroutine(Vector3 dir)
     {
-        yield return new WaitForSeconds(delay);
+        if (agent != null)
+            agent.isStopped = true;
 
-    
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        float elapsed = 0f;
+        Vector3 startPos = transform.position;
 
-      
-        if (!agent.isOnNavMesh)
+        while (elapsed < knockbackDuration)
         {
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(transform.position, out hit, 3f, NavMesh.AllAreas))
-            {
-                agent.Warp(hit.position); 
-            }
+            float t = elapsed / knockbackDuration;
+            Vector3 offset = dir * (knockbackDistance * Time.deltaTime / knockbackDuration);
+            transform.position += offset;
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
 
-        agent.isStopped = false; 
+        if (agent != null)
+        {
+            if (!agent.isOnNavMesh)
+            {
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(transform.position, out hit, 3f, NavMesh.AllAreas))
+                {
+                    agent.Warp(hit.position);
+                }
+            }
+            agent.isStopped = false;
+        }
+
+        knockbackRoutine = null;
     }
 
     private void DropGold()

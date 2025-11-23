@@ -52,9 +52,26 @@ public class AugmentSystem : MonoBehaviour
     private void Awake()
     {
         EnsureDefaultAugments();
+
+        // 저장된 증강 레벨을 불러오기
+        LoadAugmentLevelsFromProgress();
+
         WireButtons();
         HidePanelImmediate();
         gameManager = FindAnyObjectByType<GameManager>();
+    }
+
+    private void LoadAugmentLevelsFromProgress()
+    {
+        if (PlayerProgress.savedAugmentLevels == null ||
+            PlayerProgress.savedAugmentLevels.Length < augments.Count)
+            return;
+
+        for (int i = 0; i < augments.Count; i++)
+        {
+            int savedLevel = PlayerProgress.savedAugmentLevels[i];
+            augments[i].level = Mathf.Clamp(savedLevel, 0, maxLevelPerAugment);
+        }
     }
 
     private void EnsureDefaultAugments()
@@ -195,6 +212,14 @@ public class AugmentSystem : MonoBehaviour
         if (a.level < maxLevelPerAugment)
         {
             a.level = Mathf.Min(a.level + 1, maxLevelPerAugment);
+
+            // 전역 진행 데이터에도 저장
+            if (PlayerProgress.savedAugmentLevels == null ||
+                PlayerProgress.savedAugmentLevels.Length < augments.Count)
+            {
+                PlayerProgress.savedAugmentLevels = new int[augments.Count];
+            }
+            PlayerProgress.savedAugmentLevels[augmentIndex] = a.level;
         }
 
         HidePanelImmediate();
@@ -239,7 +264,16 @@ public class AugmentSystem : MonoBehaviour
 
     public void ResetAllLevelsForNewStage()
     {
-        foreach (var a in augments) a.level = 0;
+        for (int i = 0; i < augments.Count; i++)
+        {
+            augments[i].level = 0;
+            if (PlayerProgress.savedAugmentLevels == null ||
+                PlayerProgress.savedAugmentLevels.Length < augments.Count)
+            {
+                PlayerProgress.savedAugmentLevels = new int[augments.Count];
+            }
+            PlayerProgress.savedAugmentLevels[i] = 0;
+        }
         HidePanelImmediate();
     }
 

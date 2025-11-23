@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anime = GetComponentInChildren<Animator>();
 
+        // SO 기본 스탯
         ApplyStatusFromSO();
 
         curPlayerHp = playerMaxHP;
@@ -81,34 +82,10 @@ public class PlayerController : MonoBehaviour
         currentLevel = 1;
         currentExp = 0;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
-    }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
+        playerGold = PlayerProgress.savedGold;
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        ResetLevelAndExp();
-
-        if (augmentSystem != null)
-            augmentSystem.ResetAllLevelsForNewStage();
-
-        ApplyStatusFromSO();
-    }
-
-    private void ResetLevelAndExp()
-    {
-        currentLevel = 1;
-        currentExp = 0;
-        expToNextLevel = GetRequiredExpForLevel(currentLevel);
-        Debug.Log($"[Player] Scene changed. Level/EXP reset → Level {currentLevel}, EXP {currentExp}/{expToNextLevel}");
+        ReapplyPurchasedItems();
     }
 
     private int GetRequiredExpForLevel(int level)
@@ -158,7 +135,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            playerMoveSpeed = playerStatus.playerMoveSpeed; 
+            playerMoveSpeed = playerStatus.playerMoveSpeed;
         }
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
@@ -169,14 +146,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             playerMoveSpeed = runSpeed;
-            Debug.Log("달리기");
             anime.SetBool("walk", false);
             anime.SetBool("run", true);
         }
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             anime.SetBool("run", false);
-            playerMoveSpeed = playerStatus.playerMoveSpeed; 
+            playerMoveSpeed = playerStatus.playerMoveSpeed;
         }
     }
 
@@ -223,6 +199,7 @@ public class PlayerController : MonoBehaviour
     public void AddGold(int amount)
     {
         playerGold += amount;
+        PlayerProgress.savedGold = playerGold;
         UpdateGoldUI();
     }
 
@@ -231,6 +208,7 @@ public class PlayerController : MonoBehaviour
         if (playerGold >= amount)
         {
             playerGold -= amount;
+            PlayerProgress.savedGold = playerGold;
             UpdateGoldUI();
             return true;
         }
@@ -252,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddAttack(int amount)
     {
-        attackPower += amount;
+        baseAttackPower += amount;
     }
 
     public void TakeDamage(int damage)
@@ -279,6 +257,9 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("플레이어 사망");
+
+        PlayerProgress.ResetAllProgress();
+
         if (deathEffect != null)
         {
             GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.AngleAxis(180f, Vector3.up));
@@ -318,7 +299,7 @@ public class PlayerController : MonoBehaviour
         int spdLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.SPD);
         int atkSpdLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.ATKSPD);
         int rangeLevel = augmentSystem.GetAugmentLevel(AugmentSystem.AugmentType.RANGE);
-         
+
         float maxHpMult = 1f + 0.10f * maxHpLevel;
 
         int prevMaxHp = playerMaxHP > 0 ? playerMaxHP : Mathf.RoundToInt(baseMaxHP);
@@ -443,8 +424,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         UpdateExpUI();
-
     }
+
     public void UpdateExpUI()
     {
         if (expSlider != null)
@@ -459,5 +440,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   
+    private void ReapplyPurchasedItems()
+    {
+        if (PlayerProgress.purchasedItems == null)
+        {
+            PlayerProgress.purchasedItems = new List<ShopItem>();
+            return;
+        }
+
+        foreach (var item in PlayerProgress.purchasedItems)
+        {
+            if (item != null)
+            {
+                item.ApplyEffect(this);
+            }
+        }
+    }
 }

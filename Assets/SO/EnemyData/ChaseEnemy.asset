@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42a9196db57164469aa9a3cedfcaf61, type: 3}
   m_Name: ChaseEnemy
   m_EditorClassIdentifier: 
-  EnemyHP: 50
+  EnemyHP: 30
   EnemyAttackPower: 20

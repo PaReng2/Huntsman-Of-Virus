@@ -18,7 +18,6 @@ public class ChaseEnemy : MonoBehaviour
     private float lastAttackTime = 0f;
     private Rigidbody rb;
     public GameObject goldPrefab;
-    public int goldAmount = 10;
 
 
     private void Awake()
@@ -96,7 +95,7 @@ public class ChaseEnemy : MonoBehaviour
         }
 
         Vector3 hitDir = (transform.position - player.transform.position).normalized;
-        ApplyKnockback(hitDir, 8f);
+        ApplyKnockback(hitDir, 4f);
 
         if (curEnemyHP <= 0)
             Die();
@@ -154,11 +153,7 @@ public class ChaseEnemy : MonoBehaviour
             Vector3 dropPos = transform.position + Vector3.up * 0.5f;
             GameObject gold = Instantiate(goldPrefab, dropPos, Quaternion.identity);
 
-            GoldPickup goldPickup = gold.GetComponent<GoldPickup>();
-            if (goldPickup != null)
-            {
-                goldPickup.amount = goldAmount;
-            }
+            
         }
     }
 }

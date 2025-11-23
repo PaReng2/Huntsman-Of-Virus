@@ -746,7 +746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6924268672981364920, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.82
+      value: 2.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2752,11 +2752,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
-  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
-  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
-  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
-  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
-  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
+  - {fileID: 11400000, guid: 9e2b61f4a327bc042a4bf9fff2d087f1, type: 2}
+  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
+  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
+  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
+  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
   timeBetweenWaves: 10
   activationRange: 34.8
   spawnRange: 35.3

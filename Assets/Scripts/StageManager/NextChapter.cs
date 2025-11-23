@@ -12,7 +12,11 @@ public class NextChapter : MonoBehaviour
     private SceneController _sceneController;
 
     public GameObject isInsteraction;     // "상호작용 가능" UI 오브젝트
-    
+
+    private void Awake()
+    {
+        _sceneController = FindObjectOfType<SceneController>();
+    }
 
     private void Update()
     {

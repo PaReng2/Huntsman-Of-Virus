@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GoldPickup : MonoBehaviour
 {
-    public int amount = 10;
+    public int amount;
     PlayerController playerController;
 
     [SerializeField]

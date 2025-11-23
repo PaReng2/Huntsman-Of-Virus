@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800b0f59275714f4b842804e7d0ff011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expAmount: 10
+  expAmount: 1
 --- !u!114 &7976772702834618430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,8 +140,7 @@ MonoBehaviour:
   hitEffectEnemy: {fileID: 1277476900267786, guid: 8ab1e2905165feb4694605122efe1a88, type: 3}
   damage: 20
   attackCooldown: 1
-  goldPrefab: {fileID: 4899727772914283648, guid: 6888e7e7f346c704d8540c342d25ee9d, type: 3}
-  goldAmount: 10
+  goldPrefab: {fileID: 4987502069234615386, guid: e831943ce089c994bb4095e9628151f7, type: 3}
 --- !u!195 &49853062763122074
 NavMeshAgent:
   m_ObjectHideFlags: 0

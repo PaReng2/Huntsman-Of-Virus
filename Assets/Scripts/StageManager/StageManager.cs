@@ -16,6 +16,10 @@ public class StageManager : MonoBehaviour
     public TextMeshProUGUI curWaveText;
     public int curWaveNum;
 
+    public float totalTime = 51f; // 총 시간
+    public TextMeshProUGUI timerText; // 시간 표시할 텍스트 UI
+    private float currentTime;
+
     //기존 Spawner 스크립트의 Start()에서 이 변수를 사용하므로 남겨둠
     // WaveSpawner에서는 사용X
     public int TotalEnemyCount;
@@ -34,6 +38,11 @@ public class StageManager : MonoBehaviour
 
         spawner = FindAnyObjectByType<Spawner>();
 
+    }
+    void Start()
+    {
+        currentTime = totalTime;
+        StartCoroutine(CountdownTimer());
     }
 
     private void Update()
@@ -91,7 +100,7 @@ public class StageManager : MonoBehaviour
         }
 
         // 웨이브 하나가 끝날 때마다 Shop 씬으로 이동
-        SceneManager.LoadScene("Shop");   
+        SceneManager.LoadScene("Shop");
     }
 
     public void OnPlayerDied()
@@ -103,4 +112,28 @@ public class StageManager : MonoBehaviour
         // 이 아래에서 GameOver 씬 이동 등은 원하는 대로 구현
         // 예: SceneManager.LoadScene("GameOver");
     }
+
+    IEnumerator CountdownTimer()
+    {
+        while (currentTime > 0)
+        {
+            currentTime -= 1f; // 1초 감소
+            UpdateTimerUI();
+            yield return new WaitForSeconds(1f); // 1초 대기
+        }
+
+        // 시간이 다 되었을 때 실행할 내용 (예: 게임오버 처리)
+        Debug.Log("타이머 종료!");
+        SceneManager.LoadScene("Shop");
+    }
+
+    void UpdateTimerUI()
+    {
+        if (timerText != null)
+        {
+            timerText.text = currentTime.ToString("0"); // 소수점 두 자리까지 표시
+        }
+
+    }
+
 }

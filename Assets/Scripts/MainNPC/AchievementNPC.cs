@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeNPC : MonoBehaviour
+public class AchievementNPC : MonoBehaviour
 {
 
     [Header("상호작용 텍스트")]
@@ -21,10 +21,10 @@ public class UpgradeNPC : MonoBehaviour
 
     void Update()
     {
-        IsUpgrading();
+        OpenAchievementPannel();
     }
 
-    void IsUpgrading()
+    void OpenAchievementPannel()
     {
         PlayerAttackRangeDealer rangeDealer = FindObjectOfType<PlayerAttackRangeDealer>();
         // "Player"라는 레이어를 감지할 마스크 가져오기
@@ -50,7 +50,7 @@ public class UpgradeNPC : MonoBehaviour
                 isInsteraction.SetActive(false);
                 UpgradePanel.SetActive(true);
                 gameManager.isInteracting = true;
-                Debug.Log($"업그레이드 창 표시 {gameManager.isInteracting}");
+                Debug.Log($"업적 창 표시 {gameManager.isInteracting}");
 
             }
             if (gameManager.isInteracting && Input.GetKeyDown(KeyCode.Escape))
@@ -58,7 +58,7 @@ public class UpgradeNPC : MonoBehaviour
                 UpgradePanel.SetActive(false);
                 gameManager.isInteracting = false;
 
-                Debug.Log("업그레이드 창 꺼짐");
+                Debug.Log("업적 창 꺼짐");
             }
         }
     }

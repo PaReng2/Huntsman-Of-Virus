@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*public class TitleSceneButton : MonoBehaviour
+public class TitleSceneButton : MonoBehaviour
 {
     public GameObject optionPanel;
 
@@ -23,4 +23,4 @@ using UnityEngine.SceneManagement;
     {
         optionPanel.SetActive(true);
     }
-}*/
+}

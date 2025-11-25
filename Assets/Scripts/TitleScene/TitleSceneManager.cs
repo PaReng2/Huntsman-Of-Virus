@@ -4,20 +4,33 @@ using UnityEngine;
 
 public class TitleSceneManager : MonoBehaviour
 {
-    public GameObject Title;
-    public GameObject StartButton;
-    public GameObject SettingButton;
+    public GameObject optionPanel;
+
+    public GameObject title;
+    public GameObject buttonLayout;
+
+    private void Start()
+    {
+        optionPanel.SetActive(false);
+    }
 
     public void DisAbleObject()
     {
-        Title.SetActive(false);
-        StartButton.SetActive(false);
-        SettingButton.SetActive(false);
+        title.SetActive(false);
+        buttonLayout.SetActive(false);
     }
     public void EnAbleObject()
     {
-        Title.SetActive(true);
-        StartButton.SetActive(true);
-        SettingButton.SetActive(true);
+        title.SetActive(true);
+        buttonLayout.SetActive(true);
+    }
+
+    public void OpenPanel()
+    {
+        optionPanel.SetActive(true);
+    }
+    public void ClosePanel()
+    {
+        optionPanel.SetActive(false);
     }
 }

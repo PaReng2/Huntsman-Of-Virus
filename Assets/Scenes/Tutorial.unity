@@ -1099,11 +1099,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb54342df327a04d9c4792a775a0535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveKey: {fileID: 0}
-  attackKey: {fileID: 0}
-  toolTipActive: {fileID: 0}
+  tooltip: {fileID: 0}
   isTutorial: 0
   tooltipActive: 0
+  TutorialNpc: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

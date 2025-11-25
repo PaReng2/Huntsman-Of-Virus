@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a3a2c78af97054b808aabefbe96972, type: 3}
   m_Name: TutorialNPC_03
   m_EditorClassIdentifier: 
-  characterName: character
+  characterName: "\uBC31\uC2E0 Model_02"
   characterImage: {fileID: 0}
   dialogueLines:
   - "\uC88B\uC544, \uC774\uC81C \uC800\uAE30 \uBCF4\uC774\uB294 \uBC14\uC774\uB7EC\uC2A4\uB97C

@@ -10,6 +10,8 @@ TagManager:
   - chapterGate
   - Gold
   - playerSkill
+  - StartButton
+  - OptionButton
   layers:
   - Default
   - TransparentFX

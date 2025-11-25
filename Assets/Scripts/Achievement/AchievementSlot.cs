@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AchievementSlot : MonoBehaviour
 {
     [Header("UI References")]
     public Image iconimage;
-    public Text nameText;
-    public Text descriptionText;
-    public Text progressText;
+    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI progressText;
     public Slider progressSlider;
 
     public void SetAchievement(AchievementData achievement , float progress)

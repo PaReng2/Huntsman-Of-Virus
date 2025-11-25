@@ -155,5 +155,6 @@ public class AchievementManager : MonoBehaviour
         achievement.isUnlocked = true;
         ShowAchievementPopup(achievement);
         UpdateAChievementUI();
+        SetAchievement();
     }
 }

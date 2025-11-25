@@ -19,6 +19,7 @@ public class StageManager : MonoBehaviour
     public float totalTime = 51f; // 총 시간
     public TextMeshProUGUI timerText; // 시간 표시할 텍스트 UI
     private float currentTime;
+    private Coroutine timerCoroutine;
 
     //기존 Spawner 스크립트의 Start()에서 이 변수를 사용하므로 남겨둠
     // WaveSpawner에서는 사용X
@@ -42,7 +43,7 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         currentTime = totalTime;
-        StartCoroutine(CountdownTimer());
+        timerCoroutine = StartCoroutine(CountdownTimer());
     }
 
     private void Update()
@@ -125,6 +126,15 @@ public class StageManager : MonoBehaviour
         // 시간이 다 되었을 때 실행할 내용 (예: 게임오버 처리)
         Debug.Log("타이머 종료!");
         SceneManager.LoadScene("Main");
+    }
+
+    public void StopTimer()
+    {
+        if (timerCoroutine != null)
+        {
+            StopCoroutine(timerCoroutine);
+            timerCoroutine = null;
+        }
     }
 
     void UpdateTimerUI()

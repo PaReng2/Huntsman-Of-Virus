@@ -6079,7 +6079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curWaveText: {fileID: 1713794927}
   curWaveNum: 0
-  totalTime: 2
+  totalTime: 50
   timerText: {fileID: 1250542683}
   TotalEnemyCount: 0
 --- !u!114 &2139807513

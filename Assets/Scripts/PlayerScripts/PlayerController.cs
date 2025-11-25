@@ -260,6 +260,9 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("플레이어 사망");
 
+        StageManager.Instance.StopTimer();
+
+
         PlayerProgress.ResetAllProgress();
 
         if (deathEffect != null)

@@ -124,7 +124,7 @@ public class StageManager : MonoBehaviour
 
         // 시간이 다 되었을 때 실행할 내용 (예: 게임오버 처리)
         Debug.Log("타이머 종료!");
-        SceneManager.LoadScene("Shop");
+        SceneManager.LoadScene("Main");
     }
 
     void UpdateTimerUI()

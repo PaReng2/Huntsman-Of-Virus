@@ -8,7 +8,6 @@ public class EndTutorialGate : MonoBehaviour
 
     private void Awake()
     {
-        gameObject.SetActive(false);
         npc = FindAnyObjectByType<DialogueNPC>();
     }
 

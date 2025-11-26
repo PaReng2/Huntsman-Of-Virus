@@ -49,7 +49,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         {
             if (curLeftAttackTime <= 0)
             {
-                if (isInteracting || tutorial.CantAttack)
+                if (isInteracting)
                 {
                     Debug.Log("상호작용 중에는 공격할 수 없습니다.");
                     return;

@@ -6,12 +6,17 @@ public class TitleSceneManager : MonoBehaviour
 {
     public GameObject optionPanel;
 
+    public AudioSource buttonSound;
+    public AudioSource closeButtonSound;
+
     public GameObject title;
     public GameObject buttonLayout;
 
     private void Start()
     {
         optionPanel.SetActive(false);
+        //buttonSound.Stop();
+        //closeButtonSound.Stop();
     }
 
     public void DisAbleObject()

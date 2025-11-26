@@ -16,6 +16,8 @@ public class DialogueNPC : MonoBehaviour
     private DialogueManager dialogueManager; // 씬에 존재하는 DialogueManager 참조
     public int dialogueNum;
 
+    public bool CantAttack;
+
     private GameManager gameManager;
     void Awake()
     {
@@ -27,6 +29,7 @@ public class DialogueNPC : MonoBehaviour
             Debug.LogError("DialogueManager is Null"); // 없으면 에러 출력
         }
         dialogueNum = 1;
+        CantAttack = true;
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -34,6 +37,10 @@ public class DialogueNPC : MonoBehaviour
     {
         isDialogue();
         
+        if (dialogueNum >= 3)
+        {
+            CantAttack = false;
+        }
     }
     
     

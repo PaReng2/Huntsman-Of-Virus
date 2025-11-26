@@ -31,6 +31,9 @@ public class DialogueManager : MonoBehaviour
     private PlayerAttackMeleeDealer player;
     private GameManager gameManager;
 
+    [Header("voice")]
+    public AudioSource NPCVoice;
+
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -61,6 +64,7 @@ public class DialogueManager : MonoBehaviour
         for (int i = 0; i < textToType.Length; i++)
         {
             dialogueText.text += textToType[i];           // 글자 추가
+            NPCVoice.Play();                              //목소리 출력  
             yield return new WaitForSeconds(typingSpeed); // 글자마다 지연 시간
         }
 

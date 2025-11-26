@@ -23,10 +23,12 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     public bool isInteracting;
 
     private GameManager gameManager;
+    private DialogueNPC tutorial;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
+        tutorial = FindAnyObjectByType<DialogueNPC>();
     }
 
     private void Start()
@@ -47,7 +49,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         {
             if (curLeftAttackTime <= 0)
             {
-                if (isInteracting)
+                if (isInteracting || tutorial.CantAttack)
                 {
                     Debug.Log("상호작용 중에는 공격할 수 없습니다.");
                     return;

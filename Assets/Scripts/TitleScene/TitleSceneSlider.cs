@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class TitleSceneSlider : MonoBehaviour
 {
-    public AudioSource BGM;
+    //public AudioSource BGM;
 
-    public void SetMusicVolume(float volume)
-    {
-        BGM.volume = volume;
-    }
+    //private AudioMixerController audioManager;
+
+    //private void Awake()
+    //{
+    //    audioManager = FindAnyObjectByType<AudioMixerController>();
+    //}
+
+    //public void SetMusicVolume(float volume)
+    //{
+    //    BGM.volume = volume;
+       
+    //}
 }

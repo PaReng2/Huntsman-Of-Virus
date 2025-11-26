@@ -478,6 +478,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allachievements:
   - {fileID: 11400000, guid: 1db912e249273944892d86f4b92e69ec, type: 2}
+  - {fileID: 11400000, guid: 7f860c98c794e7942b6920932153c3ce, type: 2}
+  - {fileID: 11400000, guid: 361bbf83ce2f6a6458e08e8531cbf272, type: 2}
+  - {fileID: 11400000, guid: d0b30bb60138a36409fde491f8ecb120, type: 2}
+  - {fileID: 11400000, guid: 17f7b2b396e2ee04a84fe2d396b5d4c8, type: 2}
+  - {fileID: 11400000, guid: c658fc866352d0249b787f0df012c6a5, type: 2}
+  - {fileID: 11400000, guid: b1e21d695f105e54eafae32e305355e2, type: 2}
+  - {fileID: 11400000, guid: 901fbf4876741d24d8a15e584a88fd68, type: 2}
+  - {fileID: 11400000, guid: c0f7c4448f6b3d44fa58423a65133d15, type: 2}
+  - {fileID: 11400000, guid: d713cefbfd128f6459c53044c5f35c1b, type: 2}
   achievementPopupPrefab: {fileID: 1549767707}
   popupParent: {fileID: 6340693}
   achievementPanel: {fileID: 991674905}

@@ -101,7 +101,7 @@ public class StageManager : MonoBehaviour
         }
 
         // 웨이브 하나가 끝날 때마다 Shop 씬으로 이동
-        SceneManager.LoadScene("Shop");
+        StartCoroutine(LoadShopAfterDelay());
     }
 
     public void OnPlayerDied()
@@ -146,4 +146,19 @@ public class StageManager : MonoBehaviour
 
     }
 
+    private IEnumerator LoadShopAfterDelay()
+    {
+        SceneFade fade = FindAnyObjectByType<SceneFade>();
+
+        if (fade != null)
+        {
+            yield return StartCoroutine(fade.FadeOutCoroutine(3f));
+        }
+        else
+        {
+            Debug.LogWarning("SceneFade 객체를 찾을 수 없습니다. 즉시 씬 이동합니다.");
+        }
+
+        SceneManager.LoadScene("Shop");
+    }
 }

@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public int curPlayerHp;
     public int playerMaxHP;
     public float playerMoveSpeed;
-    public float playerDashForce = 3f;
+    public float playerJumpforce = 5f;
     public float attackDelay;
     public float attackRange;
     public float attackPower;
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Move();
-        Dash();
+        Jump();
         Turn();
     }
 
@@ -158,11 +158,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Dash()
+    void Jump()
     {
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(moveVec * playerDashForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * playerJumpforce, ForceMode.Impulse);
             anime.SetTrigger("jump");
         }
     }

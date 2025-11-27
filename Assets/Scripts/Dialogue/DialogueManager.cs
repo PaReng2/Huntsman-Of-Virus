@@ -208,12 +208,12 @@ public class DialogueManager : MonoBehaviour
         if (isTalking)
         {
             player.playerMoveSpeed = 0;
-            player.playerDashForce = 0;
+            player.playerJumpforce = 0;
         }
         else
         {
             player.playerMoveSpeed = 5;
-            player.playerDashForce = 5;
+            player.playerJumpforce = 5;
         }
     }
 }

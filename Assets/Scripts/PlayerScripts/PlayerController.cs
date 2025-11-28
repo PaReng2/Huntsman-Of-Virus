@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("플레이어 사망");
 
-        AchievementManager.instance.UpdateProgress(AchievementType.totalDeaths, 1);
+        AchievementManager.instance?.UpdateProgress(AchievementType.totalDeaths, 1);
 
 
         StageManager.Instance.StopTimer();

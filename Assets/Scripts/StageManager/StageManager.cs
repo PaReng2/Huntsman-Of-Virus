@@ -99,7 +99,7 @@ public class StageManager : MonoBehaviour
             Debug.Log($"Wave {clearedWaveIndex + 1} 클리어! " +
                       $"다음 입장 시 Wave {clearedWaveIndex + 2}부터 시작");
         }
-        AchievementManager.instance.UpdateProgress(AchievementType.ClearWaves, 1);
+        AchievementManager.instance?.UpdateProgress(AchievementType.ClearWaves, 1);
 
         // 웨이브 하나가 끝날 때마다 Shop 씬으로 이동
         StartCoroutine(LoadShopAfterDelay());
@@ -126,6 +126,7 @@ public class StageManager : MonoBehaviour
 
         // 시간이 다 되었을 때 실행할 내용 (예: 게임오버 처리)
         Debug.Log("타이머 종료!");
+        AchievementManager.instance?.UpdateProgress(AchievementType.totalDeaths, 1);
         SceneManager.LoadScene("Main");
     }
 

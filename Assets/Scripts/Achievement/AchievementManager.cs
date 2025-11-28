@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class AchievementManager : MonoBehaviour
@@ -156,5 +157,35 @@ public class AchievementManager : MonoBehaviour
         ShowAchievementPopup(achievement);
         UpdateAChievementUI();
         SetAchievement();
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 비활성 오브젝트까지 포함해서 모두 검색
+        var allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (var obj in allObjects)
+        {
+            if (obj.name == "AchievementPanel")
+                achievementPanel = obj;
+
+            if (obj.name == "AchievementListContent")
+                achievementListContent = obj.transform;
+
+            if (obj.name == "Canvas")
+                popupParent = obj.transform;
+        }
+
+        UpdateAChievementUI();
     }
 }

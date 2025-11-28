@@ -114,7 +114,7 @@ public class ChaseEnemy : MonoBehaviour
         DropGold();
 
         StageManager.Instance.OnEnemyKilled();
-        AchievementManager.instance.UpdateProgress(AchievementType.KillEnemies, 1);
+        AchievementManager.instance?.UpdateProgress(AchievementType.KillEnemies, 1);
         Destroy(gameObject);
     }
 

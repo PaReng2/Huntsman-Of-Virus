@@ -12,6 +12,10 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     private float lastClickedTime = 0f;
     public static int noOfClicks = 0;
 
+    private int comboStep = 0;          // 현재 콤보 단계 (0: 처음, 1: 1타, 2: 2타)
+    private float comboTimer = 0f;      // 콤보 유지 시간 체크용
+    private float comboWindow = 5f;     // 콤보 허용 시간 (5초)
+
     [Header("Effect")]
     public GameObject Slash;
     public float effectForwardOffset = 0.5f;
@@ -24,11 +28,13 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
 
     private GameManager gameManager;
     private DialogueNPC tutorial;
+    private Animator anime;
 
     private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
         tutorial = FindAnyObjectByType<DialogueNPC>();
+        anime = GetComponent<Animator>();
     }
 
     private void Start()
@@ -46,33 +52,63 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     {
         isInteracting = gameManager.isInteracting;
 
-        // 쿨타임 감소
+        // 기본 공격 쿨타임(공속) 감소
         if (curLeftAttackTime > 0)
             curLeftAttackTime -= Time.deltaTime;
 
+        // ★ 콤보 타이머 로직: 5초가 지나면 콤보 단계를 0으로 리셋
+        if (comboTimer > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                comboStep = 0;
+                // Debug.Log("콤보 시간 초과! 다시 1타부터 시작합니다.");
+            }
+        }
+
         // 공격 입력
         if (Input.GetMouseButtonDown(0))
+        {
             TryAttack();
+        }
+
+        // 중요: 기존에 있던 else { anime.SetBool(...) } 구문은 완전히 지우셔야 합니다.
     }
 
     void TryAttack()
     {
-        if (curLeftAttackTime > 0)
+        // 쿨타임 중이거나 상호작용 중이면 공격 불가
+        if (curLeftAttackTime > 0) return;
+        if (isInteracting) return;
+
+        comboStep++; // 클릭할 때마다 단계 상승
+
+        if (comboStep == 1)
         {
-            Debug.Log("공격 쿨타임 중...");
-            return;
+            // 1타 실행
+            anime.SetTrigger("attack1"); // Trigger 사용 권장
+            Debug.Log("공격 1타!");
+        }
+        else if (comboStep == 2)
+        {
+            // 2타 실행 (1타 후 5초 안에 눌렀을 경우 여기로 옴)
+            anime.SetTrigger("attack2");
+            Debug.Log("공격 2타! (콤보)");
+
+            comboStep = 0; // 2타까지 때렸으니 다시 처음으로 초기화
+        }
+        else
+        {
+            // 예외 처리: 혹시 단계가 꼬이면 1타로 강제 설정
+            comboStep = 1;
+            anime.SetTrigger("attack1");
         }
 
-        if (isInteracting)
-        {
-            Debug.Log("상호작용 중 공격 불가");
-            return;
-        }
-
-        Attack();
-        curLeftAttackTime = attackRate;
+        comboTimer = comboWindow;       // 타이머를 다시 5초로 충전
+        Attack();                       // 데미지 및 이펙트 처리 (기존 함수 그대로 사용)
+        curLeftAttackTime = attackRate; // 공격 쿨타임 적용
     }
-
 
 
     void Attack()

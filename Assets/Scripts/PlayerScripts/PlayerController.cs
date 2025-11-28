@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
     private Animator anime;
-    private Animator anime2;
 
     [Header("Camera")]
     float hAxis;
@@ -79,10 +78,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        anime = GetComponentInChildren<Animator>();
-        anime2 = GetComponent<Animator>();
+        anime = GetComponent<Animator>();
 
-        Debug.Log($"{anime.name}");
         // SO 기본 스탯
         ApplyStatusFromSO();
 
@@ -116,8 +113,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Mathf.Approximately(Time.timeScale, 0f))
         {
-            anime.SetBool("walk", false);
-            anime.SetBool("run", false);
+            //anime.SetBool("walk", false);
+            //anime.SetBool("run", false);
             return;
         }
 
@@ -129,10 +126,7 @@ public class PlayerController : MonoBehaviour
         Move();
         Turn();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            TryAttack();
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -151,13 +145,13 @@ public class PlayerController : MonoBehaviour
 
         // [변경 1] 움직임 여부에 따라 walk (bool) 설정
         bool isWalking = moveVec != Vector3.zero;
-        anime.SetBool("walk", isWalking);
+        //anime.SetBool("walk", isWalking);
 
         // [변경 2] Shift 키 입력 시 RunSpeed(float) 대신 run(bool) 사용
         if (Input.GetKey(KeyCode.LeftShift) && isWalking)
         {
             playerMoveSpeed = runSpeed;
-            anime.SetBool("run", true); 
+            //anime.SetBool("run", true); 
         }
         else
         {
@@ -167,55 +161,12 @@ public class PlayerController : MonoBehaviour
             }
 
             // 키를 뗐거나 멈췄을 때 run 꺼짐
-            anime.SetBool("run", false);
+            //anime.SetBool("run", false);
         }
 
         transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
     }
 
-
-    void TryAttack()
-    {
-        if (isInvincible || isRolling) return; // 무적 중/구르기 중에는 공격 불가 처리
-
-        if (attackStep == 0) // Idle 또는 이동 중
-        {
-            attackStep = 1;
-            anime2.SetBool("attack1", true); // Attack1 애니메이션 시작
-            StartCoroutine(ComboTimer(attackDelay)); // 콤보 타이머 시작
-        }
-        else if (attackStep == 1 && canCombo) // Attack1 후 콤보 가능 시간 내에 재입력 -> Attack2
-        {
-            attackStep = 2;
-            anime2.SetBool("attack2", true); // Attack2 애니메이션 시작 (애니메이터 파라미터 확인 필요!)
-
-            canCombo = false;
-            StopAllCoroutines(); // 기존 콤보 타이머 중지
-            StartCoroutine(ComboTimer(attackDelay)); // 새 콤보 타이머 시작
-        }
-        else if (attackStep == 2 && canCombo)
-        {
-            ResetAttackState();
-        }
-    }
-
-    IEnumerator ComboTimer(float delay)
-    {
-        canCombo = true;
-        yield return new WaitForSeconds(delay); // 3초 대기 (여기서는 attackDelay 사용)
-
-        // 3초 내에 다음 공격 입력이 없었으므로 공격 상태 초기화
-        Debug.Log("Combo time expired. Resetting attack state.");
-        ResetAttackState();
-    }
-
-    void ResetAttackState()
-    {
-        attackStep = 0;
-        canCombo = false;
-        anime2.SetBool("attack1", false);
-        anime2.SetBool("attack2", false);
-    }
 
     void TryRollDash()
     {
@@ -237,7 +188,7 @@ public class PlayerController : MonoBehaviour
     {
         // 1. 상태 설정
         isRolling = true;
-        anime2.SetBool("roll", true); 
+        anime.SetBool("roll", true); 
         rb.velocity = Vector3.zero; // 구르기 시작 전 기존 속도 제거
 
         float startTime = Time.time;
@@ -253,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
         // 3. 상태 초기화
         isRolling = false;
-        anime2.SetBool("roll", false); 
+        anime.SetBool("roll", false); 
         rb.velocity = Vector3.zero; // 대시 후 속도 초기화 (미끄러짐 방지)
     }
 

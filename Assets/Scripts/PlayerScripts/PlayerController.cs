@@ -25,6 +25,14 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverPanel;
     private bool isInvincible = false;
     public float invincibleDuration = 1f;   // 무적 시간 (1초)
+    private bool isAttacking = false; // 공격 중인지 확인하는 내부 변수 (공격 중에는 다른 입력 방지)
+    private bool canCombo = false; // 콤보 타이머가 작동 중인지 확인하는 변수
+    private int attackStep = 0; // 0: Idle, 1: Attack1, 2: Attack2
+
+    [Header("Roll Dash")]
+    public float rollSpeed = 15f; // 구르기 이동 속도
+    public float rollDuration = 0.3f; // 구르기 지속 시간 (애니메이션 길이에 맞춰 조정)
+    private bool isRolling = false; // 구르기 상태 플래그
 
     [Header("player Data (ScriptableObject)")]
     public PlayerStatusSO playerStatus;
@@ -57,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
     private Animator anime;
+    private Animator anime2;
 
     [Header("Camera")]
     float hAxis;
@@ -71,7 +80,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anime = GetComponentInChildren<Animator>();
+        anime2 = GetComponent<Animator>();
 
+        Debug.Log($"{anime.name}");
         // SO 기본 스탯
         ApplyStatusFromSO();
 
@@ -116,55 +127,134 @@ public class PlayerController : MonoBehaviour
         }
 
         Move();
-        Jump();
         Turn();
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            TryAttack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TryRollDash();
+        }
     }
 
     void Move()
     {
+        if (isRolling) return;
+
         hAxis = Input.GetAxisRaw("Horizontal");
         vAxis = Input.GetAxisRaw("Vertical");
 
-        if (hAxis != 0 || vAxis != 0)
-            anime.SetBool("walk", true);
-        else
-            anime.SetBool("walk", false);
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            playerMoveSpeed = runSpeed;
-            anime.SetFloat("RunSpeed", runSpeed);
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            playerMoveSpeed = playerStatus.playerMoveSpeed;
-        }
-
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-        transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
 
-        anime.SetBool("walk", moveVec != Vector3.zero);
+        // [변경 1] 움직임 여부에 따라 walk (bool) 설정
+        bool isWalking = moveVec != Vector3.zero;
+        anime.SetBool("walk", isWalking);
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        // [변경 2] Shift 키 입력 시 RunSpeed(float) 대신 run(bool) 사용
+        if (Input.GetKey(KeyCode.LeftShift) && isWalking)
         {
             playerMoveSpeed = runSpeed;
-            anime.SetBool("walk", false);
-            anime.SetBool("run", true);
+            anime.SetBool("run", true); 
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        else
         {
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                playerMoveSpeed = playerStatus.playerMoveSpeed;
+            }
+
+            // 키를 뗐거나 멈췄을 때 run 꺼짐
             anime.SetBool("run", false);
-            playerMoveSpeed = playerStatus.playerMoveSpeed;
+        }
+
+        transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
+    }
+
+
+    void TryAttack()
+    {
+        if (isInvincible || isRolling) return; // 무적 중/구르기 중에는 공격 불가 처리
+
+        if (attackStep == 0) // Idle 또는 이동 중
+        {
+            attackStep = 1;
+            anime2.SetBool("attack1", true); // Attack1 애니메이션 시작
+            StartCoroutine(ComboTimer(attackDelay)); // 콤보 타이머 시작
+        }
+        else if (attackStep == 1 && canCombo) // Attack1 후 콤보 가능 시간 내에 재입력 -> Attack2
+        {
+            attackStep = 2;
+            anime2.SetBool("attack2", true); // Attack2 애니메이션 시작 (애니메이터 파라미터 확인 필요!)
+
+            canCombo = false;
+            StopAllCoroutines(); // 기존 콤보 타이머 중지
+            StartCoroutine(ComboTimer(attackDelay)); // 새 콤보 타이머 시작
+        }
+        else if (attackStep == 2 && canCombo)
+        {
+            ResetAttackState();
         }
     }
 
-    void Jump()
+    IEnumerator ComboTimer(float delay)
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        canCombo = true;
+        yield return new WaitForSeconds(delay); // 3초 대기 (여기서는 attackDelay 사용)
+
+        // 3초 내에 다음 공격 입력이 없었으므로 공격 상태 초기화
+        Debug.Log("Combo time expired. Resetting attack state.");
+        ResetAttackState();
+    }
+
+    void ResetAttackState()
+    {
+        attackStep = 0;
+        canCombo = false;
+        anime2.SetBool("attack1", false);
+        anime2.SetBool("attack2", false);
+    }
+
+    void TryRollDash()
+    {
+        // 공격 중이거나 무적 중이거나 이미 구르기 중이라면 대시 불가
+        if (attackStep != 0 || isInvincible || isRolling) return;
+
+        // 1. 대시 방향 결정: 움직임 입력이 있다면 그 방향, 없다면 플레이어가 바라보는 방향
+        Vector3 dashDirection = moveVec.normalized;
+        if (dashDirection == Vector3.zero)
         {
-            rb.AddForce(Vector3.up * playerJumpforce, ForceMode.Impulse);
-            anime.SetTrigger("jump");
+            dashDirection = transform.forward;
         }
+
+        // 2. 대시/구르기 코루틴 시작
+        StartCoroutine(RollDashCoroutine(dashDirection));
+    }
+
+    IEnumerator RollDashCoroutine(Vector3 dashDirection)
+    {
+        // 1. 상태 설정
+        isRolling = true;
+        anime2.SetBool("roll", true); 
+        rb.velocity = Vector3.zero; // 구르기 시작 전 기존 속도 제거
+
+        float startTime = Time.time;
+
+        // 2. 구르기 이동 (지속적인 힘 적용)
+        while (Time.time < startTime + rollDuration)
+        {
+            // 물리적인 충돌을 무시하지 않으려면 rb.MovePosition 대신 rb.velocity에 힘을 줄 수 있으나,
+            // 빠른 대시를 위해 MovePosition을 사용하거나 AddForce를 사용해 원하는 속도를 유지합니다.
+            rb.MovePosition(rb.position + dashDirection * rollSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // 3. 상태 초기화
+        isRolling = false;
+        anime2.SetBool("roll", false); 
+        rb.velocity = Vector3.zero; // 대시 후 속도 초기화 (미끄러짐 방지)
     }
 
     void Turn()
@@ -188,7 +278,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            anime.ResetTrigger("jump");
+
         }
     }
 

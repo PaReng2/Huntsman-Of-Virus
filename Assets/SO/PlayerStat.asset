@@ -17,3 +17,5 @@ MonoBehaviour:
   playerAttackRate: 0
   playerMoveSpeed: 5
   playerAttackRange: 2
+  playerCurLevel: 1
+  playerCurEXP: 0

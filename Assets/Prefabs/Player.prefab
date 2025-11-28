@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1633022143413342298}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.29, z: 0}
+  m_LocalPosition: {x: 0, y: 1.012, z: 0.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 1547819762021535251}
   - component: {fileID: 2174631247931137501}
   - component: {fileID: 1376172364364180589}
+  - component: {fileID: 7055841177398369696}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -118,7 +119,7 @@ MonoBehaviour:
   curPlayerHp: 0
   playerMaxHP: 0
   playerMoveSpeed: 5
-  playerDashForce: 3
+  playerJumpforce: 5
   attackDelay: 5
   attackRange: 0
   attackPower: 0
@@ -126,6 +127,9 @@ MonoBehaviour:
   deathEffect: {fileID: 1852423962746920, guid: b191509d258622e43a00730317b1e1e4, type: 3}
   gameOverPanel: {fileID: 0}
   invincibleDuration: 1
+  rollSpeed: 15
+  rollDuration: 0.3
+  dashEffect: {fileID: 1472126155929466, guid: 8cb087f3a3c92f54186e0f20e349dfe1, type: 3}
   playerStatus: {fileID: 11400000, guid: 687385a824c8c89429e74c94aeb4e1ce, type: 2}
   playerGold: 0
   goldText: {fileID: 0}
@@ -138,6 +142,10 @@ MonoBehaviour:
   expIncreasePerLevel: 20
   expSlider: {fileID: 0}
   expText: {fileID: 0}
+  level_5_Effet: {fileID: 1620416989627834, guid: 4ddebdabb471e3f4aa862138c1b44098, type: 3}
+  level_10_Effet: {fileID: 1415792610961166, guid: d11421aef48f87c439f75c8fb03a7db8, type: 3}
+  level_20_Effet: {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
+  level_40_Effet: {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
   augmentSystem: {fileID: 0}
   baseMaxHP: 0
   baseAttackPower: 0
@@ -145,6 +153,7 @@ MonoBehaviour:
   baseAttackDelay: 0
   baseAttackRange: 0
   followCamera: {fileID: 0}
+  goldErea: 0
 --- !u!65 &7974185814782849689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -245,8 +254,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c596644a2592e458d5426cdfbc1298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSpawn: {fileID: 0}
+  effectSpawn: {fileID: 1879997490680185194}
   tornadoEffect: {fileID: 1215538090931656, guid: 93216d197cc19f64bb18491762577ca1, type: 3}
+  tornadoCooldown: 3
+  fireEffect: {fileID: 1068831043734682, guid: 1333e421fea114d41b258004ee6a5215, type: 3}
+  fireCooldown: 5
+--- !u!95 &7055841177398369696
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440421910938976731}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 2463b621fee804d48b7a1f4e13ad552a, type: 3}
+  m_Controller: {fileID: 9100000, guid: b792dc607bf7f5340ad4f3b5cafcc4d8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6060327050025472288
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +305,7 @@ Transform:
   m_GameObject: {fileID: 6060327050025472288}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.88, z: 1.09}
+  m_LocalPosition: {x: 0, y: 0.88, z: 2.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -350,7 +383,8 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: b792dc607bf7f5340ad4f3b5cafcc4d8, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8914207829204841315, guid: fe1ae155e7e35d84e9e5168c50b7a138, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

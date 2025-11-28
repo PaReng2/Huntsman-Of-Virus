@@ -25,14 +25,13 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverPanel;
     private bool isInvincible = false;
     public float invincibleDuration = 1f;   // 무적 시간 (1초)
-    private bool isAttacking = false; // 공격 중인지 확인하는 내부 변수 (공격 중에는 다른 입력 방지)
-    private bool canCombo = false; // 콤보 타이머가 작동 중인지 확인하는 변수
     private int attackStep = 0; // 0: Idle, 1: Attack1, 2: Attack2
 
     [Header("Roll Dash")]
     public float rollSpeed = 15f; // 구르기 이동 속도
     public float rollDuration = 0.3f; // 구르기 지속 시간 (애니메이션 길이에 맞춰 조정)
     private bool isRolling = false; // 구르기 상태 플래그
+    public GameObject dashEffect;
 
     [Header("player Data (ScriptableObject)")]
     public PlayerStatusSO playerStatus;
@@ -51,6 +50,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int expIncreasePerLevel = 20;
     public Slider expSlider;
     public TMP_Text expText;
+    public GameObject level_5_Effet;
+    public GameObject level_10_Effet;
+    public GameObject level_20_Effet;
+    public GameObject level_40_Effet;
+
+
 
     [Header("Augment System")]
     [SerializeField] private AugmentSystem augmentSystem;
@@ -83,14 +88,14 @@ public class PlayerController : MonoBehaviour
         // SO 기본 스탯
         ApplyStatusFromSO();
 
+        
+
         curPlayerHp = playerMaxHP;
         runSpeed = playerMoveSpeed * 1.5f;
 
         if (augmentSystem == null)
             augmentSystem = FindObjectOfType<AugmentSystem>();
 
-        currentLevel = 1;
-        currentExp = 0;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
 
         playerGold = PlayerProgress.savedGold;
@@ -179,7 +184,8 @@ public class PlayerController : MonoBehaviour
         {
             dashDirection = transform.forward;
         }
-
+        Instantiate(dashEffect, transform.position, gameObject.transform.rotation); //수정 필요
+        
         // 2. 대시/구르기 코루틴 시작
         StartCoroutine(RollDashCoroutine(dashDirection));
     }
@@ -328,6 +334,8 @@ public class PlayerController : MonoBehaviour
         baseAttackRange = playerStatus.playerAttackRange;
         baseAttackPower = playerStatus.playerAttackPower;
         baseMaxHP = playerStatus.playerHP;
+        currentLevel = playerStatus.playerCurLevel;
+        currentExp = playerStatus.playerCurEXP;
 
         playerMoveSpeed = baseMoveSpeed;
         attackDelay = baseAttackDelay;
@@ -444,6 +452,7 @@ public class PlayerController : MonoBehaviour
     public void AddExperience(int amount)
     {
         currentExp += amount;
+        playerStatus.playerCurEXP = currentExp;
         Debug.Log($"[Player] Get EXP {amount}. ({currentExp}/{expToNextLevel})");
 
         while (currentExp >= expToNextLevel)
@@ -461,9 +470,31 @@ public class PlayerController : MonoBehaviour
 
         currentLevel++;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
+        playerStatus.playerCurLevel = currentLevel;
+
+        if (currentLevel >= 15)
+        {
+            // currentLevel이 15 이상일 때 실행 (가장 높은 레벨부터 확인)
+            Instantiate(level_40_Effet, effectTransform);
+        }
+        else if (currentLevel >= 10)
+        {
+            // currentLevel이 10 이상이고 15 미만일 때 실행
+            Instantiate(level_20_Effet, effectTransform);
+        }
+        else if (currentLevel >= 7)
+        {
+            // currentLevel이 7 이상이고 10 미만일 때 실행
+            Instantiate(level_10_Effet, effectTransform);
+        }
+        else if (currentLevel >= 5)
+        {
+            // currentLevel이 5 이상이고 7 미만일 때 실행
+            Instantiate(level_5_Effet, effectTransform);
+        }
 
         Debug.Log($"[Player] Level Up! → Level {currentLevel}, Next EXP : {expToNextLevel}, Current EXP : {currentExp}");
-
+        playerStatus.playerCurLevel = currentLevel;
         if (augmentSystem != null)
         {
             bool opened = augmentSystem.TryOpenPanel();

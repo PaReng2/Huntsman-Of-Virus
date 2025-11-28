@@ -8,27 +8,26 @@ public class Fire : MonoBehaviour
     public int lifeTime;
     public int Damage;
     ChaseEnemy chaseEnemy;
-
-    private void Awake()
+void Start()
     {
-        chaseEnemy = FindAnyObjectByType<ChaseEnemy>();
-    }
-
-    void Start()
-    {
-        gameObject.transform.rotation = transform.parent.rotation;
+        Destroy(gameObject, lifeTime); 
     }
 
     void Update()
     {
-        Destroy(gameObject, lifeTime);
+        gameObject.transform.rotation = transform.parent.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            chaseEnemy.TakeDamage(Damage);
+            ChaseEnemy chaseEnemyComponent = other.GetComponent<ChaseEnemy>();
+            
+            if (chaseEnemyComponent != null)
+            {
+                chaseEnemyComponent.TakeDamage(Damage);
+            }
         }
     }
 }

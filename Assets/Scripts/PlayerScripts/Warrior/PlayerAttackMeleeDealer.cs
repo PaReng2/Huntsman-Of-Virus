@@ -7,7 +7,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     [Header("공격 관련")]
     public float attackRange = 2f;         
     public float attackPower = 10f;        
-    public float attackRate = 1f;          
+    public float attackRate;          
     private float curLeftAttackTime = 0f;
     private float lastClickedTime = 0f;
     public static int noOfClicks = 0;
@@ -34,6 +34,10 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     private void Start()
     {
         attackRate = playerData.playerAttackRate;
+        if (attackRate <= 0)
+        {
+            attackRate = 1f;
+        }
         attackRange = playerData.playerAttackRange;
         attackPower = playerData.playerAttackPower;
     }
@@ -42,31 +46,35 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
     {
         isInteracting = gameManager.isInteracting;
 
+        // 쿨타임 감소
         if (curLeftAttackTime > 0)
             curLeftAttackTime -= Time.deltaTime;
 
+        // 공격 입력
         if (Input.GetMouseButtonDown(0))
-        {
-            if (curLeftAttackTime <= 0)
-            {
-                if (isInteracting)
-                {
-                    Debug.Log("상호작용 중에는 공격할 수 없습니다.");
-                    return;
-                }
+            TryAttack();
+    }
 
-                Attack();
-                curLeftAttackTime = attackRate;
-            }
-            else
-            {
-                Debug.Log("공격 재정비 중...");
-            }
+    void TryAttack()
+    {
+        if (curLeftAttackTime > 0)
+        {
+            Debug.Log("공격 쿨타임 중...");
+            return;
         }
+
+        if (isInteracting)
+        {
+            Debug.Log("상호작용 중 공격 불가");
+            return;
+        }
+
+        Attack();
+        curLeftAttackTime = attackRate;
     }
 
 
-    
+
     void Attack()
     {
         Debug.Log("근거리 공격!");

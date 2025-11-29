@@ -27,16 +27,30 @@ public class PlayerSkills : MonoBehaviour
 
     [Header("shield")]
     public GameObject shieldEffect;
-    public float shieldCooldown = 2f;         // 쉴드 쿨타임 (5초)
+    public float shieldCooldown = 2f;         // 쉴드 쿨타임 (2초)
     private float curShieldTime = 0f;         // 쉴드 남은 시간
     private bool isShieldActive = false;
     private PlayerController playerController;
 
+    [Header("Unlocked Skills")]
+    public List<Skills> unlockedSkills = new List<Skills>();
+
     private void Start()
     {
-        ActivateShield();
         playerController = FindObjectOfType<PlayerController>();
+
+        // 쉴드는 아이템으로 해제되어 있지 않으면 생성하지 않도록 변경
+        if (IsSkillUnlocked(Skills.shield))
+        {
+            ActivateShield();
+        }
+        else
+        {
+            isShieldActive = false;
+            curShieldTime = 0f;
+        }
     }
+
     private void Update()
     {
         if (curTornadoTime > 0)
@@ -58,11 +72,40 @@ public class PlayerSkills : MonoBehaviour
                 ActivateShield();
             }
         }
+
+        // 스킬 사용은 해당 스킬이 잠금 해제된 경우에만 허용
         tornado();
         fire();
     }
+
+    public bool IsSkillUnlocked(Skills skill)
+    {
+        return unlockedSkills != null && unlockedSkills.Contains(skill);
+    }
+
+    public void UnlockSkill(Skills skill)
+    {
+        if (unlockedSkills == null) unlockedSkills = new List<Skills>();
+        if (!unlockedSkills.Contains(skill))
+        {
+            unlockedSkills.Add(skill);
+            Debug.Log($"[PlayerSkills] 스킬 잠금 해제: {skill}");
+
+            // 스킬이 즉시 활성화를 요구하는 경우 처리
+            if (skill == Skills.shield)
+            {
+                // 쉴드가 꺼져있고 쿨이 끝나있다면 즉시 활성화
+                if (!isShieldActive && curShieldTime <= 0f)
+                    ActivateShield();
+            }
+        }
+    }
+
     public void tornado()
     {
+        // 잠금 해제되어 있지 않으면 동작하지 않음
+        if (!IsSkillUnlocked(Skills.tornado)) return;
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (curTornadoTime <= 0)
@@ -80,6 +123,9 @@ public class PlayerSkills : MonoBehaviour
 
     public void fire()
     {
+        // 잠금 해제되어 있지 않으면 동작하지 않음
+        if (!IsSkillUnlocked(Skills.fire)) return;
+
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (curFireTime <= 0)
@@ -93,8 +139,16 @@ public class PlayerSkills : MonoBehaviour
             }
         }
     }
+
     private void ActivateShield()
     {
+        // 쉴드 스킬이 잠금해제되어 있지 않으면 만들지 않음
+        if (!IsSkillUnlocked(Skills.shield))
+        {
+            Debug.Log("[PlayerSkills] 쉴드 스킬이 잠금 상태라 활성화하지 않습니다.");
+            return;
+        }
+
         // 쉴드 이펙트를 생성하고, Shield 스크립트에 이 PlayerSkills 스크립트를 전달
         GameObject shieldInstance = Instantiate(shieldEffect, effectSpawn);
         Shield shieldScript = shieldInstance.GetComponent<Shield>();
@@ -113,7 +167,7 @@ public class PlayerSkills : MonoBehaviour
     public void ShieldDestroyed()
     {
         isShieldActive = false;
-        curShieldTime = shieldCooldown; // 5초 재충전 시작
+        curShieldTime = shieldCooldown; // 재충전 시작
         Debug.Log($"쉴드 파괴!  {shieldCooldown}초 후 재활성화됩니다.");
         if (playerController != null)
         {

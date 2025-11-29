@@ -83,6 +83,13 @@ public class ChaseEnemy : MonoBehaviour
                 }
             }
         }
+        if (other.CompareTag("Shield"))
+        {
+            Vector3 knockbackDir = (transform.position - other.transform.position).normalized;
+
+            ApplyKnockback(knockbackDir);
+
+        }
     }
 
     public void TakeDamage(float damage)

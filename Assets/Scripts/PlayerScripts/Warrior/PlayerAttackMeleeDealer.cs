@@ -87,7 +87,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         if (comboStep == 1)
         {
             // 1타 실행
-            anime.SetTrigger("attack1"); // Trigger 사용 권장
+            anime.SetTrigger("attack1"); 
             Debug.Log("공격 1타!");
         }
         else if (comboStep == 2)

@@ -118,8 +118,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Mathf.Approximately(Time.timeScale, 0f))
         {
-            //anime.SetBool("walk", false);
-            //anime.SetBool("run", false);
+            anime.SetBool("walk", false);
+            anime.SetBool("run", false);
             return;
         }
 
@@ -150,13 +150,13 @@ public class PlayerController : MonoBehaviour
 
         // [변경 1] 움직임 여부에 따라 walk (bool) 설정
         bool isWalking = moveVec != Vector3.zero;
-        //anime.SetBool("walk", isWalking);
+        anime.SetBool("walk", isWalking);
 
         // [변경 2] Shift 키 입력 시 RunSpeed(float) 대신 run(bool) 사용
         if (Input.GetKey(KeyCode.LeftShift) && isWalking)
         {
             playerMoveSpeed = runSpeed;
-            //anime.SetBool("run", true); 
+            anime.SetBool("run", true);
         }
         else
         {
@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // 키를 뗐거나 멈췄을 때 run 꺼짐
-            //anime.SetBool("run", false);
+            anime.SetBool("run", false);
         }
 
         transform.position += moveVec * playerMoveSpeed * Time.deltaTime;

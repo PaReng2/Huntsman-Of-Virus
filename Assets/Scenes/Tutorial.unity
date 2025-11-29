@@ -2828,14 +2828,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1529695287855467660, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: animator
-      value: 
+    - target: {fileID: 1363216484620614523, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.16
       objectReference: {fileID: 0}
-    - target: {fileID: 2174631247931137501, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: Slash
-      value: 
-      objectReference: {fileID: 1699945200453384, guid: cac944ab423eebc48961b60b1f231a62, type: 3}
+    - target: {fileID: 1363216484620614523, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363216484620614523, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15.33
+      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: followCamera
       value: 

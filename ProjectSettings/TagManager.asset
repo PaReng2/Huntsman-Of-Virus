@@ -12,6 +12,7 @@ TagManager:
   - playerSkill
   - StartButton
   - OptionButton
+  - Shield
   layers:
   - Default
   - TransparentFX

@@ -259,6 +259,8 @@ MonoBehaviour:
   tornadoCooldown: 3
   fireEffect: {fileID: 1068831043734682, guid: 1333e421fea114d41b258004ee6a5215, type: 3}
   fireCooldown: 5
+  shieldEffect: {fileID: 0}
+  shieldCooldown: 5
 --- !u!95 &7055841177398369696
 Animator:
   serializedVersion: 5

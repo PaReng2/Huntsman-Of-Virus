@@ -412,6 +412,8 @@ public class PlayerController : MonoBehaviour
         List<Color[]> originalColors = new List<Color[]>();
         foreach (Renderer rend in renderers)
         {
+            if (rend == null) continue;
+
             Color[] colors = new Color[rend.materials.Length];
             for (int i = 0; i < rend.materials.Length; i++)
                 colors[i] = rend.materials[i].color;
@@ -422,6 +424,8 @@ public class PlayerController : MonoBehaviour
         {
             foreach (Renderer rend in renderers)
             {
+                if (rend == null) continue;
+
                 foreach (Material mat in rend.materials)
                     mat.color = Color.red;
             }
@@ -431,6 +435,7 @@ public class PlayerController : MonoBehaviour
             for (int r = 0; r < renderers.Length; r++)
             {
                 Renderer rend = renderers[r];
+                if (rend == null) continue;
                 for (int i = 0; i < rend.materials.Length; i++)
                     rend.materials[i].color = originalColors[r][i];
             }
@@ -442,6 +447,7 @@ public class PlayerController : MonoBehaviour
         for (int r = 0; r < renderers.Length; r++)
         {
             Renderer rend = renderers[r];
+            if (rend == null) continue;
             for (int i = 0; i < rend.materials.Length; i++)
                 rend.materials[i].color = originalColors[r][i];
         }
@@ -535,5 +541,11 @@ public class PlayerController : MonoBehaviour
                 item.ApplyEffect(this);
             }
         }
+    }
+    public void GrantInvincibilityOnShieldBreak()
+    {
+        if (isInvincible) return;
+
+        StartCoroutine(InvincibleCoroutine());
     }
 }

@@ -345,7 +345,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cb2759145f6018d47a72e16aab2d7455, type: 2}
   - {fileID: 11400000, guid: 837f8d3708bb66748a5f287f32ece652, type: 2}
   - {fileID: 11400000, guid: 01bb3e0042625734da841c4695e29d2d, type: 2}
-  - {fileID: 11400000, guid: 01bb3e0042625734da841c4695e29d2d, type: 2}
+  - {fileID: 11400000, guid: e40f07a7e38e775429abcac662fb84db, type: 2}
   spawners:
   - {fileID: 1068507756}
   - {fileID: 97751602}

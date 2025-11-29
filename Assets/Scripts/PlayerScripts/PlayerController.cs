@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public GameObject hitEffectPlayer;
     public GameObject deathEffect;
     public GameObject gameOverPanel;
+    public TextMeshProUGUI playerPointWave;
     private bool isInvincible = false;
     public float invincibleDuration = 1f;   // 무적 시간 (1초)
     private int attackStep = 0; // 0: Idle, 1: Attack1, 2: Attack2
@@ -317,6 +318,8 @@ public class PlayerController : MonoBehaviour
 
         PlayerProgress.ResetAllProgress();
 
+        StageManager sm = FindAnyObjectByType<StageManager>();
+
         if (deathEffect != null)
         {
             GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.AngleAxis(180f, Vector3.up));
@@ -325,6 +328,7 @@ public class PlayerController : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+            playerPointWave.text = $"Player Point \n Wave : {sm.curWaveNum} \n Level : {currentLevel}";
         }
         Destroy(gameObject);
     }

@@ -17,5 +17,6 @@ public class PlayerStatusSO : ScriptableObject
     public float playerAttackRate;
     public float playerMoveSpeed;
     public float playerAttackRange;
-    
+    public int playerCurLevel = 1;
+    public int playerCurEXP = 0;
 }

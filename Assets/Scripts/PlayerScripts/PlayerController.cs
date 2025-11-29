@@ -87,15 +87,18 @@ public class PlayerController : MonoBehaviour
         // SO 기본 스탯
         ApplyStatusFromSO();
 
-        
+        // 저장된 레벨/경험치 불러오기
+        currentLevel = Mathf.Max(1, PlayerProgress.savedLevel);
+        currentExp = Mathf.Max(0, PlayerProgress.savedExp);
 
+        expToNextLevel = GetRequiredExpForLevel(currentLevel);
+
+        // 기존 동작 유지
         curPlayerHp = playerMaxHP;
         runSpeed = playerMoveSpeed * 1.5f;
 
         if (augmentSystem == null)
             augmentSystem = FindObjectOfType<AugmentSystem>();
-
-        expToNextLevel = GetRequiredExpForLevel(currentLevel);
 
         playerGold = PlayerProgress.savedGold;
 
@@ -455,13 +458,17 @@ public class PlayerController : MonoBehaviour
     public void AddExperience(int amount)
     {
         currentExp += amount;
+        PlayerProgress.savedExp = currentExp;
+
         Debug.Log($"[Player] Get EXP {amount}. ({currentExp}/{expToNextLevel})");
 
         while (currentExp >= expToNextLevel)
         {
             currentExp -= expToNextLevel;
-            LevelUp();
+            LevelUp(); 
         }
+
+        PlayerProgress.savedExp = currentExp;
         UpdateExpUI();
     }
 
@@ -470,28 +477,29 @@ public class PlayerController : MonoBehaviour
         GameObject levelUp = Instantiate(levelUpEffect, effectTransform);
         levelUp.transform.localScale = new Vector3(3, 3, 3);
 
-
         currentLevel++;
+        PlayerProgress.savedLevel = currentLevel;
+
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
+
+        PlayerProgress.savedExp = currentExp;
+
+        playerStatus.playerCurLevel = currentLevel;
 
         if (currentLevel >= 15)
         {
-            // currentLevel이 15 이상일 때 실행 (가장 높은 레벨부터 확인)
             Instantiate(level_15_Effet, effectTransform);
         }
         else if (currentLevel >= 10)
         {
-            // currentLevel이 10 이상이고 15 미만일 때 실행
             Instantiate(level_10_Effet, effectTransform);
         }
         else if (currentLevel >= 7)
         {
-            // currentLevel이 7 이상이고 10 미만일 때 실행
             Instantiate(level_7_Effet, effectTransform);
         }
         else if (currentLevel >= 5)
         {
-            // currentLevel이 5 이상이고 7 미만일 때 실행
             Instantiate(level_5_Effet, effectTransform);
         }
 
@@ -505,7 +513,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         UpdateExpUI();
-
     }
 
     public void UpdateExpUI()

@@ -3981,6 +3981,7 @@ MonoBehaviour:
   infectedCPU: {fileID: 5219339681281622332, guid: 5d887c877f2b07542a38292c2a1b4cc1, type: 3}
   infectedGPU: {fileID: 9179659930725458122, guid: 1a2b4ca5cbb4ad944ab4b3031e53ead6, type: 3}
   infectedMemory: {fileID: 909380595935084420, guid: 01fd35bbd73b4684a92d621cafaff046, type: 3}
+  spawnArea: {x: 70, y: 0, z: 70}
 --- !u!4 &958808181
 Transform:
   m_ObjectHideFlags: 0
@@ -3990,7 +3991,7 @@ Transform:
   m_GameObject: {fileID: 958808179}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.474981, y: -248.05194, z: 75.71518}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

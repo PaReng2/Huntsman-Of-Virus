@@ -175,7 +175,7 @@ public class ChaseEnemy : MonoBehaviour
         if (goldPrefab != null)
         {
             Vector3 dropPos = transform.position + Vector3.up * 0.5f;
-            GameObject gold = Instantiate(goldPrefab, dropPos, Quaternion.identity);
+            GameObject gold = Instantiate(goldPrefab, dropPos, goldPrefab.transform.rotation);
 
             
         }

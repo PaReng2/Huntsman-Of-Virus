@@ -10,22 +10,29 @@ public class MapObstacleSpawner : MonoBehaviour
     public GameObject infectedMemory;
 
     private Spawner spawnerCS;
-
+    private PlayerController pc;
+    private static int curLevel;
+    public Vector3 spawnArea = new Vector3(5f, 0f, 5f);
     private void Awake()
     {
         spawnerCS = FindAnyObjectByType<Spawner>();
+        pc = FindAnyObjectByType<PlayerController>();
     }
 
+    private void Start()
+    {
+        curLevel = pc.currentLevel;
+    }
     // Spawner 스크립트에서 웨이브가 시작될 때 이 함수를 호출해줄 것입니다.
-    public void CheckAndSpawnObstacle(int currentWaveIndex)
+    public void CheckAndSpawnObstacle(int currentPlayerLevel)
     {
         // 웨이브 인덱스는 0부터 시작하므로 +1을 해줍니다 (0 -> 1웨이브)
-        int currentWaveNum = currentWaveIndex + 1;
+        int currentLevel = currentPlayerLevel + 1;
 
-        // 3의 배수 웨이브인지 확인 (3, 6, 9 ...)
-        if (currentWaveNum % 3 == 0)
+        if (curLevel < pc.currentLevel)
         {
             SpawnRandomObstacle();
+            curLevel++;
         }
     }
 
@@ -48,13 +55,29 @@ public class MapObstacleSpawner : MonoBehaviour
                 break;
         }
 
-        // 2. Spawner의 위치에 생성 (만약 Spawner 변수가 없다면 현재 위치에)
-        Vector3 spawnPos = (spawnerCS != null) ? spawnerCS.transform.position : transform.position;
+        Vector3 origin = spawnerCS.transform.position;
 
-        if (targetPrefab != null)
+        // 범위 내 랜덤 오프셋 계산 (-범위/2 ~ +범위/2)
+        float randomX = Random.Range(-spawnArea.x / 2, spawnArea.x / 2);
+        float randomY = Random.Range(-spawnArea.y / 2, spawnArea.y / 2);
+        float randomZ = Random.Range(-spawnArea.z / 2, spawnArea.z / 2);
+
+        Vector3 randomOffset = new Vector3(randomX, randomY, randomZ);
+
+        // 최종 스폰 위치
+        Vector3 spawnPos = origin + randomOffset;
+
+        // 3. 생성
+        Instantiate(targetPrefab, spawnPos, Quaternion.identity);
+        Debug.Log($"레벨업! {targetPrefab.name} 생성됨. 위치: {spawnPos}");
+    }
+    private void OnDrawGizmosSelected()
+    {
+        if (spawnerCS != null)
         {
-            Instantiate(targetPrefab, spawnPos, Quaternion.identity);
-            Debug.Log($"[MapObstacle] 웨이브 돌입! {targetPrefab.name} 생성됨.");
+            Gizmos.color = Color.green;
+            // spawnerCS 위치를 중심으로 spawnArea 크기의 박스를 그립니다.
+            Gizmos.DrawWireCube(spawnerCS.transform.position, spawnArea);
         }
     }
 }

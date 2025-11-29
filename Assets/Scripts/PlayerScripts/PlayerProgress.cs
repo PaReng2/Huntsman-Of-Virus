@@ -12,7 +12,11 @@ public static class PlayerProgress
     // 증강 레벨 저장 (인덱스: 0=MAXHP, 1=ATK, 2=SPD, 3=ATKSPD, 4=RANGE)
     public static int[] savedAugmentLevels = new int[5];
 
-    // 전체 진행(골드, 아이템, 증강)을 초기화
+    // 씬간 유지할 플레이어 레벨/경험치 ---
+    public static int savedLevel = 1;
+    public static int savedExp = 0;
+
+    // 전체 진행(골드, 아이템, 증강, 레벨/EXP)을 초기화
     public static void ResetAllProgress()
     {
         Debug.Log("모든 진행도 초기화됨!");
@@ -28,6 +32,8 @@ public static class PlayerProgress
 
         for (int i = 0; i < savedAugmentLevels.Length; i++)
             savedAugmentLevels[i] = 0;
+
+        savedLevel = 1;
+        savedExp = 0;
     }
 }
-  

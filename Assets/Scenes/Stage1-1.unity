@@ -665,6 +665,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1093726617714798, guid: 25697b6ce7367a449a910cd5f21b3ee3, type: 3}
     - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: tornadoEffect
+      value: 
+      objectReference: {fileID: 818160039955685535, guid: 67584f013e256d24fa1aa734c10bd65c, type: 3}
+    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: shieldCooldown
       value: 5
       objectReference: {fileID: 0}
@@ -2908,11 +2912,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
-  - {fileID: 11400000, guid: 9e2b61f4a327bc042a4bf9fff2d087f1, type: 2}
-  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
-  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
-  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
-  - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
   timeBetweenWaves: 10
   activationRange: 34.8
   spawnRange: 35.3
@@ -3579,6 +3584,53 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &958808179
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 958808181}
+  - component: {fileID: 958808180}
+  m_Layer: 0
+  m_Name: ObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &958808180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958808179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6576308cb24d39a45a5fe3c882a67a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infectedCPU: {fileID: 5219339681281622332, guid: 5d887c877f2b07542a38292c2a1b4cc1, type: 3}
+  infectedGPU: {fileID: 9179659930725458122, guid: 1a2b4ca5cbb4ad944ab4b3031e53ead6, type: 3}
+  infectedMemory: {fileID: 909380595935084420, guid: 01fd35bbd73b4684a92d621cafaff046, type: 3}
+--- !u!4 &958808181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958808179}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -26.474981, y: -248.05194, z: 75.71518}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -5031,6 +5083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15dd87bbc6885da4590606a05c6ff3a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pc: {fileID: 0}
   curLevel: 0
   curEXP: 0
 --- !u!1 &1250542681
@@ -6807,3 +6860,4 @@ SceneRoots:
   - {fileID: 263550485}
   - {fileID: 1604501783}
   - {fileID: 1247044820}
+  - {fileID: 958808181}

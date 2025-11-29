@@ -125,6 +125,8 @@ GameObject:
   - component: {fileID: 7790445552371879733}
   - component: {fileID: 740511496427778682}
   - component: {fileID: 4847739235908848382}
+  - component: {fileID: -4230089898733794789}
+  - component: {fileID: 3816492800156553550}
   m_Layer: 6
   m_Name: StaticEnemy
   m_TagString: Enemy
@@ -162,11 +164,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  attackRange: 50
+  attackRange: 10
   attackCooldown: 1.5
   projectilePrefab: {fileID: 4552234930871630983, guid: b3cf9e726693f8f43846786cc2d0e096, type: 3}
   firepoint: {fileID: 7153840523712314933}
   enemyData: {fileID: 11400000, guid: 44c3c837c5031574f8b9323f091a64f2, type: 2}
+  hitEffectEnemy: {fileID: 1439474312745800, guid: 5dafa30c254464d49912eab505abb615, type: 3}
+  goldPrefab: {fileID: 4987502069234615386, guid: e831943ce089c994bb4095e9628151f7, type: 3}
+  knockbackDistance: 2
+  knockbackDuration: 0.2
+  turnSpeed: 5
 --- !u!136 &4847739235908848382
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -190,3 +197,38 @@ CapsuleCollider:
   m_Height: 2.14
   m_Direction: 1
   m_Center: {x: 0, y: 0.87, z: 0}
+--- !u!195 &-4230089898733794789
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552004981364622609}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3816492800156553550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552004981364622609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 800b0f59275714f4b842804e7d0ff011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expAmount: 10

@@ -405,7 +405,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3075cf69c4dd7ba4a91639cf090a1576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalPrefab: {fileID: 1056062096016144277, guid: 0a9cc8a6f22393e4d9d25aa11fc3f172, type: 3}
+  curWaveText: {fileID: 0}
+  curWaveNum: 0
+  totalTime: 51
+  timerText: {fileID: 0}
   TotalEnemyCount: 0
 --- !u!4 &586436082
 Transform:
@@ -774,6 +777,8 @@ MonoBehaviour:
   timeBetweenWaves: 5
   activationRange: 5
   spawnRange: 5
+  spawnBatchCount: 5
+  spawnBatchInterval: 2
 --- !u!4 &1529415926
 Transform:
   m_ObjectHideFlags: 0
@@ -802,6 +807,7 @@ GameObject:
   - component: {fileID: 2108108569}
   - component: {fileID: 2108108568}
   - component: {fileID: 2108108567}
+  - component: {fileID: 2108108572}
   m_Layer: 0
   m_Name: StaticEnemy
   m_TagString: Enemy
@@ -827,6 +833,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4552234930871630983, guid: b3cf9e726693f8f43846786cc2d0e096, type: 3}
   firepoint: {fileID: 767777108}
   enemyData: {fileID: 11400000, guid: ee953390b994a424eadf5a033b3597b6, type: 2}
+  turnSpeed: 5
 --- !u!136 &2108108568
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -916,6 +923,28 @@ Transform:
   - {fileID: 767777108}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &2108108572
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108108566}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

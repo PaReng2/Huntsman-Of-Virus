@@ -51,9 +51,9 @@ public class PlayerController : MonoBehaviour
     public Slider expSlider;
     public TMP_Text expText;
     public GameObject level_5_Effet;
+    public GameObject level_7_Effet;
     public GameObject level_10_Effet;
-    public GameObject level_20_Effet;
-    public GameObject level_40_Effet;
+    public GameObject level_15_Effet;
 
 
 
@@ -80,11 +80,13 @@ public class PlayerController : MonoBehaviour
     [Header("GoldErea")]
     public float goldErea;
 
+    [Header("EXP")]
+    public EXPController expController;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anime = GetComponent<Animator>();
-
+        expController = FindAnyObjectByType<EXPController>();
         // SO 기본 스탯
         ApplyStatusFromSO();
 
@@ -334,8 +336,6 @@ public class PlayerController : MonoBehaviour
         baseAttackRange = playerStatus.playerAttackRange;
         baseAttackPower = playerStatus.playerAttackPower;
         baseMaxHP = playerStatus.playerHP;
-        currentLevel = playerStatus.playerCurLevel;
-        currentExp = playerStatus.playerCurEXP;
 
         playerMoveSpeed = baseMoveSpeed;
         attackDelay = baseAttackDelay;
@@ -458,7 +458,6 @@ public class PlayerController : MonoBehaviour
     public void AddExperience(int amount)
     {
         currentExp += amount;
-        playerStatus.playerCurEXP = currentExp;
         Debug.Log($"[Player] Get EXP {amount}. ({currentExp}/{expToNextLevel})");
 
         while (currentExp >= expToNextLevel)
@@ -467,6 +466,7 @@ public class PlayerController : MonoBehaviour
             LevelUp();
         }
         UpdateExpUI();
+        expController.SaveEXP(currentExp);
     }
 
     private void LevelUp()
@@ -474,24 +474,24 @@ public class PlayerController : MonoBehaviour
         GameObject levelUp = Instantiate(levelUpEffect, effectTransform);
         levelUp.transform.localScale = new Vector3(3, 3, 3);
 
+
         currentLevel++;
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
-        playerStatus.playerCurLevel = currentLevel;
 
         if (currentLevel >= 15)
         {
             // currentLevel이 15 이상일 때 실행 (가장 높은 레벨부터 확인)
-            Instantiate(level_40_Effet, effectTransform);
+            Instantiate(level_15_Effet, effectTransform);
         }
         else if (currentLevel >= 10)
         {
             // currentLevel이 10 이상이고 15 미만일 때 실행
-            Instantiate(level_20_Effet, effectTransform);
+            Instantiate(level_10_Effet, effectTransform);
         }
         else if (currentLevel >= 7)
         {
             // currentLevel이 7 이상이고 10 미만일 때 실행
-            Instantiate(level_10_Effet, effectTransform);
+            Instantiate(level_7_Effet, effectTransform);
         }
         else if (currentLevel >= 5)
         {
@@ -500,7 +500,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Debug.Log($"[Player] Level Up! → Level {currentLevel}, Next EXP : {expToNextLevel}, Current EXP : {currentExp}");
-        playerStatus.playerCurLevel = currentLevel;
         if (augmentSystem != null)
         {
             bool opened = augmentSystem.TryOpenPanel();
@@ -510,6 +509,8 @@ public class PlayerController : MonoBehaviour
             }
         }
         UpdateExpUI();
+        expController.SaveLevel(currentLevel);
+
     }
 
     public void UpdateExpUI()
@@ -519,6 +520,7 @@ public class PlayerController : MonoBehaviour
             expSlider.maxValue = expToNextLevel;
             expSlider.value = currentExp;
         }
+
 
         if (expText != null)
         {

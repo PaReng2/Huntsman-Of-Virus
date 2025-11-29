@@ -90,6 +90,9 @@ public class Spawner : MonoBehaviour
         isSpawningWave = true;
         Wave wave = waves[currentWaveIndex];
 
+        GameObject chase = wave.enemyPrefab;
+        GameObject staticEnemy = wave.staticEnemyPrefab;
+
         // UI 업데이트
         if (stageManager != null)
         {
@@ -108,6 +111,31 @@ public class Spawner : MonoBehaviour
         }
         // ==========================================================
 
+        int totalCount = wave.count;
+
+        int staticCount = totalCount / 2;
+        int chaseCount = totalCount - staticCount;
+
+        List<GameObject> enemiesToSpawn = new List<GameObject>();
+
+        for (int i = 0; i < staticCount; i++)
+        {
+            enemiesToSpawn.Add(staticEnemy);
+        }
+
+        for (int i = 0; i < chaseCount; i++)
+        {
+            enemiesToSpawn.Add(chase);
+        }
+
+        for (int i = 0; i < enemiesToSpawn.Count; i++)
+        {
+            GameObject temp = enemiesToSpawn[i];
+            int randomIndex = Random.Range(i, enemiesToSpawn.Count);
+            enemiesToSpawn[i] = enemiesToSpawn[randomIndex];
+            enemiesToSpawn[randomIndex] = temp;
+        }
+
         // 첫 번째 웨이브가 아니라면 웨이브 사이 대기 시간 적용
         if (currentWaveIndex > 0)
         {
@@ -117,6 +145,8 @@ public class Spawner : MonoBehaviour
         // 현재 웨이브의 적 스폰
         for (int i = 0; i < wave.count; i++)
         {
+            GameObject enemyToSpawn = enemiesToSpawn[i];
+
             // 스폰 위치 계산
             Vector3 spawnPos = transform.position + new Vector3(
                 Random.Range(-spawnRange, spawnRange),
@@ -125,8 +155,7 @@ public class Spawner : MonoBehaviour
             );
 
             // 적 생성
-            Instantiate(wave.enemyPrefab, spawnPos, Quaternion.identity);
-
+            Instantiate(enemyToSpawn, spawnPos, Quaternion.identity);
             // 스테이지의 총 스폰 수 카운트 증가
             totalEnemiesSpawnedSoFar++;
 

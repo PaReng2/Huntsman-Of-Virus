@@ -688,6 +688,18 @@ PrefabInstance:
       propertyPath: gameOverPanel
       value: 
       objectReference: {fileID: 1115068663}
+    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: level_7_Effet
+      value: 
+      objectReference: {fileID: 1415792610961166, guid: d11421aef48f87c439f75c8fb03a7db8, type: 3}
+    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: level_10_Effet
+      value: 
+      objectReference: {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
+    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
+      propertyPath: level_15_Effet
+      value: 
+      objectReference: {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
     - target: {fileID: 5440421910938976731, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: m_Name
       value: 'Player '
@@ -2895,7 +2907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - {fileID: 11400000, guid: ec4325b0ef0714a41aab28f94e475325, type: 2}
+  - {fileID: 11400000, guid: 60a5fd8e8723bcc48b9f2e975eefb2bf, type: 2}
   - {fileID: 11400000, guid: 9e2b61f4a327bc042a4bf9fff2d087f1, type: 2}
   - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}
   - {fileID: 11400000, guid: 64fe2dcbe838359418796c95ebaa80fd, type: 2}

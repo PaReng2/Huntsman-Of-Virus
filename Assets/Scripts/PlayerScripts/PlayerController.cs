@@ -80,13 +80,10 @@ public class PlayerController : MonoBehaviour
     [Header("GoldErea")]
     public float goldErea;
 
-    [Header("EXP")]
-    public EXPController expController;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anime = GetComponent<Animator>();
-        expController = FindAnyObjectByType<EXPController>();
         // SO 기본 스탯
         ApplyStatusFromSO();
 
@@ -466,7 +463,6 @@ public class PlayerController : MonoBehaviour
             LevelUp();
         }
         UpdateExpUI();
-        expController.SaveEXP(currentExp);
     }
 
     private void LevelUp()
@@ -509,7 +505,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         UpdateExpUI();
-        expController.SaveLevel(currentLevel);
 
     }
 

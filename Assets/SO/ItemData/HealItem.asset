@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Heal
   type: 0
   itemPrice: 10
-  modelPrefab: {fileID: 632117527804658416, guid: a1a03d778cd16994694dec43c14c55da, type: 3}
+  modelPrefab: {fileID: 919132149155446097, guid: 05346aa7c57b73247ab2a5cf98c13834, type: 3}
   uiSprite: {fileID: 21300000, guid: f1036e64823127c43a476f82467b964b, type: 3}
   healAmount: 25
   attackBonus: 0

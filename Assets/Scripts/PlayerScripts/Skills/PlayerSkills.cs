@@ -9,7 +9,8 @@ public class PlayerSkills : MonoBehaviour
     {
         tornado,
         fire,
-        shield
+        shield,
+        heal
     }
 
     [Header("EffectSpawnPosition")]
@@ -31,6 +32,11 @@ public class PlayerSkills : MonoBehaviour
     private float curShieldTime = 0f;      
     private bool isShieldActive = false;
     private PlayerController playerController;
+
+    [Header("heal")]
+    public GameObject healEffect;
+    public float healCooldown = 10f;      
+    private float curHealTime = 0f;      
 
     [Header("Unlocked Skills")]
     public List<Skills> unlockedSkills = new List<Skills>();
@@ -65,6 +71,12 @@ public class PlayerSkills : MonoBehaviour
             if (curFireTime < 0) curFireTime = 0;
         }
 
+        if (curHealTime > 0)
+        {
+            curHealTime -= Time.deltaTime;
+            if (curHealTime < 0) curHealTime = 0;
+        }
+
         if (!isShieldActive && curShieldTime > 0)
         {
             curShieldTime -= Time.deltaTime;
@@ -80,6 +92,7 @@ public class PlayerSkills : MonoBehaviour
         // 스킬 사용은 해당 스킬이 잠금 해제된 경우에만 허용
         tornado();
         fire();
+        heal();
     }
 
     public bool IsSkillUnlocked(Skills skill)
@@ -120,6 +133,24 @@ public class PlayerSkills : MonoBehaviour
             else
             {
                 Debug.Log($"토네이도 쿨타임! 남은 시간: {curTornadoTime:F1}초");
+            }
+        }
+    }
+    public void heal()
+    {
+        // 잠금 해제되어 있지 않으면 동작하지 않음
+        if (!IsSkillUnlocked(Skills.heal)) return;
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (curHealTime <= 0)
+            {
+                Instantiate(healEffect, effectSpawn);
+                curHealTime = healCooldown; // 쿨타임 재설정
+            }
+            else
+            {
+                Debug.Log($"힐 쿨타임! 남은 시간: {curHealTime:F1}초");
             }
         }
     }

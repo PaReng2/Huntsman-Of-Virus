@@ -18,4 +18,4 @@ MonoBehaviour:
   requiredAmount: 500
   rewardGolds: 100
   isUnlocked: 0
-  icon: {fileID: 21300000, guid: f1036e64823127c43a476f82467b964b, type: 3}
+  icon: {fileID: 21300000, guid: 308343eff5d88df4689afa3b6eaa3a59, type: 3}

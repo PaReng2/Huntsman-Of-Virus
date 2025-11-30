@@ -17,18 +17,18 @@ public class PlayerSkills : MonoBehaviour
 
     [Header("tornado")]
     public GameObject tornadoEffect;
-    public float tornadoCooldown = 3f;      // 토네이도 쿨타임 (3초)
-    private float curTornadoTime = 0f;      // 토네이도 남은 시간
+    public float tornadoCooldown = 3f;     
+    private float curTornadoTime = 0f;     
 
     [Header("fire")]
     public GameObject fireEffect;
-    public float fireCooldown = 5f;         // 파이어 쿨타임 (5초)
-    private float curFireTime = 0f;         // 파이어 남은 시간
+    public float fireCooldown = 5f;        
+    private float curFireTime = 0f;        
 
     [Header("shield")]
     public GameObject shieldEffect;
-    public float shieldCooldown = 2f;         // 쉴드 쿨타임 (2초)
-    private float curShieldTime = 0f;         // 쉴드 남은 시간
+    public float shieldCooldown = 2f;      
+    private float curShieldTime = 0f;      
     private bool isShieldActive = false;
     private PlayerController playerController;
 
@@ -56,15 +56,19 @@ public class PlayerSkills : MonoBehaviour
         if (curTornadoTime > 0)
         {
             curTornadoTime -= Time.deltaTime;
+            if (curTornadoTime < 0) curTornadoTime = 0;
         }
 
         if (curFireTime > 0)
         {
             curFireTime -= Time.deltaTime;
+            if (curFireTime < 0) curFireTime = 0;
         }
+
         if (!isShieldActive && curShieldTime > 0)
         {
             curShieldTime -= Time.deltaTime;
+            if (curShieldTime < 0) curShieldTime = 0;
 
             // 쿨타임이 끝나면 쉴드를 재활성화
             if (curShieldTime <= 0)
@@ -111,7 +115,6 @@ public class PlayerSkills : MonoBehaviour
             if (curTornadoTime <= 0)
             {
                 Instantiate(tornadoEffect, effectSpawn);
-
                 curTornadoTime = tornadoCooldown; // 쿨타임 재설정
             }
             else
@@ -173,5 +176,43 @@ public class PlayerSkills : MonoBehaviour
         {
             playerController.GrantInvincibilityOnShieldBreak();
         }
+    }
+
+    public float GetRemainingCooldown(Skills skill)
+    {
+        switch (skill)
+        {
+            case Skills.tornado:
+                return Mathf.Max(0f, curTornadoTime);
+            case Skills.fire:
+                return Mathf.Max(0f, curFireTime);
+            case Skills.shield:
+                // 쉴드가 활성화되어 있으면 남은 쿨타임 0 (사용 가능),
+                // 비활성 상태라면 curShieldTime이 재활성화까지 남은 시간
+                if (isShieldActive) return 0f;
+                return Mathf.Max(0f, curShieldTime);
+            default:
+                return 0f;
+        }
+    }
+
+    public float GetCooldownDuration(Skills skill)
+    {
+        switch (skill)
+        {
+            case Skills.tornado:
+                return tornadoCooldown;
+            case Skills.fire:
+                return fireCooldown;
+            case Skills.shield:
+                return shieldCooldown;
+            default:
+                return 0f;
+        }
+    }
+
+    public bool IsSkillOnCooldown(Skills skill)
+    {
+        return GetRemainingCooldown(skill) > 0f;
     }
 }

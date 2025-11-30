@@ -179,7 +179,7 @@ public class PlayerController : MonoBehaviour
     void TryRollDash()
     {
         // 공격 중이거나 무적 중이거나 이미 구르기 중이라면 대시 불가
-        if (attackStep != 0 || isInvincible || isRolling) return;
+        //if (attackStep != 0 || isRolling) return;
 
         // 1. 대시 방향 결정: 움직임 입력이 있다면 그 방향, 없다면 플레이어가 바라보는 방향
         Vector3 dashDirection = moveVec.normalized;

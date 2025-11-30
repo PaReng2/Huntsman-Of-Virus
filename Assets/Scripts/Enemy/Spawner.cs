@@ -24,12 +24,14 @@ public class Spawner : MonoBehaviour
     private bool isSpawningWave = false;      // 현재 웨이브가 스폰 중인지 여부
     private bool wavesStarted = false;        // 웨이브 시퀀스가 시작되었는지 여부
     private StageManager stageManager;
+    MapObstacleSpawner obstacleSpawner;
+
 
     void Start()
     {
+        obstacleSpawner = FindAnyObjectByType<MapObstacleSpawner>();
         player = GameObject.FindWithTag("Player").transform;
         stageManager = FindAnyObjectByType<StageManager>();
-
         // WaveProgress에 저장된 진행도에 따라 시작 웨이브 결정
         if (WaveProgress.lastClearedWaveIndex < 0)
         {
@@ -65,7 +67,7 @@ public class Spawner : MonoBehaviour
                 bool isLastWave = (clearedWaveIndex >= waves.Length - 1);
 
                 Debug.Log("웨이브 하나 종료! 상점으로 이동 준비");
-
+                obstacleSpawner.isActive = false;
                 wavesStarted = false;
 
                 if (StageManager.Instance != null)
@@ -88,6 +90,7 @@ public class Spawner : MonoBehaviour
     IEnumerator SpawnNextWave()
     {
         isSpawningWave = true;
+        obstacleSpawner.isActive = true;
         Wave wave = waves[currentWaveIndex];
 
         GameObject chase = wave.enemyPrefab;
@@ -104,10 +107,10 @@ public class Spawner : MonoBehaviour
         // ================= [장애물 스폰 로직 추가됨] =================
         // 맵 장애물 스포너를 찾아 현재 웨이브 정보를 넘겨줍니다.
         // (매번 찾는게 무거우면 Start에서 미리 찾아 변수에 담아두는 것을 권장합니다)
-        MapObstacleSpawner obstacleSpawner = FindAnyObjectByType<MapObstacleSpawner>();
+        PlayerController pc = FindAnyObjectByType<PlayerController>();
         if (obstacleSpawner != null)
         {
-            obstacleSpawner.CheckAndSpawnObstacle(currentWaveIndex);
+            obstacleSpawner.CheckAndSpawnObstacle(pc.currentLevel);
         }
         // ==========================================================
 

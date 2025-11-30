@@ -143,17 +143,36 @@ public class PlayerController : MonoBehaviour
     {
         if (isRolling) return;
 
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        // raw 입력
+        hAxis = Input.GetAxisRaw("Horizontal"); 
+        vAxis = Input.GetAxisRaw("Vertical");   
 
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+        if (followCamera != null)
+        {
+            Vector3 camForward = followCamera.transform.forward;
+            Vector3 camRight = followCamera.transform.right;
 
-        // 움직임 여부에 따라 walk (bool) 설정
+            camForward.y = 0f;
+            camRight.y = 0f;
+
+            camForward.Normalize();
+            camRight.Normalize();
+
+            Vector3 desired = camForward * vAxis + camRight * hAxis;
+
+            moveVec = desired.sqrMagnitude > 1e-6f ? desired.normalized : Vector3.zero;
+        }
+        else
+        {
+            moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+        }
+
+        // 걷기 애니메이션
         bool isWalking = moveVec != Vector3.zero;
         if (anime != null)
             anime.SetBool("walk", isWalking);
 
-        // Shift 키 입력 시 RunSpeed 설정
+        // 달리기 (Shift)
         if (Input.GetKey(KeyCode.LeftShift) && isWalking)
         {
             playerMoveSpeed = runSpeed;
@@ -166,10 +185,10 @@ public class PlayerController : MonoBehaviour
                 if (playerStatus != null)
                     playerMoveSpeed = playerStatus.playerMoveSpeed;
             }
-
             if (anime != null) anime.SetBool("run", false);
         }
 
+        // 이동 적용 (transform 이동 유지)
         transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
     }
 
@@ -178,7 +197,7 @@ public class PlayerController : MonoBehaviour
         // 공격 중이거나 무적 중이거나 이미 구르기 중이라면 대시 불가
         // if (attackStep != 0 || isRolling) return;
 
-        // 대시 방향 결정
+        // 대시 방향 결정 (moveVec를 기반으로 대시. moveVec이 0이면 플레이어 전방)
         Vector3 dashDirection = moveVec.normalized;
         if (dashDirection == Vector3.zero)
         {

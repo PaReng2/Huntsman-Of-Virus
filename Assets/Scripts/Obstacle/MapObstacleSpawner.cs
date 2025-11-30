@@ -4,35 +4,51 @@ using UnityEngine;
 
 public class MapObstacleSpawner : MonoBehaviour
 {
+    public static MapObstacleSpawner Instance;
+
     [Header("Obstacle Prefabs")]
     public GameObject infectedCPU;
     public GameObject infectedGPU;
     public GameObject infectedMemory;
+    public bool isActive;
 
     private Spawner spawnerCS;
     private PlayerController pc;
     private static int curLevel;
+    Vector3 origin;
+
     public Vector3 spawnArea = new Vector3(5f, 0f, 5f);
     private void Awake()
     {
+        Instance = this;
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         spawnerCS = FindAnyObjectByType<Spawner>();
         pc = FindAnyObjectByType<PlayerController>();
+        DontDestroyOnLoad(gameObject);
+
     }
 
     private void Start()
     {
         curLevel = pc.currentLevel;
+        isActive = true;
     }
     // Spawner 스크립트에서 웨이브가 시작될 때 이 함수를 호출해줄 것입니다.
     public void CheckAndSpawnObstacle(int currentPlayerLevel)
     {
         // 웨이브 인덱스는 0부터 시작하므로 +1을 해줍니다 (0 -> 1웨이브)
-        int currentLevel = currentPlayerLevel + 1;
+        int currentLevel = currentPlayerLevel;
 
-        if (curLevel < pc.currentLevel)
+        if (curLevel < currentLevel)
         {
             SpawnRandomObstacle();
             curLevel++;
+            
         }
     }
 
@@ -54,8 +70,12 @@ public class MapObstacleSpawner : MonoBehaviour
                 targetPrefab = infectedMemory;
                 break;
         }
+        if (spawnerCS != null)
+        {
+            origin = spawnerCS.transform.position;
 
-        Vector3 origin = spawnerCS.transform.position;
+        }
+
 
         // 범위 내 랜덤 오프셋 계산 (-범위/2 ~ +범위/2)
         float randomX = Random.Range(-spawnArea.x / 2, spawnArea.x / 2);

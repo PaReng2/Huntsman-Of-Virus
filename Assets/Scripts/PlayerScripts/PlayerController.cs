@@ -323,7 +323,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         Debug.Log("플레이어 사망");
 

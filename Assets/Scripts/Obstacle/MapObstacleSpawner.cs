@@ -1,103 +1,191 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapObstacleSpawner : MonoBehaviour
 {
     public static MapObstacleSpawner Instance;
 
-    [Header("Obstacle Prefabs")]
+    [Header("Obstacle Prefabs (index: 0=CPU,1=GPU,2=Memory)")]
     public GameObject infectedCPU;
     public GameObject infectedGPU;
     public GameObject infectedMemory;
-    public bool isActive;
 
+    [Header("Spawn area (centered at spawner or referenced spawner if exists)")]
+    public Vector3 spawnArea = new Vector3(5f, 0f, 5f);
+
+    // 외부에서 제어할 활성화 플래그 (Spawner가 사용)
+    [Tooltip("외부에서 웨이브 시작/종료 시 활성화 상태를 제어할 수 있습니다.")]
+    public bool isActive = true;
+
+    // 내부참조
     private Spawner spawnerCS;
     private PlayerController pc;
-    private static int curLevel;
-    Vector3 origin;
 
-    public Vector3 spawnArea = new Vector3(5f, 0f, 5f);
+    // 현재 씬에서 인스턴스화된 장애물들(씬 떠날 때 파괴하기 위함)
+    private List<GameObject> currentSceneObstacles = new List<GameObject>();
+
+    // 현재 활성 씬 이름 캐시
+    private string currentSceneName;
+
+    // 현재 저장된 플레이어 레벨(체크용)
+    private int curLevel;
+
     private void Awake()
     {
-        Instance = this;
-        if (Instance != null)
+        // 싱글톤 안정화
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
-        spawnerCS = FindAnyObjectByType<Spawner>();
-        pc = FindAnyObjectByType<PlayerController>();
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        // 이벤트 구독
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // 초기 참조 (씬이 로드되면 Start/OnSceneLoaded에서 갱신)
+        spawnerCS = FindObjectOfType<Spawner>();
+        pc = FindObjectOfType<PlayerController>();
     }
 
     private void Start()
     {
-        curLevel = pc.currentLevel;
-        isActive = true;
+        // PlayerProgress에 저장된 레벨로 초기화
+        curLevel = PlayerProgress.savedLevel;
+        currentSceneName = SceneManager.GetActiveScene().name;
+
+        // 씬에 저장된 장애물이 있으면 복원
+        RestoreObstaclesForScene(currentSceneName);
     }
-    // Spawner 스크립트에서 웨이브가 시작될 때 이 함수를 호출해줄 것입니다.
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void CheckAndSpawnObstacle(int currentPlayerLevel)
     {
-        // 웨이브 인덱스는 0부터 시작하므로 +1을 해줍니다 (0 -> 1웨이브)
-        int currentLevel = currentPlayerLevel;
+        if (!isActive) return; // isActive가 false면 동작하지 않음
 
-        if (curLevel < currentLevel)
+        if (currentPlayerLevel <= curLevel) return;
+
+        // 레벨이 증가한 만큼 반복(만약 멀티레벨 업 한 번에 여러 레벨 올렸다면 그 차이만큼 생성)
+        while (curLevel < currentPlayerLevel)
         {
             SpawnRandomObstacle();
             curLevel++;
-            
+            PlayerProgress.savedLevel = curLevel; // 동기화
         }
     }
 
     private void SpawnRandomObstacle()
     {
-        // 1. 3개의 오브젝트 중 하나를 랜덤으로 선택
-        GameObject targetPrefab = null;
-        int randomIndex = Random.Range(0, 3); // 0, 1, 2 중 하나 반환
-
-        switch (randomIndex)
+        int prefabIndex = UnityEngine.Random.Range(0, 3); 
+        GameObject prefab = GetPrefabByIndex(prefabIndex);
+        if (prefab == null)
         {
-            case 0:
-                targetPrefab = infectedCPU;
-                break;
-            case 1:
-                targetPrefab = infectedGPU;
-                break;
-            case 2:
-                targetPrefab = infectedMemory;
-                break;
-        }
-        if (spawnerCS != null)
-        {
-            origin = spawnerCS.transform.position;
-
+            Debug.LogWarning("[MapObstacleSpawner] prefab null for index " + prefabIndex);
+            return;
         }
 
+        if (spawnerCS == null) spawnerCS = FindObjectOfType<Spawner>();
+        Vector3 origin = (spawnerCS != null) ? spawnerCS.transform.position : transform.position;
 
-        // 범위 내 랜덤 오프셋 계산 (-범위/2 ~ +범위/2)
-        float randomX = Random.Range(-spawnArea.x / 2, spawnArea.x / 2);
-        float randomY = Random.Range(-spawnArea.y / 2, spawnArea.y / 2);
-        float randomZ = Random.Range(-spawnArea.z / 2, spawnArea.z / 2);
+        float rx = UnityEngine.Random.Range(-spawnArea.x / 2f, spawnArea.x / 2f);
+        float ry = UnityEngine.Random.Range(-spawnArea.y / 2f, spawnArea.y / 2f);
+        float rz = UnityEngine.Random.Range(-spawnArea.z / 2f, spawnArea.z / 2f);
+        Vector3 spawnPos = origin + new Vector3(rx, ry, rz);
 
-        Vector3 randomOffset = new Vector3(randomX, randomY, randomZ);
+        GameObject go = Instantiate(prefab, spawnPos, Quaternion.identity);
+        currentSceneObstacles.Add(go);
 
-        // 최종 스폰 위치
-        Vector3 spawnPos = origin + randomOffset;
+        string sceneName = SceneManager.GetActiveScene().name;
+        PlayerProgress.AddObstacleRecord(sceneName, new PlayerProgress.ObstacleRecord(prefabIndex, spawnPos, Quaternion.identity));
 
-        // 3. 생성
-        Instantiate(targetPrefab, spawnPos, Quaternion.identity);
-        Debug.Log($"레벨업! {targetPrefab.name} 생성됨. 위치: {spawnPos}");
+        Debug.Log($"[MapObstacleSpawner] Spawned obstacle {prefab.name} at {spawnPos} in scene {sceneName}");
     }
+
+    private GameObject GetPrefabByIndex(int idx)
+    {
+        switch (idx)
+        {
+            case 0: return infectedCPU;
+            case 1: return infectedGPU;
+            case 2: return infectedMemory;
+            default: return null;
+        }
+    }
+
+    // 씬 로드 콜백
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 이전 씬에서 만든 객체들 정리
+        ClearCurrentSceneObstacles();
+
+        currentSceneName = scene.name;
+
+        // 씬에 저장된 레코드로 복원
+        RestoreObstaclesForScene(currentSceneName);
+
+        // 참조 갱신
+        spawnerCS = FindObjectOfType<Spawner>();
+        pc = FindObjectOfType<PlayerController>();
+    }
+
+    // PlayerProgress에 저장된 레코드로 해당 씬의 장애물 복원
+    private void RestoreObstaclesForScene(string sceneName)
+    {
+        var list = PlayerProgress.GetObstacleRecords(sceneName);
+        if (list == null || list.Count == 0) return;
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var rec = list[i];
+            GameObject prefab = GetPrefabByIndex(rec.prefabIndex);
+            if (prefab == null) continue;
+
+            GameObject go = Instantiate(prefab, rec.position, rec.rotation);
+            currentSceneObstacles.Add(go);
+        }
+
+        Debug.Log($"[MapObstacleSpawner] Restored {list.Count} obstacles for scene {sceneName}");
+    }
+
+    // 현재 씬에서 인스턴스화한 장애물들 모두 파괴
+    private void ClearCurrentSceneObstacles()
+    {
+        for (int i = 0; i < currentSceneObstacles.Count; i++)
+        {
+            if (currentSceneObstacles[i] != null)
+                Destroy(currentSceneObstacles[i]);
+        }
+        currentSceneObstacles.Clear();
+    }
+
+    public void ClearStoredObstaclesForScene(string sceneName)
+    {
+        PlayerProgress.ClearObstacleRecordsForScene(sceneName);
+    }
+
+    public void ClearAllStoredObstacles()
+    {
+        PlayerProgress.ClearAllObstacleRecords();
+        ClearCurrentSceneObstacles();
+    }
+
     private void OnDrawGizmosSelected()
     {
         if (spawnerCS != null)
         {
             Gizmos.color = Color.green;
-            // spawnerCS 위치를 중심으로 spawnArea 크기의 박스를 그립니다.
             Gizmos.DrawWireCube(spawnerCS.transform.position, spawnArea);
+        }
+        else
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(transform.position, spawnArea);
         }
     }
 }

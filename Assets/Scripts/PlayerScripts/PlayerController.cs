@@ -9,8 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    
-
     [Header("player stat")]
     public int curPlayerHp;
     public int playerMaxHP;
@@ -55,8 +53,6 @@ public class PlayerController : MonoBehaviour
     public GameObject level_7_Effet;
     public GameObject level_10_Effet;
     public GameObject level_15_Effet;
-
-
 
     [Header("Augment System")]
     [SerializeField] private AugmentSystem augmentSystem;
@@ -121,8 +117,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Mathf.Approximately(Time.timeScale, 0f))
         {
-            anime.SetBool("walk", false);
-            anime.SetBool("run", false);
+            if (anime != null)
+            {
+                anime.SetBool("walk", false);
+                anime.SetBool("run", false);
+            }
             return;
         }
 
@@ -133,8 +132,6 @@ public class PlayerController : MonoBehaviour
 
         Move();
         Turn();
-
-        
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -151,76 +148,78 @@ public class PlayerController : MonoBehaviour
 
         moveVec = new Vector3(hAxis, 0, vAxis).normalized;
 
-        // [변경 1] 움직임 여부에 따라 walk (bool) 설정
+        // 움직임 여부에 따라 walk (bool) 설정
         bool isWalking = moveVec != Vector3.zero;
-        anime.SetBool("walk", isWalking);
+        if (anime != null)
+            anime.SetBool("walk", isWalking);
 
-        // [변경 2] Shift 키 입력 시 RunSpeed(float) 대신 run(bool) 사용
+        // Shift 키 입력 시 RunSpeed 설정
         if (Input.GetKey(KeyCode.LeftShift) && isWalking)
         {
             playerMoveSpeed = runSpeed;
-            anime.SetBool("run", true);
+            if (anime != null) anime.SetBool("run", true);
         }
         else
         {
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                playerMoveSpeed = playerStatus.playerMoveSpeed;
+                if (playerStatus != null)
+                    playerMoveSpeed = playerStatus.playerMoveSpeed;
             }
 
-            // 키를 뗐거나 멈췄을 때 run 꺼짐
-            anime.SetBool("run", false);
+            if (anime != null) anime.SetBool("run", false);
         }
 
         transform.position += moveVec * playerMoveSpeed * Time.deltaTime;
     }
 
-
     void TryRollDash()
     {
         // 공격 중이거나 무적 중이거나 이미 구르기 중이라면 대시 불가
-        //if (attackStep != 0 || isRolling) return;
+        // if (attackStep != 0 || isRolling) return;
 
-        // 1. 대시 방향 결정: 움직임 입력이 있다면 그 방향, 없다면 플레이어가 바라보는 방향
+        // 대시 방향 결정
         Vector3 dashDirection = moveVec.normalized;
         if (dashDirection == Vector3.zero)
         {
             dashDirection = transform.forward;
         }
-        Instantiate(dashEffect, transform.position, gameObject.transform.rotation); //수정 필요
-        
-        // 2. 대시/구르기 코루틴 시작
+
+        if (dashEffect != null)
+            Instantiate(dashEffect, transform.position, gameObject.transform.rotation);
+
         StartCoroutine(RollDashCoroutine(dashDirection));
     }
 
     IEnumerator RollDashCoroutine(Vector3 dashDirection)
     {
-        // 1. 상태 설정
         isRolling = true;
-        anime.SetBool("roll", true); 
-        rb.velocity = Vector3.zero; // 구르기 시작 전 기존 속도 제거
+        if (anime != null) anime.SetBool("roll", true);
+        if (rb != null) rb.velocity = Vector3.zero;
 
         float startTime = Time.time;
 
-        // 2. 구르기 이동 (지속적인 힘 적용)
         while (Time.time < startTime + rollDuration)
         {
-            // 물리적인 충돌을 무시하지 않으려면 rb.MovePosition 대신 rb.velocity에 힘을 줄 수 있으나,
-            // 빠른 대시를 위해 MovePosition을 사용하거나 AddForce를 사용해 원하는 속도를 유지합니다.
-            rb.MovePosition(rb.position + dashDirection * rollSpeed * Time.deltaTime);
+            if (rb != null)
+                rb.MovePosition(rb.position + dashDirection * rollSpeed * Time.deltaTime);
+            else
+                transform.position += dashDirection * rollSpeed * Time.deltaTime;
+
             yield return null;
         }
 
-        // 3. 상태 초기화
         isRolling = false;
-        anime.SetBool("roll", false); 
-        rb.velocity = Vector3.zero; // 대시 후 속도 초기화 (미끄러짐 방지)
+        if (anime != null) anime.SetBool("roll", false);
+        if (rb != null) rb.velocity = Vector3.zero;
     }
 
     void Turn()
     {
         if (moveVec != Vector3.zero)
             transform.LookAt(transform.position + moveVec);
+
+        if (followCamera == null) return;
 
         Ray ray = followCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit rayHit;
@@ -238,7 +237,6 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-
         }
     }
 
@@ -312,9 +310,7 @@ public class PlayerController : MonoBehaviour
 
         AchievementManager.instance?.UpdateProgress(AchievementType.totalDeaths, 1);
 
-
         StageManager.Instance.StopTimer();
-
 
         PlayerProgress.ResetAllProgress();
 
@@ -335,6 +331,8 @@ public class PlayerController : MonoBehaviour
 
     public void ApplyStatusFromSO()
     {
+        if (playerStatus == null) return;
+
         baseMoveSpeed = playerStatus.playerMoveSpeed;
         baseAttackDelay = playerStatus.playerAttackRate;
         baseAttackRange = playerStatus.playerAttackRange;
@@ -469,7 +467,7 @@ public class PlayerController : MonoBehaviour
         while (currentExp >= expToNextLevel)
         {
             currentExp -= expToNextLevel;
-            LevelUp(); 
+            LevelUp();
         }
 
         PlayerProgress.savedExp = currentExp;
@@ -478,36 +476,43 @@ public class PlayerController : MonoBehaviour
 
     private void LevelUp()
     {
-        GameObject levelUp = Instantiate(levelUpEffect, effectTransform);
-        levelUp.transform.localScale = new Vector3(3, 3, 3);
+        // 레벨업 이펙트
+        if (levelUpEffect != null && effectTransform != null)
+        {
+            GameObject levelUp = Instantiate(levelUpEffect, effectTransform);
+            levelUp.transform.localScale = new Vector3(3, 3, 3);
+        }
 
+        // 레벨 증가 & 저장 동기화
         currentLevel++;
         PlayerProgress.savedLevel = currentLevel;
 
+        // 다음 레벨 필요 EXP 재계산
         expToNextLevel = GetRequiredExpForLevel(currentLevel);
 
+        // 현재 EXP 저장
         PlayerProgress.savedExp = currentExp;
 
-        playerStatus.playerCurLevel = currentLevel;
-
+        // 레벨별 이펙트
         if (currentLevel >= 15)
         {
-            Instantiate(level_15_Effet, effectTransform);
+            if (level_15_Effet != null && effectTransform != null) Instantiate(level_15_Effet, effectTransform);
         }
         else if (currentLevel >= 10)
         {
-            Instantiate(level_10_Effet, effectTransform);
+            if (level_10_Effet != null && effectTransform != null) Instantiate(level_10_Effet, effectTransform);
         }
         else if (currentLevel >= 7)
         {
-            Instantiate(level_7_Effet, effectTransform);
+            if (level_7_Effet != null && effectTransform != null) Instantiate(level_7_Effet, effectTransform);
         }
         else if (currentLevel >= 5)
         {
-            Instantiate(level_5_Effet, effectTransform);
+            if (level_5_Effet != null && effectTransform != null) Instantiate(level_5_Effet, effectTransform);
         }
 
         Debug.Log($"[Player] Level Up! → Level {currentLevel}, Next EXP : {expToNextLevel}, Current EXP : {currentExp}");
+
         if (augmentSystem != null)
         {
             bool opened = augmentSystem.TryOpenPanel();
@@ -516,6 +521,9 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("[Player] 레벨업 했지만 더 이상 강화 가능한 증강이 없음.");
             }
         }
+
+        MapObstacleSpawner.Instance?.CheckAndSpawnObstacle(currentLevel);
+
         UpdateExpUI();
     }
 
@@ -526,7 +534,6 @@ public class PlayerController : MonoBehaviour
             expSlider.maxValue = expToNextLevel;
             expSlider.value = currentExp;
         }
-
 
         if (expText != null)
         {
@@ -550,6 +557,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
     public void GrantInvincibilityOnShieldBreak()
     {
         if (isInvincible) return;

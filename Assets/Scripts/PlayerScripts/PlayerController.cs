@@ -115,6 +115,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            playerGold += 40;
+        }
+
         if (Mathf.Approximately(Time.timeScale, 0f))
         {
             if (anime != null)

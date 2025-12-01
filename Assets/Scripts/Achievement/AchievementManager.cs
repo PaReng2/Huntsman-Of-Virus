@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class AchievementManager : MonoBehaviour
@@ -125,8 +126,8 @@ public class AchievementManager : MonoBehaviour
         {
             GameObject popup = Instantiate(achievementPopupPrefab, popupParent);
 
-            Text titleText = popup.transform.Find("Title")?.GetComponent<Text>();
-            Text descText = popup.transform.Find("Description")?.GetComponent<Text>();
+            TextMeshProUGUI titleText = popup.transform.Find("Title")?.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI descText = popup.transform.Find("Description")?.GetComponent<TextMeshProUGUI>();
 
             if (titleText != null) titleText.text = "업적 달성";
             if(descText != null) descText.text = achievement.achievementName;

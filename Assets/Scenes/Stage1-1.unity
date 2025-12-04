@@ -726,34 +726,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: healEffect
-      value: 
-      objectReference: {fileID: 1638695689344248, guid: ae0170c07af48b24082e37164a97d141, type: 3}
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: healCooldown
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: shieldEffect
-      value: 
-      objectReference: {fileID: 1093726617714798, guid: 25697b6ce7367a449a910cd5f21b3ee3, type: 3}
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: tornadoEffect
-      value: 
-      objectReference: {fileID: 818160039955685535, guid: 67584f013e256d24fa1aa734c10bd65c, type: 3}
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: shieldCooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: unlockedSkills.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: unlockedSkills.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: expText
       value: 
@@ -774,18 +746,6 @@ PrefabInstance:
       propertyPath: gameOverPanel
       value: 
       objectReference: {fileID: 1115068663}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: level_7_Effet
-      value: 
-      objectReference: {fileID: 1415792610961166, guid: b5ef09e8230f6e94f919b08b3ec74bfe, type: 3}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: level_10_Effet
-      value: 
-      objectReference: {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
-    - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
-      propertyPath: level_15_Effet
-      value: 
-      objectReference: {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: playerPointWave
       value: 

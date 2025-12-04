@@ -126,6 +126,7 @@ MonoBehaviour:
   hitEffectPlayer: {fileID: 1439474312745800, guid: 5dafa30c254464d49912eab505abb615, type: 3}
   deathEffect: {fileID: 1852423962746920, guid: b191509d258622e43a00730317b1e1e4, type: 3}
   gameOverPanel: {fileID: 0}
+  playerPointWave: {fileID: 0}
   invincibleDuration: 1
   rollSpeed: 15
   rollDuration: 0.3
@@ -143,9 +144,9 @@ MonoBehaviour:
   expSlider: {fileID: 0}
   expText: {fileID: 0}
   level_5_Effet: {fileID: 1620416989627834, guid: 4ddebdabb471e3f4aa862138c1b44098, type: 3}
-  level_10_Effet: {fileID: 1415792610961166, guid: d11421aef48f87c439f75c8fb03a7db8, type: 3}
-  level_20_Effet: {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
-  level_40_Effet: {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
+  level_7_Effet: {fileID: 1415792610961166, guid: b5ef09e8230f6e94f919b08b3ec74bfe, type: 3}
+  level_10_Effet: {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
+  level_15_Effet: {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
   augmentSystem: {fileID: 0}
   baseMaxHP: 0
   baseAttackPower: 0
@@ -255,12 +256,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectSpawn: {fileID: 1879997490680185194}
-  tornadoEffect: {fileID: 1215538090931656, guid: 93216d197cc19f64bb18491762577ca1, type: 3}
+  tornadoEffect: {fileID: 818160039955685535, guid: 67584f013e256d24fa1aa734c10bd65c, type: 3}
   tornadoCooldown: 3
   fireEffect: {fileID: 1068831043734682, guid: 1333e421fea114d41b258004ee6a5215, type: 3}
   fireCooldown: 5
-  shieldEffect: {fileID: 0}
+  shieldEffect: {fileID: 1093726617714798, guid: 25697b6ce7367a449a910cd5f21b3ee3, type: 3}
   shieldCooldown: 5
+  healEffect: {fileID: 1638695689344248, guid: ae0170c07af48b24082e37164a97d141, type: 3}
+  healCooldown: 1
+  unlockedSkills: 
 --- !u!95 &7055841177398369696
 Animator:
   serializedVersion: 5

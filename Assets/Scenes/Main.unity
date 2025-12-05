@@ -4374,7 +4374,7 @@ PrefabInstance:
     - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: shieldEffect
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1093726617714798, guid: 25697b6ce7367a449a910cd5f21b3ee3, type: 3}
     - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: shieldCooldown
       value: 5

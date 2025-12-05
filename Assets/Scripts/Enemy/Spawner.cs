@@ -82,7 +82,7 @@ public class Spawner : MonoBehaviour
             if (distance <= activationRange)
             {
                 wavesStarted = true;
-                StartCoroutine(SpawnNextWave());
+                StartCoroutine(SpawnNextWave());        
             }
         }
     }
@@ -95,6 +95,7 @@ public class Spawner : MonoBehaviour
 
         GameObject chase = wave.enemyPrefab;
         GameObject staticEnemy = wave.staticEnemyPrefab;
+        GameObject golem = wave.golemPrefab;
 
         // UI 업데이트
         if (stageManager != null)
@@ -113,30 +114,64 @@ public class Spawner : MonoBehaviour
             obstacleSpawner.CheckAndSpawnObstacle(pc.currentLevel);
         }
         // ==========================================================
-
         int totalCount = wave.count;
-
-        int staticCount = totalCount / 2;
-        int chaseCount = totalCount - staticCount;
-
         List<GameObject> enemiesToSpawn = new List<GameObject>();
 
+        int monsterTypeCount = 3; // 몬스터 종류 수량
+
+        // 각 몬스터가 가질 기본 수량 
+        int baseCount = totalCount / monsterTypeCount;
+        int remainder = totalCount % monsterTypeCount;
+
+        //  각 몬스터 수량 초기화
+        int golemCount = baseCount;
+        int staticCount = baseCount;
+        int chaseCount = baseCount;
+
+        //  나머지 수량 분배 
+        if (remainder >= 1)
+        {
+            golemCount++;
+            remainder--;
+        }
+        if (remainder >= 1)
+        {
+            staticCount++;
+            remainder--;
+        }
+        if (remainder >= 1)
+        {
+            chaseCount++;
+        }
+
+        // 각 몬스터를 스폰 목록에 추가하며 골렘 예외 처리
+
+        if (golemCount > 0)
+        {
+            if (golem != null)
+            {
+                for (int i = 0; i < golemCount; i++)
+                {
+                    enemiesToSpawn.Add(golem);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("웨이브 " + (currentWaveIndex + 1) + "에서 골렘 프리팹이 할당되지 않아 Chase 몬스터로 대체됩니다. (" + golemCount + "마리)");
+                chaseCount += golemCount; // golemCount만큼 chaseCount를 증가시킴
+            }
+        }
+
+        // Static 몬스터 추가
         for (int i = 0; i < staticCount; i++)
         {
             enemiesToSpawn.Add(staticEnemy);
         }
 
+        // Chase 몬스터 추가 (골렘 대체분 포함)
         for (int i = 0; i < chaseCount; i++)
         {
             enemiesToSpawn.Add(chase);
-        }
-
-        for (int i = 0; i < enemiesToSpawn.Count; i++)
-        {
-            GameObject temp = enemiesToSpawn[i];
-            int randomIndex = Random.Range(i, enemiesToSpawn.Count);
-            enemiesToSpawn[i] = enemiesToSpawn[randomIndex];
-            enemiesToSpawn[randomIndex] = temp;
         }
 
         // 첫 번째 웨이브가 아니라면 웨이브 사이 대기 시간 적용

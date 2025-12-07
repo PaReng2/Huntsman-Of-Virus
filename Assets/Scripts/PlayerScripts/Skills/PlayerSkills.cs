@@ -11,7 +11,8 @@ public class PlayerSkills : MonoBehaviour
         fire,
         shield,
         heal,
-        Bomb
+        bomb,
+        slowField
     }
 
     [Header("EffectSpawnPosition")]
@@ -38,10 +39,16 @@ public class PlayerSkills : MonoBehaviour
     public GameObject healEffect;
     public float healCooldown = 10f;      
     private float curHealTime = 0f;      
+
     [Header("bomb")]
     public GameObject bombEffect;
     public float bombCooldown = 15f;      
-    private float curBombTime = 0f;      
+    private float curBombTime = 0f;    
+    
+    [Header("slowField")]
+    public GameObject slowFieldEffect;
+    public float slowFieldCooldown = 10f;      
+    private float curSlowFieldTime = 0f;      
 
     [Header("Unlocked Skills")]
     public List<Skills> unlockedSkills = new List<Skills>();
@@ -86,6 +93,11 @@ public class PlayerSkills : MonoBehaviour
             curBombTime -= Time.deltaTime;
             if (curBombTime < 0) curBombTime = 0;
         }
+        if (curSlowFieldTime > 0)
+        {
+            curSlowFieldTime -= Time.deltaTime;
+            if (curSlowFieldTime < 0) curSlowFieldTime = 0;
+        }
 
         if (!isShieldActive && curShieldTime > 0)
         {
@@ -104,6 +116,7 @@ public class PlayerSkills : MonoBehaviour
         fire();
         heal();
         bomb();
+        slowField();
     }
 
     public bool IsSkillUnlocked(Skills skill)
@@ -187,7 +200,7 @@ public class PlayerSkills : MonoBehaviour
     public void bomb()
     {
         // 잠금 해제되어 있지 않으면 동작하지 않음
-        if (!IsSkillUnlocked(Skills.Bomb)) return;
+        if (!IsSkillUnlocked(Skills.bomb)) return;
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -199,6 +212,24 @@ public class PlayerSkills : MonoBehaviour
             else
             {
                 Debug.Log($"자폭 쿨타임! 남은 시간: {curBombTime:F1}초");
+            }
+        }
+    }
+
+    public void slowField()
+    {
+        if (!IsSkillUnlocked(Skills.slowField)) return;
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            if (curSlowFieldTime <= 0)
+            {
+                Instantiate(slowFieldEffect, effectSpawn);
+                curSlowFieldTime = slowFieldCooldown;
+            }
+            else
+            {
+                Debug.Log($"슬로우 장판 쿨타임! 남은 시간: {curSlowFieldTime:F1}초");
             }
         }
     }
@@ -251,6 +282,10 @@ public class PlayerSkills : MonoBehaviour
                 // 비활성 상태라면 curShieldTime이 재활성화까지 남은 시간
                 if (isShieldActive) return 0f;
                 return Mathf.Max(0f, curShieldTime);
+            case Skills.bomb:
+                return Mathf.Max(0f, curBombTime);
+            case Skills.slowField:
+                return Mathf.Max(0f, curSlowFieldTime);
             default:
                 return 0f;
         }
@@ -266,6 +301,10 @@ public class PlayerSkills : MonoBehaviour
                 return fireCooldown;
             case Skills.shield:
                 return shieldCooldown;
+            case Skills.bomb:
+                return bombCooldown;
+            case Skills.slowField:
+                return slowFieldCooldown;
             default:
                 return 0f;
         }

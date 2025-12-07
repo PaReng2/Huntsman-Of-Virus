@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 
-public class ChaseEnemy : MonoBehaviour
+public class ChaseEnemy : MonoBehaviour, ISlowable
 {
     public EnemySO enemyData;
     public Transform target;
@@ -17,6 +17,10 @@ public class ChaseEnemy : MonoBehaviour
     public float attackCooldown = 1f;
     private float lastAttackTime = 0f;
 
+    private float baseMoveSpeed;
+    private float currentSlowRatio = 1f;
+    private bool isSlowed = false;
+
     public float knockbackDistance = 2f;    
     public float knockbackDuration = 0.2f;  
     private Coroutine knockbackRoutine;
@@ -30,6 +34,11 @@ public class ChaseEnemy : MonoBehaviour
 
         player = FindObjectOfType<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
+        if (agent != null && enemyData != null)
+        {
+            agent.speed = enemyData.EnemyMoveSpeed;
+            baseMoveSpeed = enemyData.EnemyMoveSpeed; 
+        }
     }
 
     private void Start()
@@ -179,5 +188,21 @@ public class ChaseEnemy : MonoBehaviour
 
             
         }
+    }
+
+    public void ApplySlow(float slowRatio)
+    {
+        if (isDead || agent == null) return;
+        currentSlowRatio = slowRatio;
+        agent.speed = baseMoveSpeed * currentSlowRatio;
+        isSlowed = true;
+    }
+
+    public void RemoveSlow()
+    {
+        if (isDead || agent == null) return;
+        currentSlowRatio = 1f;
+        agent.speed = baseMoveSpeed;
+        isSlowed = false;
     }
 }

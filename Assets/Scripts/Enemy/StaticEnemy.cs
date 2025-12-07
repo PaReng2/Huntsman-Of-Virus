@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class StaticEnemy : MonoBehaviour
+public class StaticEnemy : MonoBehaviour, ISlowable
 {
     public enum Enemystate { Chase, Attack }
     public Enemystate state = Enemystate.Chase;
@@ -24,6 +24,10 @@ public class StaticEnemy : MonoBehaviour
     private Transform player;
     private float lastAttackTime;
 
+    private float baseMoveSpeed;
+    private float currentSlowRatio = 1f;
+    private bool isSlowed = false;
+
     public float knockbackDistance = 2f;
     public float knockbackDuration = 0.2f;
     private Coroutine knockbackRoutine;
@@ -35,6 +39,12 @@ public class StaticEnemy : MonoBehaviour
     {
         // NavMeshAgent 컴포넌트 가져오기
         agent = GetComponent<NavMeshAgent>();
+
+        if (agent != null && enemyData != null)
+        {
+            agent.speed = enemyData.EnemyMoveSpeed;
+            baseMoveSpeed = enemyData.EnemyMoveSpeed;
+        }
     }
 
     void Start()
@@ -222,5 +232,19 @@ public class StaticEnemy : MonoBehaviour
         }
 
         knockbackRoutine = null;
+    }
+
+    public void ApplySlow(float slowRatio)
+    {
+        currentSlowRatio = slowRatio;
+        agent.speed = baseMoveSpeed * currentSlowRatio;
+        isSlowed = true;
+    }
+
+    public void RemoveSlow()
+    {
+        currentSlowRatio = 1f;
+        agent.speed = baseMoveSpeed;
+        isSlowed = false;
     }
 }

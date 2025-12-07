@@ -732,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 1592685575755722, guid: 89f971fc4dcf2fe4985d30b510b74e7d, type: 3}
     - target: {fileID: 1376172364364180589, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: bombCooldown
-      value: 1
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3188004248958273404, guid: 6f7792528c63fbf40920c0c73b1df144, type: 3}
       propertyPath: expText

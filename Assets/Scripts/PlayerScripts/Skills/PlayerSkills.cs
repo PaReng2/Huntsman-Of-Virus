@@ -10,7 +10,8 @@ public class PlayerSkills : MonoBehaviour
         tornado,
         fire,
         shield,
-        heal
+        heal,
+        Bomb
     }
 
     [Header("EffectSpawnPosition")]
@@ -37,6 +38,10 @@ public class PlayerSkills : MonoBehaviour
     public GameObject healEffect;
     public float healCooldown = 10f;      
     private float curHealTime = 0f;      
+    [Header("bomb")]
+    public GameObject bombEffect;
+    public float bombCooldown = 15f;      
+    private float curBombTime = 0f;      
 
     [Header("Unlocked Skills")]
     public List<Skills> unlockedSkills = new List<Skills>();
@@ -76,6 +81,11 @@ public class PlayerSkills : MonoBehaviour
             curHealTime -= Time.deltaTime;
             if (curHealTime < 0) curHealTime = 0;
         }
+        if (curBombTime > 0)
+        {
+            curBombTime -= Time.deltaTime;
+            if (curBombTime < 0) curBombTime = 0;
+        }
 
         if (!isShieldActive && curShieldTime > 0)
         {
@@ -93,6 +103,7 @@ public class PlayerSkills : MonoBehaviour
         tornado();
         fire();
         heal();
+        bomb();
     }
 
     public bool IsSkillUnlocked(Skills skill)
@@ -170,6 +181,24 @@ public class PlayerSkills : MonoBehaviour
             else
             {
                 Debug.Log($"파이어 쿨타임! 남은 시간: {curFireTime:F1}초");
+            }
+        }
+    }
+    public void bomb()
+    {
+        // 잠금 해제되어 있지 않으면 동작하지 않음
+        if (!IsSkillUnlocked(Skills.Bomb)) return;
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (curBombTime <= 0)
+            {
+                Instantiate(bombEffect, effectSpawn);
+                curBombTime = bombCooldown; // 쿨타임 재설정
+            }
+            else
+            {
+                Debug.Log($"자폭 쿨타임! 남은 시간: {curBombTime:F1}초");
             }
         }
     }

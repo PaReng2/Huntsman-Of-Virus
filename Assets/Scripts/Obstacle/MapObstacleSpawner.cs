@@ -10,6 +10,7 @@ public class MapObstacleSpawner : MonoBehaviour
     public GameObject infectedCPU;
     public GameObject infectedGPU;
     public GameObject infectedMemory;
+    public GameObject cooler;
 
     [Header("Spawn area (centered at spawner or referenced spawner if exists)")]
     public Vector3 spawnArea = new Vector3(5f, 0f, 5f);

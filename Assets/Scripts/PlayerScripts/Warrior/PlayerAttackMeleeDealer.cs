@@ -126,7 +126,7 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
         {
             ChaseEnemy enemyComponent = enemy.GetComponent<ChaseEnemy>();
             StaticEnemy enemyComponent2 = enemy.GetComponent<StaticEnemy>();
-
+            TutorialEnemy enemyComponentT = enemy.GetComponent<TutorialEnemy>();
             if (enemyComponent != null)
             {
                 enemyComponent.TakeDamage(attackPower);
@@ -136,6 +136,11 @@ public class PlayerAttackMeleeDealer : MonoBehaviour
             {
                 enemyComponent2.TakeDamage(attackPower);
                 Debug.Log($"적 {enemy.name}에게 {attackPower} 피해를 줌!");
+            }
+
+            if (enemyComponentT != null)
+            {
+                enemyComponentT.TakeDamage(attackPower);
             }
         }
         if (Slash != null)

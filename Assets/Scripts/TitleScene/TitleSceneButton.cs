@@ -42,5 +42,9 @@ public class TitleSceneButton : MonoBehaviour
         manager.closeButtonSound.Play();
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 
 }

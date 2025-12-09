@@ -39351,6 +39351,7 @@ MonoBehaviour:
   lifeTime: 1
   Damage: 40
   explosionDelay: 1
+  explosionRadius: 6
 --- !u!65 &7183359061249492736
 BoxCollider:
   m_ObjectHideFlags: 0

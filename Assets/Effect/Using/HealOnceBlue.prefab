@@ -9862,7 +9862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30861d2269115b4e8ca49ef6abd9332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healAmount: 10
+  healAmount: 25
   effectDuration: 1
 --- !u!1 &1811334546032888
 GameObject:

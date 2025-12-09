@@ -11,6 +11,6 @@ public static class WaveProgress
     // 웨이브 정보를 초기화 (1웨이브부터 시작하게)
     public static void Reset()
     {
-        lastClearedWaveIndex = -1;
+        lastClearedWaveIndex = (-1);
     }
 }

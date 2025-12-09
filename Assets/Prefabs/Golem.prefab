@@ -103,7 +103,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -124,7 +124,7 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 32cd5e9895f106d459befa76483650fa, type: 2}
   target: {fileID: 0}
   hitEffectEnemy: {fileID: 1684842338803318, guid: 7ebbb1753d526a442a95be8d2555def6, type: 3}
-  damage: 50
+  damage: 35
   attackCooldown: 1
   knockbackDistance: 1
   knockbackDuration: 0.2

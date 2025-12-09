@@ -36,7 +36,6 @@ public class Bomb : MonoBehaviour
             if (chaseEnemyComponent != null)
             {
                 chaseEnemyComponent.TakeDamage(Damage);
-                
                 ExplodeAndDestroy();
             }
             if (staticEnemy != null)
@@ -75,9 +74,14 @@ public class Bomb : MonoBehaviour
             if (hitCollider.CompareTag("Enemy"))
             {
                 ChaseEnemy enemy = hitCollider.GetComponent<ChaseEnemy>();
+                StaticEnemy staticEnemy = hitCollider.GetComponent<StaticEnemy>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(Damage);
+                }
+                else if (staticEnemy != null)
+                {
+                    staticEnemy.TakeDamage(Damage);
                 }
             }
         }

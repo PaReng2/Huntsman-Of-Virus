@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  attackRange: 5
+  attackRange: 4
   attackCooldown: 3
   projectilePrefab: {fileID: 2289760058691543810, guid: 4fb06cda458ae4640b25e503fd40532e, type: 3}
   firepoint: {fileID: 7153840523712314933}

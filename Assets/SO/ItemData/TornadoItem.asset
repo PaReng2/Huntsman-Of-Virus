@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Tornado
   type: 0
-  itemPrice: 10
+  itemPrice: 25
   modelPrefab: {fileID: 919132149155446097, guid: 03264e8463e811841a7c2aa0fd08998b, type: 3}
   uiSprite: {fileID: 21300000, guid: 8c38da9bb7922e64b9ac534b0f7832a0, type: 3}
   healAmount: 25

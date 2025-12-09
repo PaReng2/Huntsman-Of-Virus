@@ -2,13 +2,12 @@
 
 public class SlowObstacle : MonoBehaviour
 {
-    [Header("Slow Settings")]
-    [Tooltip("슬로우 적용 반경")]
+    [Header("둔화 범위")]
     public float radius = 3f;
 
-    [Tooltip("슬로우 배수")]
+    [Header("둔화율")]
     [Range(0.1f, 1f)]
-    public float slowMultiplier = 0.7f;
+    public float slowMultiplier = 0.5f;
 
     private PlayerController player;
     private bool isSlowing = false;
@@ -23,7 +22,10 @@ public class SlowObstacle : MonoBehaviour
     {
         if (player == null) return;
 
-        float dist = Vector3.Distance(transform.position, player.transform.position);
+        Vector2 playerXZ = new Vector2(player.transform.position.x, player.transform.position.z);
+        Vector2 centerXZ = new Vector2(transform.position.x, transform.position.z);
+
+        float dist = Vector2.Distance(playerXZ, centerXZ);
 
         if (dist <= radius && !isSlowing)
         {
@@ -40,10 +42,34 @@ public class SlowObstacle : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(0f, 0.5f, 1f, 0.3f);
-        Gizmos.DrawSphere(transform.position, radius);
-
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, radius);
+
+        Vector3 center = transform.position;
+        
+        Renderer rend = GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            center = rend.bounds.center;
+            center.y = transform.position.y; 
+        }
+
+        int segments = 64;
+        float angleStep = 360f / segments;
+
+        Vector3 prevPoint = center + new Vector3(radius, 0f, 0f);
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float angle = angleStep * i * Mathf.Deg2Rad;
+
+            Vector3 nextPoint = center + new Vector3(
+                Mathf.Cos(angle) * radius,
+                0f,
+                Mathf.Sin(angle) * radius
+            );
+
+            Gizmos.DrawLine(prevPoint, nextPoint);
+            prevPoint = nextPoint;
+        }
     }
 }

@@ -2605,7 +2605,7 @@ GameObject:
   - component: {fileID: 1303724641}
   - component: {fileID: 1303724640}
   m_Layer: 0
-  m_Name: Perc and fx 2
+  m_Name: BGM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

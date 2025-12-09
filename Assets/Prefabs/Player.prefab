@@ -145,7 +145,7 @@ MonoBehaviour:
   expText: {fileID: 0}
   level_5_Effet: {fileID: 1620416989627834, guid: 4ddebdabb471e3f4aa862138c1b44098, type: 3}
   level_7_Effet: {fileID: 1415792610961166, guid: b5ef09e8230f6e94f919b08b3ec74bfe, type: 3}
-  level_10_Effet: {fileID: 1336688134426222, guid: 579365cd679e0ee4993d0f2f33af1f3b, type: 3}
+  level_10_Effet: {fileID: 1336688134426222, guid: d11421aef48f87c439f75c8fb03a7db8, type: 3}
   level_15_Effet: {fileID: 1719345073725606, guid: a8bbbb21dc63e604c87be0c2bd3e2fbf, type: 3}
   augmentSystem: {fileID: 0}
   baseMaxHP: 0

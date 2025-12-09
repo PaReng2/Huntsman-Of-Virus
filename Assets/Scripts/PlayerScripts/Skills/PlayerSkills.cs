@@ -57,7 +57,6 @@ public class PlayerSkills : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
 
-        // 쉴드는 아이템으로 해제되어 있지 않으면 생성하지 않도록 변경
         if (IsSkillUnlocked(Skills.shield))
         {
             ActivateShield();
@@ -71,52 +70,71 @@ public class PlayerSkills : MonoBehaviour
 
     private void Update()
     {
-        if (curTornadoTime > 0)
-        {
-            curTornadoTime -= Time.deltaTime;
-            if (curTornadoTime < 0) curTornadoTime = 0;
-        }
+        HandleCooldowns(); // 쿨타임 감소 로직 분리
+        HandleSkillInput(); // 입력 처리 로직 (순서대로 키 할당)
+    }
 
-        if (curFireTime > 0)
-        {
-            curFireTime -= Time.deltaTime;
-            if (curFireTime < 0) curFireTime = 0;
-        }
-
-        if (curHealTime > 0)
-        {
-            curHealTime -= Time.deltaTime;
-            if (curHealTime < 0) curHealTime = 0;
-        }
-        if (curBombTime > 0)
-        {
-            curBombTime -= Time.deltaTime;
-            if (curBombTime < 0) curBombTime = 0;
-        }
-        if (curSlowFieldTime > 0)
-        {
-            curSlowFieldTime -= Time.deltaTime;
-            if (curSlowFieldTime < 0) curSlowFieldTime = 0;
-        }
+    // 쿨타임 관리 함수 (Update 가독성을 위해 분리)
+    private void HandleCooldowns()
+    {
+        if (curTornadoTime > 0) curTornadoTime = Mathf.Max(0, curTornadoTime - Time.deltaTime);
+        if (curFireTime > 0) curFireTime = Mathf.Max(0, curFireTime - Time.deltaTime);
+        if (curHealTime > 0) curHealTime = Mathf.Max(0, curHealTime - Time.deltaTime);
+        if (curBombTime > 0) curBombTime = Mathf.Max(0, curBombTime - Time.deltaTime);
+        if (curSlowFieldTime > 0) curSlowFieldTime = Mathf.Max(0, curSlowFieldTime - Time.deltaTime);
 
         if (!isShieldActive && curShieldTime > 0)
         {
             curShieldTime -= Time.deltaTime;
-            if (curShieldTime < 0) curShieldTime = 0;
-
-            // 쿨타임이 끝나면 쉴드를 재활성화
             if (curShieldTime <= 0)
             {
                 ActivateShield();
             }
         }
+    }
 
-        // 스킬 사용은 해당 스킬이 잠금 해제된 경우에만 허용
-        tornado();
-        fire();
-        heal();
-        bomb();
-        slowField();
+    // 핵심 로직: 리스트 순서대로 키 입력 처리
+    private void HandleSkillInput()
+    {
+        // 1번부터 9번까지만 처리 (보통 숫자키가 9개이므로)
+        for (int i = 0; i < unlockedSkills.Count; i++)
+        {
+            if (i > 8) break; // 키보드 숫자키 범위를 넘어가면 무시
+
+            // KeyCode.Alpha1은 '1'번 키입니다. i가 0일 때 Alpha1, 1일 때 Alpha2가 됩니다.
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                UseSkill(unlockedSkills[i]);
+            }
+        }
+    }
+
+    // 스킬 타입에 따라 실제 발동 함수 호출
+    private void UseSkill(Skills skill)
+    {
+        switch (skill)
+        {
+            case Skills.tornado:
+                CastTornado();
+                break;
+            case Skills.fire:
+                CastFire();
+                break;
+            case Skills.heal:
+                CastHeal();
+                break;
+            case Skills.bomb:
+                CastBomb();
+                break;
+            case Skills.slowField:
+                CastSlowField();
+                break;
+            case Skills.shield:
+                // 쉴드는 보통 패시브(자동)이므로 키를 눌러도 반응하지 않거나, 
+                // 수동 발동이 필요하다면 여기에 로직 추가
+                Debug.Log("쉴드는 자동 발동 스킬입니다.");
+                break;
+        }
     }
 
     public bool IsSkillUnlocked(Skills skill)
@@ -130,138 +148,106 @@ public class PlayerSkills : MonoBehaviour
         if (!unlockedSkills.Contains(skill))
         {
             unlockedSkills.Add(skill);
-            Debug.Log($"[PlayerSkills] 스킬 잠금 해제: {skill}");
+            Debug.Log($"[PlayerSkills] 스킬 잠금 해제: {skill}. (단축키: {unlockedSkills.Count}번)");
 
-            // 스킬이 즉시 활성화를 요구하는 경우 처리
             if (skill == Skills.shield)
             {
-                // 쉴드가 꺼져있고 쿨이 끝나있다면 즉시 활성화
                 if (!isShieldActive && curShieldTime <= 0f)
                     ActivateShield();
             }
         }
     }
 
-    public void tornado()
-    {
-        // 잠금 해제되어 있지 않으면 동작하지 않음
-        if (!IsSkillUnlocked(Skills.tornado)) return;
+    // --- 아래부터는 각 스킬의 실제 발동 로직 (Input 체크 제거됨) ---
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+    public void CastTornado()
+    {
+        if (curTornadoTime <= 0)
         {
-            if (curTornadoTime <= 0)
-            {
-                Instantiate(tornadoEffect, effectSpawn);
-                curTornadoTime = tornadoCooldown; // 쿨타임 재설정
-            }
-            else
-            {
-                Debug.Log($"토네이도 쿨타임! 남은 시간: {curTornadoTime:F1}초");
-            }
+            Instantiate(tornadoEffect, effectSpawn);
+            curTornadoTime = tornadoCooldown;
         }
-    }
-    public void heal()
-    {
-        // 잠금 해제되어 있지 않으면 동작하지 않음
-        if (!IsSkillUnlocked(Skills.heal)) return;
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        else
         {
-            if (curHealTime <= 0)
-            {
-                Instantiate(healEffect, effectSpawn);
-                curHealTime = healCooldown; // 쿨타임 재설정
-            }
-            else
-            {
-                Debug.Log($"힐 쿨타임! 남은 시간: {curHealTime:F1}초");
-            }
+            Debug.Log($"토네이도 쿨타임! 남은 시간: {curTornadoTime:F1}초");
         }
     }
 
-    public void fire()
+    public void CastHeal()
     {
-        // 잠금 해제되어 있지 않으면 동작하지 않음
-        if (!IsSkillUnlocked(Skills.fire)) return;
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (curHealTime <= 0)
         {
-            if (curFireTime <= 0)
-            {
-                Instantiate(fireEffect, effectSpawn);
-                curFireTime = fireCooldown; // 쿨타임 재설정
-            }
-            else
-            {
-                Debug.Log($"파이어 쿨타임! 남은 시간: {curFireTime:F1}초");
-            }
+            Instantiate(healEffect, effectSpawn);
+            curHealTime = healCooldown;
         }
-    }
-    public void bomb()
-    {
-        // 잠금 해제되어 있지 않으면 동작하지 않음
-        if (!IsSkillUnlocked(Skills.bomb)) return;
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        else
         {
-            if (curBombTime <= 0)
-            {
-                Instantiate(bombEffect, effectSpawn);
-                curBombTime = bombCooldown; // 쿨타임 재설정
-            }
-            else
-            {
-                Debug.Log($"자폭 쿨타임! 남은 시간: {curBombTime:F1}초");
-            }
+            Debug.Log($"힐 쿨타임! 남은 시간: {curHealTime:F1}초");
         }
     }
 
-    public void slowField()
+    public void CastFire()
     {
-        if (!IsSkillUnlocked(Skills.slowField)) return;
-
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (curFireTime <= 0)
         {
-            if (curSlowFieldTime <= 0)
-            {
-                Instantiate(slowFieldEffect, effectSpawn);
-                curSlowFieldTime = slowFieldCooldown;
-            }
-            else
-            {
-                Debug.Log($"슬로우 장판 쿨타임! 남은 시간: {curSlowFieldTime:F1}초");
-            }
+            Instantiate(fireEffect, effectSpawn);
+            curFireTime = fireCooldown;
+        }
+        else
+        {
+            Debug.Log($"파이어 쿨타임! 남은 시간: {curFireTime:F1}초");
         }
     }
+
+    public void CastBomb()
+    {
+        if (curBombTime <= 0)
+        {
+            Instantiate(bombEffect, effectSpawn);
+            curBombTime = bombCooldown;
+        }
+        else
+        {
+            Debug.Log($"자폭 쿨타임! 남은 시간: {curBombTime:F1}초");
+        }
+    }
+
+    public void CastSlowField()
+    {
+        if (curSlowFieldTime <= 0)
+        {
+            Instantiate(slowFieldEffect, effectSpawn);
+            curSlowFieldTime = slowFieldCooldown;
+        }
+        else
+        {
+            Debug.Log($"슬로우 장판 쿨타임! 남은 시간: {curSlowFieldTime:F1}초");
+        }
+    }
+
+    // --- 쉴드 관련 로직 ---
 
     private void ActivateShield()
     {
-        // 쉴드 스킬이 잠금해제되어 있지 않으면 만들지 않음
-        if (!IsSkillUnlocked(Skills.shield))
-        {
-            Debug.Log("[PlayerSkills] 쉴드 스킬이 잠금 상태라 활성화하지 않습니다.");
-            return;
-        }
+        if (!IsSkillUnlocked(Skills.shield)) return;
 
-        // 쉴드 이펙트를 생성하고, Shield 스크립트에 이 PlayerSkills 스크립트를 전달
         GameObject shieldInstance = Instantiate(shieldEffect, effectSpawn);
         Shield shieldScript = shieldInstance.GetComponent<Shield>();
 
         if (shieldScript != null)
         {
-            // Shield 스크립트가 PlayerSkills를 참조할 수 있도록 설정
             shieldScript.SetPlayerSkills(this);
         }
 
         isShieldActive = true;
-        curShieldTime = 0f; // 쿨타임 초기화
+        curShieldTime = 0f;
         Debug.Log("쉴드 활성화!");
     }
 
     public void ShieldDestroyed()
     {
         isShieldActive = false;
-        curShieldTime = shieldCooldown; // 재충전 시작
+        curShieldTime = shieldCooldown;
         Debug.Log($"쉴드 파괴!  {shieldCooldown}초 후 재활성화됩니다.");
         if (playerController != null)
         {
@@ -269,25 +255,21 @@ public class PlayerSkills : MonoBehaviour
         }
     }
 
+    // --- 유틸리티 ---
+
     public float GetRemainingCooldown(Skills skill)
     {
         switch (skill)
         {
-            case Skills.tornado:
-                return Mathf.Max(0f, curTornadoTime);
-            case Skills.fire:
-                return Mathf.Max(0f, curFireTime);
+            case Skills.tornado: return Mathf.Max(0f, curTornadoTime);
+            case Skills.fire: return Mathf.Max(0f, curFireTime);
             case Skills.shield:
-                // 쉴드가 활성화되어 있으면 남은 쿨타임 0 (사용 가능),
-                // 비활성 상태라면 curShieldTime이 재활성화까지 남은 시간
                 if (isShieldActive) return 0f;
                 return Mathf.Max(0f, curShieldTime);
-            case Skills.bomb:
-                return Mathf.Max(0f, curBombTime);
-            case Skills.slowField:
-                return Mathf.Max(0f, curSlowFieldTime);
-            default:
-                return 0f;
+            case Skills.bomb: return Mathf.Max(0f, curBombTime);
+            case Skills.slowField: return Mathf.Max(0f, curSlowFieldTime);
+            case Skills.heal: return Mathf.Max(0f, curHealTime); // heal 추가
+            default: return 0f;
         }
     }
 
@@ -295,18 +277,13 @@ public class PlayerSkills : MonoBehaviour
     {
         switch (skill)
         {
-            case Skills.tornado:
-                return tornadoCooldown;
-            case Skills.fire:
-                return fireCooldown;
-            case Skills.shield:
-                return shieldCooldown;
-            case Skills.bomb:
-                return bombCooldown;
-            case Skills.slowField:
-                return slowFieldCooldown;
-            default:
-                return 0f;
+            case Skills.tornado: return tornadoCooldown;        
+            case Skills.fire: return fireCooldown;
+            case Skills.shield: return shieldCooldown;          
+            case Skills.bomb: return bombCooldown;
+            case Skills.slowField: return slowFieldCooldown;        
+            case Skills.heal: return healCooldown; // heal 추가
+            default: return 0f;
         }
     }
 

@@ -128,7 +128,7 @@ MonoBehaviour:
   attackCooldown: 1
   knockbackDistance: 1
   knockbackDuration: 0.2
-  goldPrefab: {fileID: 4987502069234615386, guid: e831943ce089c994bb4095e9628151f7, type: 3}
+  goldPrefab: {fileID: 1043570380432622, guid: bdc2584b28f73514889485e5a803cc5a, type: 3}
 --- !u!195 &5435101950583188638
 NavMeshAgent:
   m_ObjectHideFlags: 0

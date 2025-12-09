@@ -81,13 +81,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  attackRange: 10
+  attackRange: 5
   attackCooldown: 3
   projectilePrefab: {fileID: 2289760058691543810, guid: 4fb06cda458ae4640b25e503fd40532e, type: 3}
   firepoint: {fileID: 7153840523712314933}
   enemyData: {fileID: 11400000, guid: 44c3c837c5031574f8b9323f091a64f2, type: 2}
   hitEffectEnemy: {fileID: 1277476900267786, guid: 8ab1e2905165feb4694605122efe1a88, type: 3}
-  goldPrefab: {fileID: 4987502069234615386, guid: e831943ce089c994bb4095e9628151f7, type: 3}
+  goldPrefab: {fileID: 1043570380432622, guid: bdc2584b28f73514889485e5a803cc5a, type: 3}
   knockbackDistance: 2
   knockbackDuration: 0.2
   turnSpeed: 5

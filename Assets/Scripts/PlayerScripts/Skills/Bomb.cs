@@ -31,12 +31,18 @@ public class Bomb : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             ChaseEnemy chaseEnemyComponent = other.GetComponent<ChaseEnemy>();
-
+            StaticEnemy staticEnemy = other.GetComponent<StaticEnemy>();   
             if (chaseEnemyComponent != null)
             {
                 chaseEnemyComponent.TakeDamage(Damage);
-
+                
                 ExplodeAndDestroy();
+            }
+            if (staticEnemy != null)
+            {
+                staticEnemy.TakeDamage(Damage);
+                ExplodeAndDestroy();
+
             }
         }
     }

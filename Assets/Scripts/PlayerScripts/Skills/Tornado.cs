@@ -30,11 +30,17 @@ public class Tornado : MonoBehaviour
             // 주의: 여기서 'chaseEnemy' 변수는 Start에서 찾은 '특정 한 놈'입니다.
             // 부딪힌 '그 적(other)'에게 데미지를 주려면 아래처럼 수정하는 것이 좋습니다.
             ChaseEnemy enemyComponent = other.GetComponent<ChaseEnemy>();
+            StaticEnemy staticEnemy = other.GetComponent<StaticEnemy>();
             if (enemyComponent != null)
             {
                 enemyComponent.TakeDamage(curTornadoDamage);
             }
-            
+            if (staticEnemy != null)
+            {
+                staticEnemy.TakeDamage(curTornadoDamage);
+
+            }
+
         }
     }
 }

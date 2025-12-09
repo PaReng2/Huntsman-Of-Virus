@@ -263,9 +263,9 @@ MonoBehaviour:
   shieldEffect: {fileID: 1093726617714798, guid: 25697b6ce7367a449a910cd5f21b3ee3, type: 3}
   shieldCooldown: 5
   healEffect: {fileID: 1638695689344248, guid: ae0170c07af48b24082e37164a97d141, type: 3}
-  healCooldown: 1
+  healCooldown: 20
   bombEffect: {fileID: 1592685575755722, guid: 89f971fc4dcf2fe4985d30b510b74e7d, type: 3}
-  bombCooldown: 15
+  bombCooldown: 20
   slowFieldEffect: {fileID: 1996891119416218, guid: d27be493445942645a1322a1fb75872b, type: 3}
   slowFieldCooldown: 10
   unlockedSkills: 

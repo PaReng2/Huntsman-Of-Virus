@@ -8,7 +8,8 @@ public class Fire : MonoBehaviour
     public int lifeTime;
     public int Damage;
     ChaseEnemy chaseEnemy;
-void Start()
+
+    void Start()
     {
         Destroy(gameObject, lifeTime); 
     }
@@ -23,10 +24,15 @@ void Start()
         if (other.CompareTag("Enemy"))
         {
             ChaseEnemy chaseEnemyComponent = other.GetComponent<ChaseEnemy>();
-            
+            StaticEnemy staticEnemy = other.GetComponent<StaticEnemy>();
             if (chaseEnemyComponent != null)
             {
                 chaseEnemyComponent.TakeDamage(Damage);
+            }
+            if (staticEnemy != null)
+            {
+                staticEnemy.TakeDamage(Damage);
+
             }
         }
     }
